@@ -158,32 +158,39 @@
   }
   @media (prefers-reduced-motion: reduce) { .menu-botao span, .menu { transition: none !important; } }
 
-  /* ---------- abertura: laranja da marca, com o simbolo grande ---------- */
-  .abertura { position: relative; overflow: hidden; background: var(--laranja); isolation: isolate; }
-  .abertura-simbolo { position: absolute; z-index: -1; right: -6%; top: -18%; width: min(62vw, 760px); opacity: .16; pointer-events: none; }
-  .abertura-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2rem, 5vw, 4rem); padding-block: clamp(3rem, 7vh, 5rem); min-height: clamp(520px, calc(100svh - 8rem), 720px); }
-  .abertura-texto { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 1.3rem; min-width: 0; }
-  .abertura-texto > * { max-width: 100%; }
-  .abertura h1 { font-size: clamp(2.6rem, 1.4rem + 5vw, 5.4rem); font-weight: 600; line-height: .95; letter-spacing: -.02em; max-width: 9em; }
-  .abertura-sub { max-width: 31rem; font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem); color: var(--tinta); }
-  .abertura-acoes { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .3rem; }
-  .colagem { position: relative; justify-self: center; width: min(100%, 470px); }
-  .colagem-grande { display: block; width: 78%; margin-left: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 240px 240px var(--raio) var(--raio); box-shadow: 0 30px 60px -30px rgba(43, 20, 10, .55); }
-  .colagem-pequena { position: absolute; left: 0; bottom: 8%; width: 42%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--raio); border: 6px solid var(--laranja); }
-  .colagem-nota { position: absolute; right: -4%; top: 10%; display: grid; gap: .05rem; padding: .75rem 1rem; border-radius: 14px; background: var(--branco); box-shadow: 0 18px 40px -20px rgba(43, 20, 10, .6); font-size: .9rem; line-height: 1.3; }
-  .colagem-nota strong { font-family: var(--fonte-titulo); font-size: 1.45rem; font-weight: 600; color: var(--laranja-texto); }
-  @media (max-width: 860px) {
-    .abertura-grade { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-block: 2.25rem 2.5rem; gap: 2rem; }
-    .abertura-simbolo { width: 90vw; top: auto; bottom: -10%; right: -30%; }
-    .colagem { width: min(100%, 360px); }
-    .colagem-nota { right: 0; }
+  /* ---------- abertura: banners de campanha, como nas grandes lojas de beleza ---------- */
+  .abertura { padding-block: clamp(.9rem, 2vw, 1.5rem) clamp(1.4rem, 3vw, 2.2rem); }
+  .banners { position: relative; }
+  .banners-trilho { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 26px; margin: 0; padding: 0; list-style: none; }
+  .banners-trilho::-webkit-scrollbar { display: none; }
+  .banner { scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); min-height: clamp(400px, 58vh, 520px); background: var(--cor); color: var(--tinta); }
+  .banner-texto { display: grid; align-content: center; justify-items: start; gap: 1.1rem; padding: clamp(2rem, 5vw, 4.5rem); padding-bottom: clamp(4rem, 7vw, 5rem); min-width: 0; }
+  .banner-texto > * { max-width: 100%; }
+  .banner-marca { font-weight: 600; font-size: 1rem; }
+  .banner h1, .banner h2 { font-size: clamp(2.3rem, 1.2rem + 3.6vw, 4.4rem); font-weight: 600; line-height: .98; letter-spacing: -.02em; max-width: 9.5em; }
+  .banner p.banner-sub { max-width: 28rem; font-size: clamp(1.05rem, 1rem + .3vw, 1.22rem); line-height: 1.5; }
+  .banner-foto { position: relative; min-width: 0; }
+  .banner-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .banners-controles { position: absolute; left: calc(var(--margem) + clamp(2rem, 5vw, 4.5rem)); bottom: clamp(1.2rem, 2.4vw, 1.8rem); display: flex; align-items: center; gap: .9rem; }
+  .pontos { display: flex; gap: .2rem; }
+  .ponto { width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .ponto::before { content: ""; width: 10px; height: 10px; border-radius: 999px; background: rgba(43, 20, 10, .28); transition: width var(--dur-ui) var(--ease-out), background-color var(--dur-ui) ease; }
+  .ponto[aria-current="true"]::before { width: 26px; background: var(--tinta); }
+  .seta { width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .75); color: var(--tinta); display: grid; place-items: center; cursor: pointer; transition: background-color var(--dur-ui) ease; }
+  .seta:hover { background: var(--branco); }
+  .seta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 760px) {
+    .banners-trilho { border-radius: 20px; }
+    .banner { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; min-height: 0; }
+    .banner-foto { order: -1; aspect-ratio: 4 / 3; }
+    .banner-texto { align-content: start; gap: .8rem; padding: 1.5rem 1.4rem 4.4rem; }
+    .banner h1, .banner h2 { font-size: clamp(2rem, 1.4rem + 3vw, 2.6rem); }
+    .banners-controles { left: calc(var(--margem) + 1.4rem); bottom: 1.1rem; }
   }
-  /* entrada da abertura: o unico movimento automatico. O simbolo aparece, depois texto e fotos */
+  /* entrada: so o primeiro banner, uma vez */
   @media (prefers-reduced-motion: no-preference) {
-    .com-js .abertura-simbolo { opacity: 0; transform: scale(.94) rotate(-6deg); animation: simbolo 1.4s var(--ease-out) .1s forwards; }
-    .com-js .abertura-texto > *, .com-js .colagem > * { opacity: 0; transform: translateY(18px); animation: sobe var(--dur-entra) var(--ease-out) forwards; animation-delay: calc(.15s + var(--i, 0) * 90ms); }
+    .com-js .banner:first-child .banner-texto > * { opacity: 0; transform: translateY(14px); animation: sobe var(--dur-entra) var(--ease-out) forwards; animation-delay: calc(.1s + var(--i, 0) * 80ms); }
   }
-  @keyframes simbolo { to { opacity: .16; transform: none; } }
   @keyframes sobe { to { opacity: 1; transform: none; } }
 
   /* ---------- vantagens: o que faz vender ---------- */
@@ -432,20 +439,48 @@
 </header>
 
 <section class="abertura" aria-labelledby="titulo">
-  <img class="abertura-simbolo" src="img/simbolo-branco.png" width="231" height="240" alt="">
-  <div class="envoltorio abertura-grade">
-    <div class="abertura-texto">
-      <h1 id="titulo" style="--i:0">Para sua melhor versão</h1>
-      <p class="abertura-sub" style="--i:1">Cabelo, maquiagem, unhas, bolsas e mochilas. Referência em Cravinhos há mais de 15 anos, agora com pedido pelo site.</p>
-      <div class="abertura-acoes" style="--i:2">
-        <a class="btn" href="#produtos">Ver os produtos</a>
-        <a class="btn btn-branco" href="#lojas">Nossas lojas</a>
-      </div>
-    </div>
-    <div class="colagem">
-      <img class="colagem-grande" src="img/prateleira.webp" width="900" height="1125" alt="Prateleiras da loja cheias de produtos para cabelo" fetchpriority="high" style="--i:1">
-      <img class="colagem-pequena" src="img/p-todecacho.webp" width="640" height="800" alt="Linha #todecacho da Salon Line" style="--i:3">
-      <p class="colagem-nota" style="--i:4"><strong>4,8</strong>249 avaliações no Google</p>
+  <div class="envoltorio banners" aria-roledescription="carrossel" aria-label="Destaques da loja">
+    <ul class="banners-trilho" id="banners">
+      <li class="banner" style="--cor:#FC6B32" aria-roledescription="destaque" aria-label="1 de 4">
+        <div class="banner-texto">
+          <h1 id="titulo" style="--i:0">Para sua melhor versão</h1>
+          <p class="banner-sub" style="--i:1">Cabelo, maquiagem, unhas, bolsas e mochilas. Há mais de 15 anos em Cravinhos, agora com pedido pelo site.</p>
+          <a class="btn" href="#produtos" style="--i:2">Ver os produtos</a>
+        </div>
+        <div class="banner-foto"><img src="img/banner-prateleira.webp" width="900" height="900" alt="Prateleiras da loja cheias de produtos para cabelo" fetchpriority="high"></div>
+      </li>
+      <li class="banner" style="--cor:#F6C3CF" aria-roledescription="destaque" aria-label="2 de 4">
+        <div class="banner-texto">
+          <p class="banner-marca">Salon Line</p>
+          <h2>#todecacho Vinagre de Maçã chegou</h2>
+          <p class="banner-sub">Shampoo, condicionador, creme para pentear, ativador, máscara e geleia.</p>
+          <a class="btn" href="#novidades">Conhecer a linha</a>
+        </div>
+        <div class="banner-foto"><img src="img/banner-todecacho.webp" width="900" height="900" alt="Linha #todecacho Vinagre de Maçã da Salon Line" loading="lazy"></div>
+      </li>
+      <li class="banner" style="--cor:#EED8CF" aria-roledescription="destaque" aria-label="3 de 4">
+        <div class="banner-texto">
+          <p class="banner-marca">Unhas</p>
+          <h2>Esmalte de todas as cores</h2>
+          <p class="banner-sub">Diga a cor que você procura e a gente separa para você.</p>
+          <a class="btn" href="#vitrine-titulo" data-ir="unhas">Ver esmaltes</a>
+        </div>
+        <div class="banner-foto"><img src="img/banner-esmaltes.webp" width="960" height="960" alt="Vidros de esmalte coloridos empilhados" loading="lazy"></div>
+      </li>
+      <li class="banner" style="--cor:#D8CFF5" aria-roledescription="destaque" aria-label="4 de 4">
+        <div class="banner-texto">
+          <p class="banner-marca">Volta às aulas</p>
+          <h2>Mochilas de costas e com rodinhas</h2>
+          <p class="banner-sub">Muitos modelos nas duas lojas, para todas as idades.</p>
+          <a class="btn" href="#vitrine-titulo" data-ir="bolsas">Ver mochilas</a>
+        </div>
+        <div class="banner-foto"><img src="img/banner-mochilas.webp" width="957" height="957" alt="Parede de mochilas escolares na loja" loading="lazy"></div>
+      </li>
+    </ul>
+    <div class="banners-controles">
+      <button class="seta" type="button" id="banner-ant" aria-label="Destaque anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="pontos" id="pontos"></div>
+      <button class="seta" type="button" id="banner-prox" aria-label="Próximo destaque"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
   </div>
 </section>
@@ -817,6 +852,33 @@ sacola.addEventListener("change", (e) => {
   }
 });
 contar();
+
+/* ---------- banners: arrasta, setas e pontos; passam sozinhos ate a pessoa mexer ---------- */
+(() => {
+  const trilho = $("#banners"), slides = [...trilho.children], pontos = $("#pontos");
+  pontos.innerHTML = slides.map((_, k) => `<button class="ponto" type="button" aria-label="Destaque ${k + 1}"></button>`).join("");
+  const botoes = [...pontos.children];
+  let atual = 0, timer = null, espera;
+  const ir = (k, suave = true) => { k = (k + slides.length) % slides.length; trilho.scrollTo({ left: k * trilho.clientWidth, behavior: suave && !reduzir.matches ? "smooth" : "auto" }); };
+  const marcar = () => {
+    atual = Math.round(trilho.scrollLeft / trilho.clientWidth);
+    botoes.forEach((b, k) => b.setAttribute("aria-current", String(k === atual)));
+    slides.forEach((sl, k) => { sl.inert = k !== atual; });
+  };
+  trilho.addEventListener("scroll", () => { cancelAnimationFrame(espera); espera = requestAnimationFrame(marcar); }, { passive: true });
+  const parar = () => { clearInterval(timer); timer = null; };
+  const tocar = () => { if (!reduzir.matches && !timer) timer = setInterval(() => ir(atual + 1), 6500); };
+  botoes.forEach((b, k) => b.addEventListener("click", () => { parar(); ir(k); }));
+  $("#banner-ant").addEventListener("click", () => { parar(); ir(atual - 1); });
+  $("#banner-prox").addEventListener("click", () => { parar(); ir(atual + 1); });
+  ["pointerdown", "wheel", "touchstart"].forEach((ev) => trilho.addEventListener(ev, parar, { passive: true }));
+  const caixa = trilho.parentElement;
+  caixa.addEventListener("mouseenter", parar);
+  caixa.addEventListener("focusin", parar);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) parar(); });
+  addEventListener("resize", () => ir(atual, false));
+  marcar(); tocar();
+})();
 
 /* ---------- botao do canto: aparece depois da abertura e sai no rodape ---------- */
 const flutuante = $("#flutuante");

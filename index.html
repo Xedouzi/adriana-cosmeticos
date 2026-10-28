@@ -110,9 +110,7 @@
   .btn-zap:hover { background: #12803B; }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
 
-  /* ---------- faixa e topo ---------- */
-  @media (max-width: 480px) { .faixa-extra { display: none; } }
-  .faixa { background: var(--tinta); color: var(--creme); font-size: .92rem; text-align: center; padding: .55rem var(--margem); }
+  /* ---------- topo ---------- */
   .topo { position: sticky; top: 0; z-index: 30; background: var(--branco); border-bottom: 1px solid var(--linha); }
   .topo-grade { display: flex; align-items: center; justify-content: space-between; gap: .75rem 1.5rem; padding-block: .7rem; }
   .marca { display: inline-flex; align-items: center; gap: .55rem; min-width: 0; min-height: 44px; color: var(--laranja); text-decoration: none; }
@@ -340,13 +338,16 @@
   @media (max-width: 480px) { .contatos { grid-template-columns: minmax(0, 1fr); } }
 
   /* ---------- rodape ---------- */
-  .rodape { background: var(--tinta); color: #E9CFC0; padding: 2.2rem 0 calc(2.2rem + env(safe-area-inset-bottom)); font-size: .92rem; }
+  .rodape { background: var(--tinta); color: #E9CFC0; padding: .9rem 0 calc(.9rem + env(safe-area-inset-bottom)); font-size: .9rem; }
   .rodape-grade { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2.5rem; }
   .rodape-grade > * { min-width: 0; max-width: 100%; }
   .rodape .marca { color: var(--laranja); }
+  .rodape .marca img { width: 26px; }
+  .rodape .marca-nome strong { font-size: 1.35rem; }
+  .rodape .marca-nome span { font-size: .62rem; }
   .rodape-dir { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.5rem; }
   .rodape a { color: #fff; }
-  @media (max-width: 700px) { .rodape-grade { flex-direction: column; align-items: flex-start; } }
+  @media (max-width: 700px) { .rodape-grade { flex-direction: column; align-items: flex-start; gap: .4rem; } }
 
   /* ---------- sacola: gaveta que entra pela direita e sai por onde entrou ---------- */
   .sacola {
@@ -436,7 +437,6 @@
 </svg>
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-<p class="faixa">Entregamos em Cravinhos.<span class="faixa-extra"> Faça seu pedido pelo site.</span></p>
 <header class="topo">
   <div class="envoltorio topo-grade">
     <a class="marca" href="#" translate="no" aria-label="Adriana Cosméticos, início">

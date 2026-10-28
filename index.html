@@ -272,25 +272,25 @@
   .produto-desc { color: var(--tinta-2); font-size: .95rem; line-height: 1.45; }
   .produto-preco { margin-bottom: auto; padding-bottom: .3rem; font-weight: 700; font-size: 1.15rem; }
   .produto-preco small { color: var(--tinta-2); font-size: .82rem; font-weight: 500; }
-  .produto select { width: 100%; min-height: 46px; padding: .5rem 2.6rem .5rem .8rem; border: 0; border-radius: 12px; appearance: none; background: var(--branco) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B140A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 1rem center / 16px; box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); text-overflow: ellipsis; }
+  :is(.produto, .campo) select { width: 100%; min-height: 46px; padding: .5rem 2.6rem .5rem .8rem; border: 0; border-radius: 12px; appearance: none; background: var(--branco) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B140A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 1rem center / 16px; box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); text-overflow: ellipsis; }
   /* lista de opcoes no estilo da loja (Chrome/Edge); nos outros navegadores fica a lista do aparelho */
   @supports (appearance: base-select) {
-    .produto select, .produto select::picker(select) { appearance: base-select; }
-    .produto select { display: flex; align-items: center; }
-    .produto select::picker-icon { display: none; }
-    .produto select::picker(select) {
+    :is(.produto, .campo) select, :is(.produto, .campo) select::picker(select) { appearance: base-select; }
+    :is(.produto, .campo) select { display: flex; align-items: center; }
+    :is(.produto, .campo) select::picker-icon { display: none; }
+    :is(.produto, .campo) select::picker(select) {
       margin-block: .35rem; padding: .35rem; border: 1.5px solid var(--linha-forte); border-radius: 16px;
       background: var(--branco); box-shadow: 0 18px 30px -18px rgba(43, 20, 10, .45);
       opacity: 0; transform: translateY(-6px);
       transition: opacity var(--dur-ui) var(--ease-out), transform var(--dur-ui) var(--ease-out), overlay var(--dur-ui) allow-discrete, display var(--dur-ui) allow-discrete;
     }
-    .produto select:open::picker(select) { opacity: 1; transform: none; }
-    @starting-style { .produto select:open::picker(select) { opacity: 0; transform: translateY(-6px); } }
-    .produto option { min-height: 42px; padding: .55rem .9rem; border-radius: 999px; color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease; }
-    .produto option::checkmark { display: none; }
-    .produto option:checked { font-weight: 600; }
-    .produto option:hover, .produto option:focus-visible { outline: 0; background: var(--tinta); color: var(--creme-2); }
-    @media (prefers-reduced-motion: reduce) { .produto select::picker(select), .produto option { transition: none; } }
+    :is(.produto, .campo) select:open::picker(select) { opacity: 1; transform: none; }
+    @starting-style { :is(.produto, .campo) select:open::picker(select) { opacity: 0; transform: translateY(-6px); } }
+    :is(.produto, .campo) option { min-height: 42px; padding: .55rem .9rem; border-radius: 999px; color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease; }
+    :is(.produto, .campo) option::checkmark { display: none; }
+    :is(.produto, .campo) option:checked { font-weight: 600; }
+    :is(.produto, .campo) option:hover, :is(.produto, .campo) option:focus-visible { outline: 0; background: var(--tinta); color: var(--creme-2); }
+    @media (prefers-reduced-motion: reduce) { :is(.produto, .campo) select::picker(select), :is(.produto, .campo) option { transition: none; } }
   }
   .produto .btn { width: 100%; min-height: 48px; padding-inline: .8rem; margin-top: .2rem; }
   .btn.adicionado { background: var(--laranja); color: var(--tinta); }
@@ -430,6 +430,41 @@
   .subtotal strong { font-size: 1.3rem; }
   .item-preco { margin-left: auto; font-size: 1rem; }
   .sacola-pe p { color: var(--tinta-2); font-size: .88rem; text-align: center; }
+  .sacola-pe .erro { color: #B3261E; font-weight: 600; }
+  .pilula:has(input:disabled) { opacity: .4; cursor: not-allowed; }
+  .pilula:has(input:disabled) input { cursor: not-allowed; }
+  .nota { color: var(--tinta-2); font-size: .9rem; }
+  /* pagamento simulado: Pix com QR Code, cartao e pedido aprovado */
+  .campos.cartao-campos { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: .2rem; } /* validade e CVV lado a lado ate no celular */
+  .campo-cartao { position: relative; }
+  .campo-cartao input { padding-right: 6.5rem; }
+  .bandeira { position: absolute; right: .7rem; bottom: 13px; padding: .15rem .5rem; border-radius: 6px; background: var(--creme-2); font-size: .78rem; font-weight: 700; pointer-events: none; }
+  .bandeira:empty { visibility: hidden; }
+  .demo { justify-self: center; padding: .25rem .75rem; border-radius: 999px; background: var(--creme-2); box-shadow: inset 0 0 0 1px var(--linha-forte); color: var(--tinta-2); font-size: .8rem; font-weight: 600; }
+  .pagar, .aprovado { display: grid; justify-items: center; gap: .8rem; padding: .4rem 0 1rem; text-align: center; }
+  .pagar h3, .aprovado h3 { font-size: 1.6rem; }
+  .pagar > p { max-width: 30ch; color: var(--tinta-2); }
+  .pagar .valor { color: var(--tinta); font-size: 1.5rem; font-weight: 700; }
+  .qr { width: 200px; padding: 12px; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1.5px var(--linha-forte); }
+  .qr svg { display: block; width: 100%; height: auto; }
+  .copia { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; width: 100%; }
+  .copia input { min-width: 0; min-height: 48px; padding: .6rem .85rem; border: 0; border-radius: 12px; background: var(--creme-2); box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta-2); font: 400 .9rem/1.3 var(--fonte); text-overflow: ellipsis; }
+  .copia .btn { min-height: 48px; padding-inline: 1.1rem; }
+  .status { display: inline-flex; align-items: center; gap: .55rem; font-weight: 600; }
+  .pulso { width: 10px; height: 10px; border-radius: 50%; background: var(--laranja); animation: pulso 1.2s ease-in-out infinite; }
+  .status.pago { color: #12803B; }
+  .status.pago .pulso { background: #179A48; animation: none; }
+  @keyframes pulso { 50% { opacity: .3; transform: scale(.7); } }
+  .girando::before { content: ""; width: 1.1em; height: 1.1em; border: 2.5px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: gira .7s linear infinite; }
+  @keyframes gira { to { transform: rotate(1turn); } }
+  .btn.girando { gap: .6rem; cursor: progress; }
+  .aprovado svg { width: 84px; height: 84px; }
+  .aprovado circle { fill: #E3F6E8; }
+  .aprovado path { fill: none; stroke: #179A48; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: risca .45s .15s var(--ease-out) forwards; }
+  @keyframes risca { to { stroke-dashoffset: 0; } }
+  .aprovado p { max-width: 32ch; color: var(--tinta-2); }
+  .aprovado .numero { color: var(--tinta); font-weight: 700; }
+  @media (prefers-reduced-motion: reduce) { .pulso, .girando::before { animation: none; } .aprovado path { animation: none; stroke-dashoffset: 0; } }
   @media (max-width: 520px) { .sacola { border-radius: 0; } .campos { grid-template-columns: minmax(0, 1fr); } }
 
   /* ---------- botao flutuante ---------- */
@@ -822,12 +857,23 @@ function abrirSacola() {
 }
 function fecharSacola() {
   sacola.classList.remove("aberta");
+  parar();
+  if (etapa !== "sacola") { etapa = "sacola"; pedido = null; }
   setTimeout(() => sacola.close(), reduzir.matches ? 200 : 340);
 }
 $("#abrir-sacola").addEventListener("click", abrirSacola);
 sacola.addEventListener("cancel", (e) => { e.preventDefault(); fecharSacola(); });
 sacola.addEventListener("click", (e) => {
   if (e.target === sacola || e.target.closest("[data-fechar]")) { fecharSacola(); return; }
+  if (e.target.closest("#pagar")) { pagar(e.target.closest("#pagar")); return; }
+  if (e.target.closest("#voltar")) { parar(); etapa = "sacola"; desenharSacola(); return; }
+  const copiar = e.target.closest("#copiar");
+  if (copiar) {
+    const campoPix = copiar.previousElementSibling;
+    (navigator.clipboard ? navigator.clipboard.writeText(campoPix.value) : Promise.reject()).catch(() => { campoPix.select(); document.execCommand("copy"); });
+    copiar.textContent = "Copiado"; depois(1600, () => { copiar.textContent = "Copiar"; });
+    return;
+  }
   const b = e.target.closest("button[data-acao]"); if (!b) return;
   const k = +b.dataset.i, i = itens[k];
   if (b.dataset.acao === "mais") i.qtd++;
@@ -837,12 +883,22 @@ sacola.addEventListener("click", (e) => {
   desenharSacola(b.dataset.acao === "remover" ? null : `button[data-acao="${b.dataset.acao}"][data-i="${k}"]`);
 });
 
+/* pagamento simulado: nada e cobrado nem enviado; os dados do cartao ficam so na tela */
+let etapa = "sacola", pedido = null, timers = [];
+const pagCartao = { numero: "", nome: "", validade: "", cvv: "", parcelas: "1" };
+const totalSacola = () => itens.reduce((t, i) => t + produtoDe(i).preco * i.qtd, 0);
+const parar = () => { timers.forEach(clearTimeout); timers = []; };
+const depois = (ms, fn) => timers.push(setTimeout(fn, ms));
+
 const escolha = (nome, valor, titulo, detalhe) => `<label class="escolha"><input type="radio" name="${nome}" value="${valor}"${ck[nome] === valor ? " checked" : ""}><strong>${titulo}</strong><small>${detalhe}</small></label>`;
-const pilula = (nome, valor) => `<label class="pilula"><input type="radio" name="${nome}" value="${valor}"${ck[nome] === valor ? " checked" : ""}><span>${valor}</span></label>`;
+const pilula = (nome, valor, desligada = false) => `<label class="pilula"><input type="radio" name="${nome}" value="${valor}"${ck[nome] === valor ? " checked" : ""}${desligada ? " disabled" : ""}><span>${valor}</span></label>`;
 const campo = (k, rotulo, attrs = "", largo = false) => `<label class="campo${largo ? " campo-largo" : ""}"><span>${rotulo}</span><input data-k="${k}" value="${esc(ck[k])}" ${attrs}></label>`;
+const campoCartao = (k, rotulo, attrs = "", largo = false) => `<label class="campo${largo ? " campo-largo" : ""}"><span>${rotulo}</span><input data-c="${k}" value="${esc(pagCartao[k])}" autocomplete="off" ${attrs}></label>`;
 
 function desenharSacola(focar) {
   const corpo = $("#sacola-corpo"), pe = $("#sacola-pe");
+  if (etapa === "pix") return desenharPix();
+  if (etapa === "aprovado") return desenharAprovado();
   if (!itens.length) {
     corpo.innerHTML = `<div class="vazia"><img src="img/simbolo-laranja.png" alt=""><p>Sua sacola está vazia.</p><a class="btn btn-linha" href="#produtos" data-fechar>Ver os produtos</a></div>`;
     pe.innerHTML = "";
@@ -878,20 +934,131 @@ function desenharSacola(focar) {
     </div>
     <fieldset class="bloco">
       <legend>Forma de pagamento</legend>
-      <div class="pilulas">${["Pix", "Cartão", "Dinheiro"].map((v) => pilula("pagamento", v)).join("")}</div>
+      <div class="pilulas">${["Pix", "Cartão", "Dinheiro"].map((v) => pilula("pagamento", v, v === "Dinheiro" && ck.receber === "entrega")).join("")}</div>
+      <p class="nota" id="nota-dinheiro"${ck.receber === "entrega" ? "" : " hidden"}>Pagamento em dinheiro só na retirada na loja.</p>
+      <div class="campos cartao-campos" id="cartao"${ck.pagamento === "Cartão" ? "" : " hidden"}>
+        <label class="campo campo-largo campo-cartao"><span>Número do cartão</span><input data-c="numero" value="${esc(pagCartao.numero)}" autocomplete="off" inputmode="numeric" maxlength="23" placeholder="0000 0000 0000 0000"><span class="bandeira" id="bandeira" aria-live="polite">${bandeira(pagCartao.numero)}</span></label>
+        ${campoCartao("nome", "Nome impresso no cartão", 'maxlength="40"', true)}
+        ${campoCartao("validade", "Validade", 'inputmode="numeric" maxlength="5" placeholder="MM/AA"')}
+        ${campoCartao("cvv", "CVV", 'inputmode="numeric" maxlength="4" placeholder="123"')}
+        <label class="campo campo-largo"><span>Parcelas</span><select data-c="parcelas">${[1, 2, 3].map((n) => `<option value="${n}"${pagCartao.parcelas == n ? " selected" : ""}>${n}x de ${reais(totalSacola() / n)} sem juros</option>`).join("")}</select></label>
+      </div>
       <div class="campos" style="margin-top:.4rem">${campo("nome", "Seu nome", 'autocomplete="name" maxlength="60"', true)}</div>
     </fieldset>
     <details class="previa-caixa"><summary>Ver a mensagem do pedido</summary><div class="previa" id="previa" aria-live="polite"></div></details>`;
-  const total = itens.reduce((t, i) => t + produtoDe(i).preco * i.qtd, 0);
-  pe.innerHTML = `<p class="subtotal"><span>Subtotal</span><strong>${reais(total)}</strong></p>
-    <a class="btn btn-zap" id="enviar" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Enviar pedido pelo WhatsApp</a>
-    <p>Taxa de entrega e prazo são confirmados pela nossa equipe.</p>`;
-  mensagem();
+  rodape();
   if (focar) sacola.querySelector(focar)?.focus();
 }
 
-function mensagem() {
-  const linhas = ["Olá! Quero fazer um pedido pelo site:"];
+/* o rodape muda com a forma de pagamento: Pix e cartao pagam no site, dinheiro vai pelo WhatsApp */
+function rodape() {
+  const total = totalSacola(), pe = $("#sacola-pe");
+  const acao = ck.pagamento === "Dinheiro"
+    ? `<a class="btn btn-zap" id="enviar" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Enviar pedido pelo WhatsApp</a>
+       <p>Você paga em dinheiro na retirada.</p>`
+    : `<button class="btn" type="button" id="pagar">${ck.pagamento === "Pix" ? `Pagar ${reais(total)} com Pix` : `Pagar ${reais(total)} no cartão`}</button>
+       <p class="erro" id="erro-pagar" role="alert" hidden></p>
+       <p>Demonstração: nenhum valor é cobrado.</p>`;
+  pe.innerHTML = `<p class="subtotal"><span>Subtotal</span><strong>${reais(total)}</strong></p>${acao}`;
+  mensagem();
+}
+
+function bandeira(n) {
+  n = n.replace(/\D/g, "");
+  if (/^(4011|4312|4389|4514|4576|5041|5066|5067|6277|6362|6363|6504|6505|6516)/.test(n)) return "Elo";
+  if (/^3[47]/.test(n)) return "Amex";
+  if (/^(5[1-5]|2[2-7])/.test(n)) return "Mastercard";
+  if (/^4/.test(n)) return "Visa";
+  return "";
+}
+
+/* o que falta para pagar: devolve [campo, mensagem] ou nada */
+function falta() {
+  if (ck.receber === "entrega" && !ck.rua.trim()) return ['[data-k="rua"]', "Informe a rua para a entrega."];
+  if (ck.receber === "entrega" && !ck.numero.trim()) return ['[data-k="numero"]', "Informe o número para a entrega."];
+  if (!ck.nome.trim()) return ['[data-k="nome"]', "Informe o seu nome."];
+  if (ck.pagamento !== "Cartão") return;
+  const num = pagCartao.numero.replace(/\D/g, ""), [mm, aa] = pagCartao.validade.split("/").map(Number);
+  const hoje = new Date(), venc = new Date(2000 + (aa || 0), mm || 0, 1);
+  if (num.length < 13) return ['[data-c="numero"]', "Confira o número do cartão."];
+  if (!pagCartao.nome.trim()) return ['[data-c="nome"]', "Informe o nome impresso no cartão."];
+  if (!(mm >= 1 && mm <= 12) || venc <= hoje) return ['[data-c="validade"]', "Confira a validade do cartão."];
+  if (pagCartao.cvv.length < 3) return ['[data-c="cvv"]', "Confira o CVV."];
+}
+
+function pagar(botao) {
+  const f = falta(), erro = $("#erro-pagar");
+  if (f) { erro.textContent = f[1]; erro.hidden = false; piscar(erro); sacola.querySelector(f[0])?.focus(); return; }
+  erro.hidden = true;
+  pedido = { numero: "A" + Math.floor(1000 + Math.random() * 9000), total: totalSacola(), forma: ck.pagamento, parcelas: +pagCartao.parcelas };
+  if (ck.pagamento === "Pix") { etapa = "pix"; desenharPix(); $("#sacola-corpo").scrollTop = 0; return; }
+  botao.disabled = true;
+  botao.classList.add("girando");
+  botao.textContent = "Processando pagamento…";
+  depois(1800, aprovar);
+}
+
+/* QR Code de enfeite (nao le em banco nenhum): grade com os tres quadrados de canto */
+function qrFalso(semente) {
+  const t = 25; let x = semente, quad = "";
+  const rnd = () => (x = (x * 9301 + 49297) % 233280) / 233280;
+  const canto = (cx, cy) => `<path d="M${cx} ${cy}h7v7h-7zM${cx + 1} ${cy + 1}v5h5v-5z" fill-rule="evenodd"/><rect x="${cx + 2}" y="${cy + 2}" width="3" height="3"/>`;
+  for (let i = 0; i < t; i++) for (let j = 0; j < t; j++) {
+    const noCanto = (i < 8 && j < 8) || (i < 8 && j > t - 9) || (i > t - 9 && j < 8);
+    if (!noCanto && rnd() > .52) quad += `<rect x="${j}" y="${i}" width="1" height="1"/>`;
+  }
+  return `<svg viewBox="0 0 ${t} ${t}" shape-rendering="crispEdges" fill="#2B140A" role="img" aria-label="QR Code do Pix (demonstração)">${canto(0, 0)}${canto(t - 7, 0)}${canto(0, t - 7)}${quad}</svg>`;
+}
+
+function desenharPix() {
+  const codigo = `00020126580014br.gov.bcb.pix0136adriana-cosmeticos-demo520400005303986540${pedido.total.toFixed(2).length}${pedido.total.toFixed(2)}5802BR5918ADRIANA COSMETICOS6009CRAVINHOS62070503${pedido.numero}6304DEMO`;
+  $("#sacola-corpo").innerHTML = `<div class="pagar">
+    <span class="demo">Demonstração</span>
+    <h3>Pague com Pix</h3>
+    <p>Abra o app do seu banco, escolha Pix e leia o QR Code ou cole o código.</p>
+    <div class="qr">${qrFalso(+pedido.numero.slice(1))}</div>
+    <p class="valor">${reais(pedido.total)}</p>
+    <div class="copia"><input value="${codigo}" readonly aria-label="Código Pix copia e cola"><button class="btn btn-linha" type="button" id="copiar">Copiar</button></div>
+    <p class="status" id="status-pix" aria-live="polite"><span class="pulso" aria-hidden="true"></span><span>Aguardando o pagamento · <span id="expira">10:00</span></span></p>
+  </div>`;
+  $("#sacola-pe").innerHTML = `<button class="btn btn-linha" type="button" id="voltar">Voltar para a sacola</button>`;
+  let resta = 600;
+  const conta = () => { resta--; const el = $("#expira"); if (el) el.textContent = `${Math.floor(resta / 60)}:${String(resta % 60).padStart(2, "0")}`; if (resta > 0 && etapa === "pix") depois(1000, conta); };
+  depois(1000, conta);
+  /* na demonstracao o banco "confirma" sozinho depois de alguns segundos */
+  depois(7000, () => {
+    if (etapa !== "pix") return;
+    const st = $("#status-pix");
+    st.classList.add("pago");
+    st.lastElementChild.textContent = "Pagamento recebido!";
+    depois(1100, aprovar);
+  });
+}
+
+function aprovar() {
+  parar();
+  pedido.texto = textoPedido(true);
+  itens = []; salvar();
+  etapa = "aprovado";
+  desenharAprovado();
+}
+
+function desenharAprovado() {
+  const forma = pedido.forma === "Pix" ? "no Pix" : `no cartão${pedido.parcelas > 1 ? ` em ${pedido.parcelas}x` : ""}`;
+  $("#sacola-corpo").innerHTML = `<div class="aprovado">
+    <svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="42"/><path d="M27 43l10 10 20-21"/></svg>
+    <h3>Pagamento aprovado</h3>
+    <p><span class="numero">Pedido ${pedido.numero}</span><br>${reais(pedido.total)} ${forma}</p>
+    <p>Envie o pedido para a nossa equipe pelo WhatsApp para combinar ${ck.receber === "entrega" ? "a entrega" : "a retirada"}.</p>
+    <span class="demo">Demonstração: nenhum valor foi cobrado</span>
+  </div>`;
+  $("#sacola-pe").innerHTML = `<a class="btn btn-zap" href="${zap(pedido.texto)}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Enviar pedido pelo WhatsApp</a>
+    <button class="btn btn-linha" type="button" data-fechar>Continuar comprando</button>`;
+  $("#sacola-corpo").scrollTop = 0;
+}
+
+function textoPedido(pago) {
+  const linhas = [pago ? `Olá! Fiz o pedido ${pedido.numero} pelo site:` : "Olá! Quero fazer um pedido pelo site:"];
   itens.forEach((i) => { const p = produtoDe(i); linhas.push(`- ${i.qtd}x ${p.marca && !["Maquiagem", "Unhas", "Acessórios", "Volta às aulas"].includes(p.marca) ? p.marca + " " : ""}${p.nome}${i.opcao ? ` (${i.opcao})` : ""}${i.obs.trim() ? `, ${i.obs.trim()}` : ""}: ${p.apartir ? "a partir de " : ""}${reais(p.preco * i.qtd)}`); });
   linhas.push(`Subtotal: ${reais(itens.reduce((t, i) => t + produtoDe(i).preco * i.qtd, 0))}`);
   if (ck.receber === "entrega") {
@@ -902,10 +1069,14 @@ function mensagem() {
   } else {
     linhas.push(`Vou retirar na loja: ${LOJAS[ck.receber]}`);
   }
-  linhas.push(`Pagamento: ${ck.pagamento}`);
+  if (pago) linhas.push(`Pagamento: ${pedido.forma === "Pix" ? "Pix" : `cartão${pedido.parcelas > 1 ? ` em ${pedido.parcelas}x` : ""}`}, aprovado no site`);
+  else linhas.push(`Pagamento: ${ck.pagamento === "Dinheiro" ? "dinheiro, na retirada" : ck.pagamento}`);
   if (ck.nome.trim()) linhas.push(`Meu nome é ${ck.nome.trim()}.`);
-  linhas.push("Poderiam confirmar o pedido e a taxa de entrega?");
-  const texto = linhas.join("\n");
+  linhas.push(pago ? "Poderiam confirmar o pedido e a taxa de entrega?" : "Poderiam confirmar o pedido?");
+  return linhas.join("\n");
+}
+function mensagem() {
+  const texto = textoPedido(false);
   const previa = $("#previa"); if (previa) previa.textContent = texto;
   const enviar = $("#enviar"); if (enviar) enviar.href = zap(texto);
 }
@@ -933,14 +1104,33 @@ sacola.addEventListener("input", (e) => {
     if (t.dataset.k === "cep") buscarCep();
   }
   if (t.dataset.obs) { itens[+t.dataset.obs].obs = t.value; salvar(); }
+  if (t.dataset.c && t.tagName === "INPUT") {
+    const d = t.value.replace(/\D/g, "");
+    if (t.dataset.c === "numero") { t.value = d.slice(0, 19).replace(/(\d{4})(?=\d)/g, "$1 "); $("#bandeira").textContent = bandeira(d); }
+    if (t.dataset.c === "validade") t.value = d.slice(0, 4).replace(/^(\d{2})(\d)/, "$1/$2");
+    if (t.dataset.c === "cvv") t.value = d.slice(0, 4);
+    pagCartao[t.dataset.c] = t.value;
+  }
+  const erro = $("#erro-pagar"); if (erro) erro.hidden = true;
   mensagem();
 });
 sacola.addEventListener("change", (e) => {
   const t = e.target;
+  if (t.dataset.c === "parcelas") { pagCartao.parcelas = t.value; return; }
   if (t.name === "receber" || t.name === "pagamento") {
     ck[t.name] = t.value;
-    if (t.name === "receber") { const end = $("#endereco"); end.hidden = t.value !== "entrega"; if (!end.hidden) piscar(end); }
-    mensagem();
+    if (t.name === "receber") {
+      const end = $("#endereco"), entrega = t.value === "entrega", din = sacola.querySelector('input[value="Dinheiro"]');
+      end.hidden = !entrega; if (!end.hidden) piscar(end);
+      /* dinheiro so na retirada: na entrega a opcao apaga e volta para Pix */
+      din.disabled = entrega;
+      $("#nota-dinheiro").hidden = !entrega;
+      if (entrega && ck.pagamento === "Dinheiro") { ck.pagamento = "Pix"; sacola.querySelector('input[value="Pix"]').checked = true; }
+    }
+    const cart = $("#cartao"), eraCartao = !cart.hidden;
+    cart.hidden = ck.pagamento !== "Cartão";
+    if (!cart.hidden && !eraCartao) piscar(cart);
+    rodape();
     piscar($("#previa"));
   }
 });

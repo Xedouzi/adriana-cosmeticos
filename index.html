@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#FC6B32">
 <title>Adriana Cosméticos | Para sua melhor versão, em Cravinhos</title>
 <meta name="description" content="Cabelo, maquiagem, unhas, bolsas e mochilas. Duas lojas em Cravinhos e entrega na cidade. Monte sua sacola e finalize o pedido pelo WhatsApp (16) 99215-1165.">
@@ -34,7 +34,7 @@
      vitrine, tinta marrom-escura no lugar do preto.
      ============================================================ */
   :root {
-    color-scheme: light dark;
+    color-scheme: only light;
     --branco:   #FFFFFF;
     --creme:    #FEDEC7;   /* o creme da fachada */
     --creme-2:  #FFF1E7;   /* creme diluido para fundos grandes */
@@ -46,7 +46,7 @@
     --linha:    #F1DCCF;
     --linha-forte: #A98877;/* contorno de controle: 3:1 no branco */
     --borda-produto: #E8CDBD; /* contorno da foto do produto, para o cartao nao sumir no branco */
-    --no-laranja: #2B140A;  /* texto sobre o laranja: o mesmo nos dois temas */
+    --no-laranja: #2B140A;  /* texto sobre o laranja */
     --btn-hover: #45251A;
     --raio:     18px;
 
@@ -60,21 +60,6 @@
     --fonte-titulo: "Fredoka", "Fredoka reserva", "Arial Rounded MT Bold", Arial, sans-serif;
     --largura: 1240px;
     --margem: clamp(16px, 4vw, 40px);
-  }
-  /* tema escuro: marrom da tinta como fundo, creme como texto, o laranja da marca igual */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --branco:   #1C120D;
-      --creme:    #2E1D14;
-      --creme-2:  #2A1B13;
-      --laranja-texto: #FF8E62;
-      --tinta:    #FBEDE3;
-      --tinta-2:  #CDB2A3;
-      --linha:    #3E2A1F;
-      --linha-forte: #8C6E5E;
-      --borda-produto: transparent;
-      --btn-hover: #FFFFFF;
-    }
   }
   @font-face { font-family: "Figtree reserva"; src: local("Arial"); size-adjust: 100%; }
   @font-face { font-family: "Fredoka reserva"; src: local("Arial Rounded MT Bold"), local("Arial Bold"); size-adjust: 96%; }
@@ -559,16 +544,6 @@
   .flutuante svg { width: 30px; height: 30px; }
   @media (max-width: 600px) { .flutuante { width: 56px; height: 56px; } .flutuante svg { width: 27px; height: 27px; } }
   @media (prefers-reduced-motion: reduce) { .flutuante { transition: none; transform: none; } }
-  /* tema escuro, parte 2: o que precisa vir depois das regras de cada bloco */
-  @media (prefers-color-scheme: dark) {
-    /* a abertura laranja e os banners coloridos ficam iguais ao tema claro */
-    .sobre, .destaque { --branco: #FFFFFF; --creme-2: #FFF1E7; --tinta: #2B140A; --tinta-2: #6A4A3C; --laranja-texto: #B8441A; --btn-hover: #45251A; color: var(--tinta); }
-    /* fotos de produto tem fundo branco: a moldura acompanha */
-    .produto-foto, .ficha-foto, .nova-fotos figure { background: #FFFFFF; }
-    .categoria span:first-child { background: #FFF1E7; }
-    .escolha:has(input:disabled) { background: #241710; }
-    .campo select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBEDE3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); }
-  }
 </style>
 <script>document.documentElement.classList.add("com-js");</script>
 </head>

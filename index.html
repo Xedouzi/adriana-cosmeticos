@@ -228,10 +228,11 @@
   .secao-cabeca p { color: var(--tinta-2); font-size: 1.08rem; }
 
   /* categorias: bolhas com foto */
-  .categorias { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+  .categorias { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
   .categoria { display: grid; justify-items: center; gap: .7rem; padding: 0; border: 0; background: none; color: var(--tinta); font: 600 1.02rem/1.2 var(--fonte); text-align: center; cursor: pointer; }
   .categoria span:first-child { display: block; width: min(100%, 150px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--creme); box-shadow: 0 0 0 0 var(--laranja); transition: box-shadow var(--dur-ui) var(--ease-out); }
   .categoria img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 12%; mix-blend-mode: multiply; transition: transform .5s var(--ease-out); }
+  .categoria-todos img { padding: 24%; }
   .categoria[aria-pressed="true"] span:first-child { box-shadow: 0 0 0 4px var(--laranja); }
   @media (hover: hover) and (pointer: fine) { .categoria:hover img { transform: scale(1.04); } }
   @media (max-width: 720px) {
@@ -241,12 +242,6 @@
   }
 
   /* filtros e vitrine */
-  .vitrine-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1.4rem; }
-  .vitrine-topo h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem); }
-  .filtros { display: flex; flex-wrap: wrap; gap: .45rem; }
-  .filtro { min-height: 44px; padding: .45rem 1rem; border: 0; border-radius: 999px; background: var(--creme-2); box-shadow: inset 0 0 0 1px var(--linha); color: var(--tinta); font: 500 .96rem/1 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease; }
-  .filtro[aria-pressed="true"] { background: var(--tinta); color: var(--creme-2); box-shadow: none; }
-  /* uma fileira por categoria, de lado; escolhendo um filtro, a fileira vira grade */
   .vitrine { display: grid; gap: clamp(2.4rem, 4vw, 3.4rem); padding: 0; margin: 0; list-style: none; }
   .prateleira { min-width: 0; }
   .prateleira.some { display: none; }
@@ -282,42 +277,30 @@
   .produto h4 { margin: 0; font-family: var(--fonte); font-size: 1.04rem; font-weight: 650; line-height: 1.3; }
   .produto h4, .produto-desc { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 2lh; }
   .produto-desc { color: var(--tinta-2); font-size: .93rem; line-height: 1.45; }
+  .produto h4 a { color: inherit; text-decoration: none; }
+  @media (hover: hover) and (pointer: fine) { .produto h4 a:hover { text-decoration: underline; text-underline-offset: 3px; } }
+  .produto-foto { display: block; }
   .produto-preco { font-weight: 700; font-size: 1.15rem; }
-  .variacao { min-width: 0; margin: 0; padding: 0; border: 0; }
-  .variacao legend, .variacao-rotulo { padding: 0; margin-bottom: .3rem; color: var(--tinta-2); font-size: .88rem; }
-  .variacao legend strong { color: var(--tinta); font-weight: 600; }
-  .variacao-rotulo { display: block; }
-  /* amostras de cor: bolinha de 28px com area de toque de 40px */
-  .amostras { display: flex; flex-wrap: wrap; margin: 0 -6px; }
-  .amostra { position: relative; display: grid; place-items: center; width: 40px; height: 40px; cursor: pointer; }
-  .amostra input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-  .amostra span { width: 28px; height: 28px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(43, 20, 10, .2); transition: box-shadow var(--dur-ui) ease; }
-  .amostra input:checked + span { box-shadow: inset 0 0 0 1px rgba(43, 20, 10, .2), 0 0 0 2px var(--branco), 0 0 0 4px var(--tinta); }
-  .amostra input:focus-visible + span { outline: 3px solid var(--laranja-texto); outline-offset: 5px; }
-  .amostra.esgotada span { opacity: .5; background: linear-gradient(135deg, transparent 45%, var(--tinta-2) 46% 54%, transparent 55%), var(--c); }
-  .estoque { display: flex; align-items: center; gap: .45rem; color: var(--tinta-2); font-size: .86rem; line-height: 1.3; }
-  .estoque::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #179A48; }
-  .estoque[data-tem="uma"]::before { background: #D98A00; }
-  .estoque[data-tem="nenhuma"]::before { background: #B3261E; }
-  :is(.produto, .campo) select { width: 100%; min-height: 46px; padding: .5rem 2.6rem .5rem .8rem; border: 0; border-radius: 12px; appearance: none; background: var(--branco) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B140A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 1rem center / 16px; box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); text-overflow: ellipsis; }
+  .produto-preco small { font-size: .82rem; font-weight: 500; color: var(--tinta-2); }
+  .campo select { width: 100%; min-height: 46px; padding: .5rem 2.6rem .5rem .8rem; border: 0; border-radius: 12px; appearance: none; background: var(--branco) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B140A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 1rem center / 16px; box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); text-overflow: ellipsis; }
   /* lista de opcoes no estilo da loja (Chrome/Edge); nos outros navegadores fica a lista do aparelho */
   @supports (appearance: base-select) {
-    :is(.produto, .campo) select, :is(.produto, .campo) select::picker(select) { appearance: base-select; }
-    :is(.produto, .campo) select { display: flex; align-items: center; }
-    :is(.produto, .campo) select::picker-icon { display: none; }
-    :is(.produto, .campo) select::picker(select) {
+    .campo select, .campo select::picker(select) { appearance: base-select; }
+    .campo select { display: flex; align-items: center; }
+    .campo select::picker-icon { display: none; }
+    .campo select::picker(select) {
       margin-block: .35rem; padding: .35rem; border: 1.5px solid var(--linha-forte); border-radius: 16px;
       background: var(--branco); box-shadow: 0 18px 30px -18px rgba(43, 20, 10, .45);
       opacity: 0; transform: translateY(-6px);
       transition: opacity var(--dur-ui) var(--ease-out), transform var(--dur-ui) var(--ease-out), overlay var(--dur-ui) allow-discrete, display var(--dur-ui) allow-discrete;
     }
-    :is(.produto, .campo) select:open::picker(select) { opacity: 1; transform: none; }
-    @starting-style { :is(.produto, .campo) select:open::picker(select) { opacity: 0; transform: translateY(-6px); } }
-    :is(.produto, .campo) option { min-height: 42px; padding: .55rem .9rem; border-radius: 999px; color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease; }
-    :is(.produto, .campo) option::checkmark { display: none; }
-    :is(.produto, .campo) option:checked { font-weight: 600; }
-    :is(.produto, .campo) option:hover, :is(.produto, .campo) option:focus-visible { outline: 0; background: var(--tinta); color: var(--creme-2); }
-    @media (prefers-reduced-motion: reduce) { :is(.produto, .campo) select::picker(select), :is(.produto, .campo) option { transition: none; } }
+    .campo select:open::picker(select) { opacity: 1; transform: none; }
+    @starting-style { .campo select:open::picker(select) { opacity: 0; transform: translateY(-6px); } }
+    .campo option { min-height: 42px; padding: .55rem .9rem; border-radius: 999px; color: var(--tinta); font: 400 .98rem/1.2 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease; }
+    .campo option::checkmark { display: none; }
+    .campo option:checked { font-weight: 600; }
+    .campo option:hover, .campo option:focus-visible { outline: 0; background: var(--tinta); color: var(--creme-2); }
+    @media (prefers-reduced-motion: reduce) { .campo select::picker(select), .campo option { transition: none; } }
   }
   .produto .btn { width: 100%; min-height: 48px; padding-inline: .8rem; margin-top: auto; }
   .produto .btn:disabled { background: var(--creme-2); color: var(--tinta-2); box-shadow: inset 0 0 0 1px var(--linha); cursor: not-allowed; }
@@ -330,13 +313,18 @@
   @media (max-width: 560px) { .produto-desc { display: none; } .produto h4 { font-size: 1rem; } }
 
   /* ---------- a nova adriana ---------- */
-  .nova-grade { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .nova-grade { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
   .nova { position: relative; background: var(--creme); padding-block: clamp(4.5rem, 9vw, 7.5rem); }
   .nova > .onda { position: absolute; left: 0; right: 0; }
   .nova > .onda-topo { top: -1px; }
   .nova > .onda-pe { bottom: -1px; }
-  .nova-fotos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .75rem; align-items: stretch; }
-  .nova-fotos img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--raio); }
+  .nova-fotos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 2vw, 1.6rem); align-items: stretch; }
+  /* moldura branca e a borboleta da marca: embaixo a esquerda na primeira, em cima a direita na segunda */
+  .nova-fotos figure { position: relative; padding: clamp(8px, 1vw, 12px); border-radius: 24px; background: var(--branco); }
+  .nova-fotos img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 15px; }
+  .nova-fotos figure::after { content: ""; position: absolute; width: clamp(46px, 5.5vw, 74px); aspect-ratio: 231 / 240; background: url("img/simbolo-branco.png") center / contain no-repeat; filter: drop-shadow(0 2px 8px rgba(43, 20, 10, .35)); pointer-events: none; }
+  .nova-fotos figure:first-child::after { left: clamp(18px, 2.2vw, 28px); bottom: clamp(18px, 2.2vw, 28px); transform: rotate(-12deg); }
+  .nova-fotos figure:last-child::after { right: clamp(18px, 2.2vw, 28px); top: clamp(18px, 2.2vw, 28px); transform: rotate(12deg); }
   .nova-texto { display: grid; gap: 1.1rem; }
   .nova-texto > p { font-size: 1.1rem; max-width: 36rem; }
   .nota-google { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; }
@@ -345,7 +333,7 @@
   .avaliacao { padding: 1.15rem 1.3rem; background: var(--branco); border-radius: var(--raio); }
   .avaliacao p { font-size: 1.03rem; line-height: 1.45; font-weight: 500; }
   .avaliacao footer { margin-top: .4rem; color: var(--tinta-2); font-size: .9rem; }
-  @media (max-width: 860px) { .nova-grade { grid-template-columns: minmax(0, 1fr); } .nova-fotos { max-width: 440px; } }
+  @media (max-width: 860px) { .nova-grade { grid-template-columns: minmax(0, 1fr); } .nova-fotos { max-width: 600px; } }
   @media (max-width: 520px) { .avaliacoes { grid-template-columns: minmax(0, 1fr); } }
 
   /* ---------- nossas lojas: um mapa para cada unidade ---------- */
@@ -359,8 +347,9 @@
   .contatos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem 1.5rem; margin-top: clamp(1.8rem, 4vw, 2.6rem); }
   .contatos h3 { font: 700 1rem/1.3 var(--fonte); margin-bottom: .15rem; }
   .contatos > div { min-width: 0; }
-  .contatos a { font-weight: 600; overflow-wrap: anywhere; }
-  .zap-grande { font-family: var(--fonte-titulo); font-size: clamp(1.35rem, 1.05rem + .9vw, 1.7rem); font-weight: 600; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+  /* os quatro contatos com o mesmo desenho: rotulo pequeno e o dado em laranja */
+  .contatos a { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--fonte-titulo); font-size: clamp(1.1rem, .98rem + .4vw, 1.3rem); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+  @media (hover: hover) and (pointer: fine) { .contatos a:hover { text-decoration: underline; text-underline-offset: 4px; } }
   @media (max-width: 900px) { .contatos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 720px) { .lojas-grade { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 480px) { .contatos { grid-template-columns: minmax(0, 1fr); } }
@@ -381,6 +370,57 @@
   .redes svg { width: 22px; height: 22px; }
   @media (hover: hover) and (pointer: fine) { .redes a:hover { background: var(--laranja); color: var(--tinta); } }
   @media (max-width: 700px) { .rodape-grade { flex-direction: column; align-items: flex-start; gap: .4rem; } }
+
+  /* ---------- pagina do produto: abre por cima da vitrine e tem endereco proprio (#produto-id) ---------- */
+  .ficha {
+    position: fixed; width: min(100% - 2rem, 980px); max-width: none; max-height: min(92dvh, 720px); margin: auto; padding: 0; border: 0;
+    border-radius: 24px; background: var(--branco); color: var(--tinta); overflow: auto; overscroll-behavior: contain;
+    opacity: 0; transform: translateY(14px) scale(.98); transition: opacity .28s var(--ease-out), transform .28s var(--ease-out);
+  }
+  .ficha[open] { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .ficha.aberta { opacity: 1; transform: none; }
+  .ficha::backdrop { background: rgba(43, 20, 10, .5); opacity: 0; transition: opacity .28s ease; }
+  .ficha.aberta::backdrop { opacity: 1; }
+  .ficha > .fechar { position: absolute; top: .8rem; right: .8rem; z-index: 2; }
+  .ficha-foto { position: relative; align-self: start; aspect-ratio: 1; border-right: 1px solid var(--linha); }
+  .ficha-foto img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .ficha-info { display: flex; flex-direction: column; gap: .85rem; min-width: 0; padding: clamp(1.4rem, 3vw, 2.4rem); }
+  .ficha-info h2 { padding-right: 2.6rem; font-size: clamp(1.45rem, 1.2rem + .9vw, 1.9rem); line-height: 1.15; }
+  .ficha-preco { font-size: 1.6rem; font-weight: 700; }
+  .ficha-desc { color: var(--tinta-2); }
+  .variacao { min-width: 0; margin: .2rem 0 0; padding: 0; border: 0; }
+  .variacao legend { padding: 0; margin-bottom: .45rem; color: var(--tinta-2); font-size: .95rem; }
+  .variacao legend strong { color: var(--tinta); font-weight: 600; }
+  /* amostras de cor: bolinha de 34px com area de toque de 46px */
+  .amostras { display: flex; flex-wrap: wrap; margin: 0 -6px; }
+  .amostra { position: relative; display: grid; place-items: center; width: 46px; height: 46px; cursor: pointer; }
+  .amostra input, .opcao input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .amostra span { width: 34px; height: 34px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(43, 20, 10, .2); transition: box-shadow var(--dur-ui) ease; }
+  .amostra input:checked + span { box-shadow: inset 0 0 0 1px rgba(43, 20, 10, .2), 0 0 0 2px var(--branco), 0 0 0 4px var(--tinta); }
+  .amostra input:focus-visible + span, .opcao input:focus-visible + span { outline: 3px solid var(--laranja-texto); outline-offset: 3px; }
+  .amostra.esgotada span { opacity: .5; background: linear-gradient(135deg, transparent 45%, var(--tinta-2) 46% 54%, transparent 55%), var(--c); }
+  /* opcoes com nome (fragrancia, linha, estampa) */
+  .opcoes { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .opcao { position: relative; display: flex; }
+  .opcao span { display: inline-flex; align-items: center; min-height: 44px; padding: .45rem 1rem; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--linha); font-size: .95rem; cursor: pointer; transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease, box-shadow var(--dur-ui) ease; }
+  @media (hover: hover) and (pointer: fine) { .opcao:hover span { box-shadow: inset 0 0 0 1.5px var(--linha-forte); } }
+  .opcao input:checked + span { background: var(--tinta); color: var(--creme-2); box-shadow: none; }
+  .opcao.esgotada span { color: var(--tinta-2); }
+  .ficha-add { width: 100%; min-height: 52px; margin-top: .3rem; }
+  .ficha-add:disabled { background: var(--creme-2); color: var(--tinta-2); box-shadow: inset 0 0 0 1px var(--linha); cursor: not-allowed; }
+  .ficha-status { min-height: 1.5em; margin-top: -.3rem; font-size: .95rem; }
+  .ficha-status:empty { display: none; }
+  .ver-sacola { padding: 0; border: 0; background: none; color: var(--laranja-texto); font: 600 .95rem/1.5 var(--fonte); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .ficha-entrega { display: grid; gap: .35rem; margin: .3rem 0 0; padding: 1rem 0 0; border-top: 1px solid var(--linha); color: var(--tinta-2); font-size: .92rem; list-style: none; }
+  .ficha-entrega li { display: flex; gap: .55rem; }
+  .ficha-entrega li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: .55em; border-radius: 50%; background: var(--laranja); }
+  @media (max-width: 760px) {
+    .ficha { width: 100%; max-height: 94dvh; margin: auto 0 0; border-radius: 22px 22px 0 0; transform: translateY(40px); }
+    .ficha[open] { grid-template-columns: minmax(0, 1fr); }
+    .ficha-foto { aspect-ratio: 4 / 3; border-right: 0; border-bottom: 1px solid var(--linha); }
+  }
+  @media (prefers-reduced-motion: reduce) { .ficha { transform: none; transition: opacity .2s ease; } }
+  html:has(dialog[open]) { overflow: hidden; }
 
   /* ---------- sacola: gaveta que entra pela direita e sai por onde entrou ---------- */
   .sacola {
@@ -409,7 +449,6 @@
   .qtd output { min-width: 1.6rem; text-align: center; font-weight: 600; }
   .remover { min-height: 44px; padding: 0 .2rem; border: 0; background: none; color: var(--tinta-2); font: 400 .95rem/1 var(--fonte); text-decoration: underline; cursor: pointer; }
   .item-var { color: var(--tinta-2); font-size: .9rem; }
-  .item-loja { grid-column: 2; color: #8A5A00; font-size: .86rem; font-weight: 600; }
   .vazia { display: grid; justify-items: center; gap: 1rem; padding: 2.5rem 0; color: var(--tinta-2); text-align: center; }
   .vazia img { width: 80px; opacity: .9; }
   .bloco { display: grid; gap: .7rem; min-width: 0; margin: 0; padding: 1.2rem 0 0; border: 0; border-top: 1px solid var(--linha); }
@@ -544,7 +583,7 @@
     <ul class="fatos" data-revela>
       <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 9h16v13H3zM19 13h5l4 5v4h-9"/><circle cx="8" cy="24" r="2.5"/><circle cx="23" cy="24" r="2.5"/></svg><span><strong>Entrega em Cravinhos</strong>Pedidos a partir de R$ 20,00</span></li>
       <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13 6 6h20l2 7M4 13h24M4 13v13h24V13M12 26v-7h8v7"/></svg><span><strong>Duas lojas</strong>Nova Cravinhos e Centro</span></li>
-      <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 11h18l-1.5 16h-15ZM11 11V9a5 5 0 0 1 10 0v2"/></svg><span><strong>Retire na loja</strong>Cada produto mostra em qual unidade tem</span></li>
+      <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 11h18l-1.5 16h-15ZM11 11V9a5 5 0 0 1 10 0v2"/></svg><span><strong>Retire na loja</strong>Escolha a unidade ao fechar o pedido</span></li>
       <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="3"/><path d="M4 13h24M9 19h5"/></svg><span><strong>Pix ou cartão</strong>Dinheiro na retirada</span></li>
     </ul>
   </div>
@@ -605,14 +644,10 @@
     <div class="envoltorio">
       <div class="secao-cabeca" data-revela>
         <h2 id="titulo-produtos">O que você procura hoje?</h2>
-        <p>Escolha a categoria, a cor ou a fragrância e veja em qual loja o produto está disponível. Depois é só pagar no site e receber em casa ou retirar.</p>
+        <p>Escolha a categoria e abra o produto para ver as cores e as fragrâncias. Depois é só pagar no site e receber em casa ou retirar em uma das lojas.</p>
       </div>
-      <div class="categorias" id="categorias" data-revela></div>
-      <div class="vitrine-topo" data-revela>
-        <h2 id="vitrine-titulo">Todos os produtos</h2>
-        <div class="filtros" id="filtros" role="group" aria-label="Filtrar por categoria"></div>
-      </div>
-      <ul class="vitrine" id="vitrine" aria-labelledby="vitrine-titulo"></ul>
+      <div class="categorias" id="categorias" role="group" aria-label="Filtrar por categoria" data-revela></div>
+      <ul class="vitrine" id="vitrine" aria-label="Produtos"></ul>
       <div class="procura" data-revela><h3>Não achou o que procura?</h3><p>Temos muito mais nas lojas. Pergunte pelo WhatsApp se temos o seu produto.</p><a class="btn" id="procura" href="https://wa.me/5516992151165" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Perguntar pelo WhatsApp</a></div>
     </div>
   </section>
@@ -643,7 +678,7 @@
     <div class="envoltorio">
       <div class="secao-cabeca" data-revela>
         <h2 id="titulo-lojas">Nossas lojas</h2>
-        <p>Os produtos podem variar de uma loja para a outra. No site, cada produto mostra em qual unidade está disponível.</p>
+        <p>Retire o seu pedido na unidade mais perto de você ou venha nos visitar.</p>
       </div>
       <div class="lojas-grade">
         <article class="loja" data-revela>
@@ -656,8 +691,8 @@
         </article>
       </div>
       <div class="contatos" data-revela>
-        <div><h3>Pedidos pelo WhatsApp</h3><a class="zap-grande" href="https://wa.me/5516992151165" target="_blank" rel="noopener">(16) 99215-1165</a></div>
-        <div><h3>Telefone</h3><a class="zap-grande" href="tel:+551639518093">(16) 3951-8093</a></div>
+        <div><h3>Pedidos pelo WhatsApp</h3><a href="https://wa.me/5516992151165" target="_blank" rel="noopener">(16) 99215-1165</a></div>
+        <div><h3>Telefone</h3><a href="tel:+551639518093">(16) 3951-8093</a></div>
         <div><h3>Instagram</h3><a href="https://www.instagram.com/lojasadrianacosmeticos" target="_blank" rel="noopener">@lojasadrianacosmeticos</a></div>
         <div><h3>TikTok</h3><a href="https://www.tiktok.com/@adshoppingdabeleza" target="_blank" rel="noopener">@adshoppingdabeleza</a></div>
       </div>
@@ -695,18 +730,19 @@
   <div class="sacola-pe" id="sacola-pe"></div>
 </dialog>
 
+<dialog class="ficha" id="ficha" aria-labelledby="ficha-nome"></dialog>
+
 <script>
 /* ============================================================
    DADOS - o que a loja muda fica aqui em cima
    ============================================================ */
 const WHATSAPP = "5516992151165";  /* "Faca seu pedido!" do Linktree (so numeros, com 55 e DDD) */
 const ENTREGA_MINIMA = 20;         /* abaixo disso a loja nao entrega, so retirada */
-/* as duas lojas: a letra marca, em cada produto, em qual unidade ele tem */
+/* as duas lojas: o estoque e um so, a cliente escolhe onde retirar */
 const LOJAS = {
-  N: { id: "loja-avenida", titulo: "loja de Nova Cravinhos", end: "Av. Pedro Duarte Amoroso, 1420, Nova Cravinhos" },
-  C: { id: "loja-centro", titulo: "loja do Centro", end: "Rua XV de Novembro, 324, Centro" },
+  "loja-avenida": { titulo: "loja de Nova Cravinhos", end: "Av. Pedro Duarte Amoroso, 1420, Nova Cravinhos" },
+  "loja-centro": { titulo: "loja do Centro", end: "Rua XV de Novembro, 324, Centro" },
 };
-const LETRA = { "loja-avenida": "N", "loja-centro": "C" };
 const CATEGORIAS = [
   ["cabelo", "Produtos para cabelo", "skala-uva"],
   ["maquiagem", "Maquiagem", "maxlove-21"],
@@ -714,64 +750,64 @@ const CATEGORIAS = [
   ["infantil", "Infantil", "hk-shampoo-cacheados"],
   ["bolsas", "Bolsas e mochilas", "magic-pavao"],
 ];
-/* cada variacao: nome, foto, onde tem ("NC" as duas, "N" ou "C" so uma, "" esgotado)
-   e, quando muda, preco e selo proprios. c() e a variacao de cor, com a amostra.
+/* cada variacao: nome, foto e, quando muda, preco e selo proprios; esgotado: true tira da venda.
+   c() e a variacao de cor, com a amostra (true no fim = esgotada).
    precos de exemplo: trocar pela tabela da loja */
-const v = (n, f, l = "NC", extra = {}) => ({ n, f, l, ...extra });
-const c = (n, f, cor, l = "NC") => ({ n, f, l, cor });
+const v = (n, f, extra = {}) => ({ n, f, ...extra });
+const c = (n, f, cor, esgotado = false) => ({ n, f, cor, esgotado });
 const PRODUTOS = [
   /* cabelo */
   { id: "ativador", cat: "cabelo", marca: "Salon Line", nome: "#todecacho Ativador de cachos 300 ml", desc: "Definição e controle do frizz para cabelos cacheados.", preco: 19.90, rotulo: "Linha",
-    vars: [v("Vinagre de Maçã", "ativador-vinagre", "NC", { selo: "Lançamento" }), v("Cachos dos Sonhos", "ativador-sonhos"), v("Definição Prolongada", "ativador-definicao", "C"), v("Mel", "ativador-mel", "N")] },
+    vars: [v("Vinagre de Maçã", "ativador-vinagre", { selo: "Lançamento" }), v("Cachos dos Sonhos", "ativador-sonhos"), v("Definição Prolongada", "ativador-definicao"), v("Mel", "ativador-mel")] },
   { id: "skala", cat: "cabelo", marca: "Skala", nome: "Creme de tratamento 1 kg", desc: "Hidratação no pote de 1 kg, em várias fragrâncias.", preco: 11.90, rotulo: "Fragrância",
-    vars: [v("Vinagre de Maçã", "skala-vinagre", "NC", { selo: "Novidade" }), v("Uva", "skala-uva", "C"), v("Morango", "skala-morango"), v("Cereja", "skala-cereja"), v("Melancia", "skala-melancia", "N"), v("Açaí", "skala-acai"), v("Óleo de Coco", "skala-coco"), v("Babosa Expert", "skala-babosa", "NC", { preco: 15.90 }), v("Mais Cachinhos", "skala-cachinhos", "C"), v("Potão Desmaiado", "skala-potao", "")] },
+    vars: [v("Vinagre de Maçã", "skala-vinagre", { selo: "Novidade" }), v("Uva", "skala-uva"), v("Morango", "skala-morango"), v("Cereja", "skala-cereja"), v("Melancia", "skala-melancia"), v("Açaí", "skala-acai"), v("Óleo de Coco", "skala-coco"), v("Babosa Expert", "skala-babosa", { preco: 15.90 }), v("Mais Cachinhos", "skala-cachinhos"), v("Potão Desmaiado", "skala-potao", { esgotado: true })] },
   { id: "creme-sonhos", cat: "cabelo", marca: "Salon Line", nome: "#todecacho Creme para pentear Cachos dos Sonhos 300 ml", desc: "Hidrata e define os cachos sem pesar.", preco: 17.90, vars: [v("", "creme-sonhos")] },
-  { id: "gelatina", cat: "cabelo", marca: "Salon Line", nome: "#todecacho Gelatina Vai Ter Volume Sim 550 g", desc: "Volume e fixação para os cachos.", preco: 24.90, vars: [v("", "gelatina-volume", "N")] },
+  { id: "gelatina", cat: "cabelo", marca: "Salon Line", nome: "#todecacho Gelatina Vai Ter Volume Sim 550 g", desc: "Volume e fixação para os cachos.", preco: 24.90, vars: [v("", "gelatina-volume")] },
   { id: "kit-uva", cat: "cabelo", marca: "Salon Line", nome: "#todecacho Uva Kit shampoo + condicionador", desc: "Os dois frascos juntos: o preço é do kit.", preco: 29.90, selo: "Kit", vars: [v("", "kit-todecacho-uva")] },
   { id: "juba-shampoo", cat: "cabelo", marca: "Widi Care", nome: "Juba Shampoo Transição Capilar 500 ml", desc: "Limpeza suave para quem está na transição.", preco: 42.90, vars: [v("", "juba-shampoo")] },
-  { id: "juba-mascara", cat: "cabelo", marca: "Widi Care", nome: "Juba Máscara Hidro-Nutritiva 500 g", desc: "Hidratação e nutrição para cachos e crespos.", preco: 52.90, vars: [v("", "juba-mascara", "C")] },
+  { id: "juba-mascara", cat: "cabelo", marca: "Widi Care", nome: "Juba Máscara Hidro-Nutritiva 500 g", desc: "Hidratação e nutrição para cachos e crespos.", preco: 52.90, vars: [v("", "juba-mascara")] },
   { id: "juba-mousse", cat: "cabelo", marca: "Widi Care", nome: "Juba Mousse Criador de Cachos 200 ml", desc: "Volume e definição sem endurecer o cabelo.", preco: 49.90, vars: [v("", "juba-mousse")] },
   /* maquiagem */
   { id: "gloss-maxlove", ini: "21", cat: "maquiagem", marca: "Max Love", nome: "Gloss labial Latex", desc: "Brilho intenso com efeito molhado.", preco: 9.90, rotulo: "Cor",
-    vars: [c("01", "maxlove-01", "#B23A55"), c("19", "maxlove-19", "#EDE6E4"), c("21", "maxlove-21", "#E07595", "C"), c("23", "maxlove-23", "#D9A7B5"), c("24", "maxlove-24", "#E58FB0", "N"), c("Incolor", "maxlove-07", "#F4F4F7")] },
+    vars: [c("01", "maxlove-01", "#B23A55"), c("19", "maxlove-19", "#EDE6E4"), c("21", "maxlove-21", "#E07595"), c("23", "maxlove-23", "#D9A7B5"), c("24", "maxlove-24", "#E58FB0"), c("Incolor", "maxlove-07", "#F4F4F7")] },
   { id: "pincel-po", cat: "maquiagem", marca: "Macrilan", nome: "Pincel para pó B101", desc: "Cerdas macias para pó solto ou compacto.", preco: 38.90, vars: [v("", "macrilan-b101")] },
   { id: "pincel-blush", cat: "maquiagem", marca: "Macrilan", nome: "Pincel para blush B102", desc: "Espalha o blush de forma uniforme.", preco: 21.90, vars: [v("", "macrilan-b102")] },
-  { id: "pincel-kabuki", cat: "maquiagem", marca: "Macrilan", nome: "Pincel kabuki angular B117", desc: "Para base, contorno e blush.", preco: 32.90, vars: [v("", "macrilan-b117", "C")] },
+  { id: "pincel-kabuki", cat: "maquiagem", marca: "Macrilan", nome: "Pincel kabuki angular B117", desc: "Para base, contorno e blush.", preco: 32.90, vars: [v("", "macrilan-b117")] },
   { id: "pincel-base", cat: "maquiagem", marca: "Macrilan", nome: "Pincel língua de gato B114", desc: "Aplica a base sem marcar a pele.", preco: 29.90, vars: [v("", "macrilan-b114")] },
-  { id: "pincel-delinear", cat: "maquiagem", marca: "Macrilan", nome: "Pincel chanfrado B104", desc: "Para delineado e sobrancelha.", preco: 12.90, vars: [v("", "macrilan-b104", "N")] },
+  { id: "pincel-delinear", cat: "maquiagem", marca: "Macrilan", nome: "Pincel chanfrado B104", desc: "Para delineado e sobrancelha.", preco: 12.90, vars: [v("", "macrilan-b104")] },
   /* unhas: preco por marca e por tipo (tradicional, efeito gel ou gel de cabine) */
   { id: "esm-risque", ini: "Beijo", cat: "unhas", marca: "Risqué", tipo: "Tradicional", nome: "Esmalte 8 ml", desc: "Secagem ao ar, cores cremosas e cintilantes.", preco: 6.99, rotulo: "Cor",
-    vars: [c("Paris", "risque-paris", "#EFECE4"), c("Ninfa", "risque-ninfa", "#C9BCC8"), c("Nude", "risque-nude", "#B08770", "C"), c("Cappuccino", "risque-cappuccino", "#80524F"), c("Beijo", "risque-beijo", "#A50016"), c("Escarlate", "risque-escarlate", "#6A1428", "N"), c("Gabriela", "risque-gabriela", "#62142A"), c("Licor", "risque-licor", "#3A2624", "")] },
+    vars: [c("Paris", "risque-paris", "#EFECE4"), c("Ninfa", "risque-ninfa", "#C9BCC8"), c("Nude", "risque-nude", "#B08770"), c("Cappuccino", "risque-cappuccino", "#80524F"), c("Beijo", "risque-beijo", "#A50016"), c("Escarlate", "risque-escarlate", "#6A1428"), c("Gabriela", "risque-gabriela", "#62142A"), c("Licor", "risque-licor", "#3A2624", true)] },
   { id: "esm-risque-gel", ini: "Vermelho Cereja", cat: "unhas", marca: "Risqué", tipo: "Efeito gel", nome: "Esmalte Diamond Gel 9,5 ml", desc: "Brilho de gel sem precisar de cabine.", preco: 12.99, rotulo: "Cor",
-    vars: [c("Ballet", "dgel-ballet", "#D9B8BA"), c("Chá Branco", "dgel-chabranco", "#DCD6C6"), c("Sal Rosa", "dgel-salrosa", "#9C7778", "C"), c("Noz Moscada", "dgel-nozmoscada", "#A0918A"), c("Lavanda Francesa", "dgel-lavanda", "#8E7590", "N"), c("Hibisco Rosa", "dgel-hibisco", "#93384F"), c("Creme de Pitaya", "dgel-pitaya", "#A3245F"), c("Vermelho Cereja", "dgel-cereja", "#7E1426"), c("Charlotte Romã", "dgel-charlotte", "#5A2E3A", "C"), c("Mocaccino", "dgel-mocaccino", "#5B3433")] },
+    vars: [c("Ballet", "dgel-ballet", "#D9B8BA"), c("Chá Branco", "dgel-chabranco", "#DCD6C6"), c("Sal Rosa", "dgel-salrosa", "#9C7778"), c("Noz Moscada", "dgel-nozmoscada", "#A0918A"), c("Lavanda Francesa", "dgel-lavanda", "#8E7590"), c("Hibisco Rosa", "dgel-hibisco", "#93384F"), c("Creme de Pitaya", "dgel-pitaya", "#A3245F"), c("Vermelho Cereja", "dgel-cereja", "#7E1426"), c("Charlotte Romã", "dgel-charlotte", "#5A2E3A"), c("Mocaccino", "dgel-mocaccino", "#5B3433")] },
   { id: "esm-impala", ini: "Madonna", cat: "unhas", marca: "Impala", tipo: "Tradicional", nome: "Esmalte A Cor da Sua Moda 7,5 ml", desc: "Secagem ao ar, acabamento cremoso ou perolado.", preco: 5.99, rotulo: "Cor",
-    vars: [c("Lolita", "impala-lolita", "#F4F4F2"), c("Gatinha", "impala-gatinha", "#E7C2CA"), c("Delicado", "impala-delicado", "#E7A5C9", "N"), c("Sossego", "impala-sossego", "#C9778E"), c("Fascinação", "impala-fascinacao", "#FC626C"), c("Madonna", "impala-madonna", "#C7002E"), c("Querer", "impala-querer", "#910A65", "C"), c("Cafuné", "impala-cafune", "#894125"), c("Virtude", "impala-virtude", "#373D24", ""), c("Teu Cheiro", "impala-teucheiro", "#0B1A4A")] },
+    vars: [c("Lolita", "impala-lolita", "#F4F4F2"), c("Gatinha", "impala-gatinha", "#E7C2CA"), c("Delicado", "impala-delicado", "#E7A5C9"), c("Sossego", "impala-sossego", "#C9778E"), c("Fascinação", "impala-fascinacao", "#FC626C"), c("Madonna", "impala-madonna", "#C7002E"), c("Querer", "impala-querer", "#910A65"), c("Cafuné", "impala-cafune", "#894125"), c("Virtude", "impala-virtude", "#373D24", true), c("Teu Cheiro", "impala-teucheiro", "#0B1A4A")] },
   { id: "esm-impala-gel", ini: "Jujuba", cat: "unhas", marca: "Impala", tipo: "Efeito gel", nome: "Esmalte Boca Rosa Efeito Gel 11 ml", desc: "Efeito gel sem cabine, com pincel largo.", preco: 14.90, rotulo: "Cor",
-    vars: [c("Sonhos", "igel-sonhos", "#F6F1F1"), c("Cocada", "igel-cocada", "#F1E7E3"), c("Cuscuz", "igel-cuscuz", "#F3E07A", "C"), c("Jujuba", "igel-jujuba", "#F2A6CC"), c("Caramelo Salgado", "igel-caramelo", "#A8653A"), c("Salvamor", "igel-salvamor", "#B5121B"), c("Manaux", "igel-manaux", "#6A2A4A", "N"), c("Da Maré", "igel-damare", "#1C5BD6")] },
+    vars: [c("Sonhos", "igel-sonhos", "#F6F1F1"), c("Cocada", "igel-cocada", "#F1E7E3"), c("Cuscuz", "igel-cuscuz", "#F3E07A"), c("Jujuba", "igel-jujuba", "#F2A6CC"), c("Caramelo Salgado", "igel-caramelo", "#A8653A"), c("Salvamor", "igel-salvamor", "#B5121B"), c("Manaux", "igel-manaux", "#6A2A4A"), c("Da Maré", "igel-damare", "#1C5BD6")] },
   { id: "esm-dafu", ini: "Cor 09", cat: "unhas", marca: "Dafu", tipo: "Gel UV/LED", nome: "Esmalte em gel Infinito Glow 12 ml", desc: "Precisa de cabine UV/LED para secar.", preco: 11.90, rotulo: "Cor",
-    vars: [c("Cor 01", "dafu-01", "#E3E6E8"), c("Cor 04", "dafu-04", "#9F6B62"), c("Cor 09", "dafu-09", "#7736A6", "C"), c("Cor 14", "dafu-14", "#9D026E"), c("Cor 22", "dafu-22", "#5A0A16"), c("Cor 30", "dafu-30", "#1B23B5"), c("Cor 41", "dafu-41", "#616C6A", "N"), c("Cor 55", "dafu-55", "#5E3027"), c("Cor 63", "dafu-63", "#2A1416"), c("Cor 72", "dafu-72", "#1E2738", "")] },
+    vars: [c("Cor 01", "dafu-01", "#E3E6E8"), c("Cor 04", "dafu-04", "#9F6B62"), c("Cor 09", "dafu-09", "#7736A6"), c("Cor 14", "dafu-14", "#9D026E"), c("Cor 22", "dafu-22", "#5A0A16"), c("Cor 30", "dafu-30", "#1B23B5"), c("Cor 41", "dafu-41", "#616C6A"), c("Cor 55", "dafu-55", "#5E3027"), c("Cor 63", "dafu-63", "#2A1416"), c("Cor 72", "dafu-72", "#1E2738", true)] },
   /* infantil */
   { id: "hk-shampoo", cat: "infantil", marca: "Cia. da Natureza", nome: "Shampoo Hello Kitty 260 ml", desc: "Fórmula suave para o cabelo das crianças.", preco: 21.90, rotulo: "Tipo de cabelo",
-    vars: [v("Cacheados e ondulados", "hk-shampoo-cacheados"), v("Lisos e delicados", "hk-shampoo-lisos", "C"), v("Finos e claros", "hk-shampoo-finos")] },
+    vars: [v("Cacheados e ondulados", "hk-shampoo-cacheados"), v("Lisos e delicados", "hk-shampoo-lisos"), v("Finos e claros", "hk-shampoo-finos")] },
   { id: "hk-cond", cat: "infantil", marca: "Cia. da Natureza", nome: "Condicionador Hello Kitty 260 ml", desc: "Desembaraça e deixa o cabelo macio.", preco: 22.90, rotulo: "Tipo de cabelo",
-    vars: [v("Cacheados e ondulados", "hk-cond-cacheados"), v("Lisos e delicados", "hk-cond-lisos", "N")] },
+    vars: [v("Cacheados e ondulados", "hk-cond-cacheados"), v("Lisos e delicados", "hk-cond-lisos")] },
   { id: "hk-spray", cat: "infantil", marca: "Cia. da Natureza", nome: "Spray desembaraçante Hello Kitty 110 ml", desc: "Ajuda a pentear sem puxar.", preco: 25.90, vars: [v("", "hk-spray")] },
-  { id: "hk-colonia", cat: "infantil", marca: "Cia. da Natureza", nome: "Colônia splash Hello Kitty Candy", desc: "Perfume leve para as pequenas.", preco: 28.90, vars: [v("", "hk-colonia", "C")] },
+  { id: "hk-colonia", cat: "infantil", marca: "Cia. da Natureza", nome: "Colônia splash Hello Kitty Candy", desc: "Perfume leve para as pequenas.", preco: 28.90, vars: [v("", "hk-colonia")] },
   { id: "kids-gelatina", cat: "infantil", marca: "Salon Line", nome: "#todecacho Kids Gelatina Uva 550 g", desc: "Define os cachinhos sem pesar.", preco: 26.90, vars: [v("", "kids-gelatina-uva")] },
   { id: "moch-infantil", cat: "infantil", marca: "Sestini", nome: "Mochila infantil de personagem", desc: "Mochila escolar com estampa licenciada.", preco: 89.90, rotulo: "Personagem",
-    vars: [v("Peppa Pig", "moch-peppa", "NC", { preco: 89.90 }), v("Gabby", "moch-gabby", "C", { preco: 179.90 }), v("Minions", "moch-minions", "NC", { preco: 139.90 }), v("Transformers", "moch-transformers", "N", { preco: 79.90 })] },
+    vars: [v("Peppa Pig", "moch-peppa", { preco: 89.90 }), v("Gabby", "moch-gabby", { preco: 179.90 }), v("Minions", "moch-minions", { preco: 139.90 }), v("Transformers", "moch-transformers", { preco: 79.90 })] },
   /* bolsas e mochilas */
   { id: "magic", cat: "bolsas", marca: "Sestini", nome: "Mochila Magic", desc: "Mochila de costas para a escola e o dia a dia.", preco: 99.90, rotulo: "Estampa",
-    vars: [v("Pavão", "magic-pavao"), v("Dourado", "magic-dourado"), v("Emoticons", "magic-emoticons", "C"), v("Camuflado", "magic-camuflado"), v("Jeans", "magic-jeans", "N")] },
+    vars: [v("Pavão", "magic-pavao"), v("Dourado", "magic-dourado"), v("Emoticons", "magic-emoticons"), v("Camuflado", "magic-camuflado"), v("Jeans", "magic-jeans")] },
   { id: "capricho", cat: "bolsas", marca: "Capricho", nome: "Mochila Crush", desc: "Matelassê com chaveiro de coração.", preco: 199.90, rotulo: "Cor",
-    vars: [c("Rosa", "capricho-rosa", "#E8437E"), c("Turquesa", "capricho-turquesa", "#3CC1C0", "N")] },
-  { id: "rodinhas", cat: "bolsas", marca: "Sestini", nome: "Mochila com rodinhas Alliance M1", desc: "Com alça retrátil, na cor preta.", preco: 299.90, vars: [v("", "rodinhas-alliance", "C")] },
+    vars: [c("Rosa", "capricho-rosa", "#E8437E"), c("Turquesa", "capricho-turquesa", "#3CC1C0")] },
+  { id: "rodinhas", cat: "bolsas", marca: "Sestini", nome: "Mochila com rodinhas Alliance M1", desc: "Com alça retrátil, na cor preta.", preco: 299.90, vars: [v("", "rodinhas-alliance")] },
   { id: "bolsa-cross", cat: "bolsas", marca: "Capricho", nome: "Bolsa transversal X04 degradê", desc: "Pequena, para usar atravessada.", preco: 69.90, vars: [v("", "bolsa-cross-degrade")] },
-  { id: "bolsa-pixie", cat: "bolsas", marca: "Sestini", nome: "Bolsa pequena Pixie rosé", desc: "Bolsa pequena na cor rosé.", preco: 109.90, vars: [v("", "bolsa-pixie-rosa", "N")] },
+  { id: "bolsa-pixie", cat: "bolsas", marca: "Sestini", nome: "Bolsa pequena Pixie rosé", desc: "Bolsa pequena na cor rosé.", preco: 109.90, vars: [v("", "bolsa-pixie-rosa")] },
   { id: "bolsa-alca", cat: "bolsas", marca: "Sestini", nome: "Bolsa com alça de mão", desc: "Leve, para o dia a dia.", preco: 34.90, rotulo: "Estampa",
     vars: [v("Azul", "bolsa-alca-azul"), v("Folhas", "bolsa-alca-folhas")] },
   { id: "necessaire", cat: "bolsas", marca: "Sestini", nome: "Necessaire", desc: "Para a maquiagem e os itens de higiene.", preco: 49.90, rotulo: "Modelo",
-    vars: [v("Estojo Lovely", "nec-lovely"), v("Listras rosé", "nec-listras", "C"), v("Flat matelassê dourada", "nec-matelasse", "NC", { preco: 39.90 })] },
+    vars: [v("Estojo Lovely", "nec-lovely"), v("Listras rosé", "nec-listras"), v("Flat matelassê dourada", "nec-matelasse", { preco: 39.90 })] },
 ];
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -786,8 +822,6 @@ const zap = (texto) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text
 const porId = (id) => PRODUTOS.find((p) => p.id === id);
 const precoDe = (p, va) => va.preco ?? p.preco;
 const comVar = (p, va) => `${p.nome}${va.n ? ` (${va.n})` : ""}`;
-/* onde tem: [nivel, frase] */
-const ondeTem = (l) => l === "NC" ? ["todas", "Disponível nas duas lojas"] : l ? ["uma", `Só na ${LOJAS[l].titulo}`] : ["nenhuma", "Esgotado nas duas lojas"];
 
 /* ---------- movimento padrao: revela cada bloco uma vez, ao entrar na tela ---------- */
 const observador = new IntersectionObserver((itens) => {
@@ -802,51 +836,31 @@ function piscar(el) {
 }
 
 /* ---------- categorias, filtros e vitrine ---------- */
-/* cada cartao comeca na variacao de vitrine (ini) ou na primeira que tem em alguma loja */
-const varAtual = Object.fromEntries(PRODUTOS.map((p) => { const k = p.vars.findIndex((va) => va.n === p.ini && va.l); return [p.id, k >= 0 ? k : Math.max(0, p.vars.findIndex((va) => va.l))]; }));
-$("#categorias").innerHTML = CATEGORIAS.map(([id, nome, f]) => `<button class="categoria" type="button" data-cat="${id}" aria-pressed="false"><span><img src="${fotoP(f)}" alt="" loading="lazy"></span><span>${nome}</span></button>`).join("");
-$("#filtros").innerHTML = [["todos", "Todos"], ...CATEGORIAS].map(([id, nome]) => `<button class="filtro" type="button" data-cat="${id}" aria-pressed="${id === "todos"}">${nome}</button>`).join("");
+/* o cartao mostra a variacao de vitrine (ini) ou a primeira que nao esta esgotada */
+const tem = (va) => !va.esgotado;
+const varInicial = (p) => { const k = p.vars.findIndex((va) => va.n === p.ini && tem(va)); return k >= 0 ? k : Math.max(0, p.vars.findIndex(tem)); };
+const PLURAL = { "Cor": "cores", "Fragrância": "fragrâncias", "Linha": "linhas", "Tipo de cabelo": "opções", "Personagem": "personagens", "Estampa": "estampas", "Modelo": "modelos" };
+const precoCartao = (p) => { const ps = p.vars.map((va) => precoDe(p, va)), min = Math.min(...ps); return min < Math.max(...ps) ? `<small>a partir de</small> ${reais(min)}` : reais(min); };
+$("#categorias").innerHTML = [["todos", "Todos os produtos"], ...CATEGORIAS].map(([id, nome, f]) => `<button class="categoria${f ? "" : " categoria-todos"}" type="button" data-cat="${id}" aria-pressed="${id === "todos"}"><span><img src="${f ? fotoP(f) : "img/simbolo-laranja.png"}" alt="" loading="lazy"></span><span>${nome}</span></button>`).join("");
 
-function escolhaHTML(p) {
-  if (p.vars.length < 2) return "";
-  const k = varAtual[p.id];
-  if (p.vars[0].cor) return `<fieldset class="variacao"><legend>${p.rotulo}: <strong data-nome-var>${esc(p.vars[k].n)}</strong></legend><div class="amostras">${p.vars.map((va, i) =>
-    `<label class="amostra${va.l ? "" : " esgotada"}" title="${esc(va.n)}${va.l ? "" : " (esgotado)"}" style="--c:${va.cor}"><input type="radio" name="var-${p.id}" value="${i}"${i === k ? " checked" : ""} aria-label="${esc(va.n)}${va.l ? "" : ", esgotado"}"><span></span></label>`).join("")}</div></fieldset>`;
-  return `<div class="variacao"><label class="variacao-rotulo" for="var-${p.id}">${p.rotulo}</label><select id="var-${p.id}" name="var-${p.id}">${p.vars.map((va, i) =>
-    `<option value="${i}"${i === k ? " selected" : ""}>${esc(va.n)}${va.l ? "" : " (esgotado)"}</option>`).join("")}</select></div>`;
-}
+/* todos os cartoes tem o mesmo desenho: cor e fragrancia se escolhem na pagina do produto */
 const cartao = (p) => {
-  const va = p.vars[varAtual[p.id]], [tem, onde] = ondeTem(va.l), selo = va.selo ?? p.selo;
+  const va = p.vars[varInicial(p)], selo = va.selo ?? p.selo;
+  const botao = !p.vars.some(tem) ? `<button class="btn" type="button" disabled>Esgotado</button>`
+    : p.vars.length > 1 ? `<button class="btn" type="button" data-abrir="${p.id}">Ver ${p.vars.length} ${PLURAL[p.rotulo]}</button>`
+    : `<button class="btn" type="button" data-adicionar="${p.id}"><svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar</button>`;
   return `
-  <li class="produto" data-id="${p.id}">
-    <div class="produto-foto"><img src="${fotoP(va.f)}" width="900" height="900" alt="${esc(p.marca)} ${esc(comVar(p, va))}" loading="lazy"><span class="selo"${selo ? "" : " hidden"}>${selo || ""}</span></div>
+  <li class="produto">
+    <a class="produto-foto" href="#produto-${p.id}" data-abrir="${p.id}" tabindex="-1" aria-hidden="true"><img src="${fotoP(va.f)}" width="900" height="900" alt="" loading="lazy">${selo ? `<span class="selo">${selo}</span>` : ""}</a>
     <div class="produto-info">
       <p class="produto-marca">${esc(p.marca)}${p.tipo ? `<span class="tipo">${p.tipo}</span>` : ""}</p>
-      <h4>${esc(p.nome)}</h4>
+      <h4><a href="#produto-${p.id}" data-abrir="${p.id}">${esc(p.nome)}</a></h4>
       <p class="produto-desc">${esc(p.desc)}</p>
-      <p class="produto-preco">${reais(precoDe(p, va))}</p>
-      ${escolhaHTML(p)}
-      <p class="estoque" data-tem="${tem}">${onde}</p>
-      <button class="btn" type="button" data-adicionar="${p.id}"${va.l ? "" : " disabled"}>${va.l ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar` : "Esgotado"}</button>
+      <p class="produto-preco">${precoCartao(p)}</p>
+      ${botao}
     </div>
   </li>`;
 };
-/* trocar a cor ou a fragrancia troca a foto, o preco e onde tem */
-function atualizaCartao(li) {
-  const p = porId(li.dataset.id), va = p.vars[varAtual[p.id]], [tem, onde] = ondeTem(va.l), selo = va.selo ?? p.selo;
-  const img = $(".produto-foto img", li);
-  img.src = fotoP(va.f); img.alt = `${p.marca} ${comVar(p, va)}`;
-  const s = $(".selo", li); s.textContent = selo || ""; s.hidden = !selo;
-  $(".produto-preco", li).textContent = reais(precoDe(p, va));
-  const nome = $("[data-nome-var]", li); if (nome) nome.textContent = va.n;
-  const radio = li.querySelector(`input[name="var-${p.id}"][value="${varAtual[p.id]}"]`); if (radio) radio.checked = true;
-  const sel = $("select", li); if (sel) sel.value = varAtual[p.id];
-  const est = $(".estoque", li); est.dataset.tem = tem; est.textContent = onde;
-  const b = $("[data-adicionar]", li);
-  b.disabled = !va.l; clearTimeout(b._t); b.classList.remove("adicionado");
-  b.innerHTML = va.l ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar` : "Esgotado";
-  piscar(img);
-}
 
 $("#vitrine").innerHTML = CATEGORIAS.map(([id, nome]) => {
   const lista = PRODUTOS.filter((p) => p.cat === id);
@@ -864,45 +878,27 @@ $("#vitrine").innerHTML = CATEGORIAS.map(([id, nome]) => {
 }).join("");
 $("#procura").href = zap("Olá! Vim pelo site e gostaria de saber se vocês têm um produto.");
 
-const nomeCat = (id) => (CATEGORIAS.find((c) => c[0] === id) || [, "Todos os produtos"])[1];
 function filtrar(cat) {
   document.querySelectorAll("[data-cat][aria-pressed]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === cat)));
   document.querySelectorAll(".prateleira").forEach((li) => li.classList.toggle("some", cat !== "todos" && li.dataset.cat !== cat));
   $("#vitrine").classList.toggle("filtrada", cat !== "todos");
   setas();
-  $("#vitrine-titulo").textContent = cat === "todos" ? "Todos os produtos" : nomeCat(cat);
   piscar($("#vitrine"));
 }
 const rolar = (el, block = "start") => el.scrollIntoView({ behavior: reduzir.matches ? "auto" : "smooth", block });
-$("#categorias").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-cat]"); if (!b) return;
-  const ja = b.getAttribute("aria-pressed") === "true";
-  filtrar(ja ? "todos" : b.dataset.cat);
-  if (!ja) rolar($("#vitrine-titulo"));
-});
-$("#filtros").addEventListener("click", (e) => { const b = e.target.closest("[data-cat]"); if (b) filtrar(b.dataset.cat); });
+$("#categorias").addEventListener("click", (e) => { const b = e.target.closest("[data-cat]"); if (b) filtrar(b.dataset.cat); });
 document.querySelectorAll("[data-ir]").forEach((a) => a.addEventListener("click", () => {
   filtrar(a.dataset.ir);
-  if (a.tagName === "BUTTON") rolar($("#vitrine-titulo"));
+  if (a.tagName === "BUTTON") rolar($("#categorias"));
 }));
 /* botao do banner: abre o produto ja na variacao certa */
 document.querySelectorAll("[data-produto]").forEach((b) => b.addEventListener("click", () => {
-  const p = porId(b.dataset.produto), li = $(`.produto[data-id="${p.id}"]`);
-  filtrar(p.cat);
-  const i = p.vars.findIndex((va) => va.n === b.dataset.var);
-  if (i >= 0) { varAtual[p.id] = i; atualizaCartao(li); }
-  rolar(li, "center");
-  setTimeout(() => $("[data-adicionar]", li).focus({ preventScroll: true }), reduzir.matches ? 0 : 500);
+  const p = porId(b.dataset.produto), i = p.vars.findIndex((va) => va.n === b.dataset.var);
+  abrirFicha(p.id, i >= 0 ? i : undefined);
 }));
-$("#vitrine").addEventListener("change", (e) => {
-  const t = e.target; if (!t.name || !t.name.startsWith("var-")) return;
-  const li = t.closest(".produto");
-  varAtual[li.dataset.id] = +t.value;
-  atualizaCartao(li);
-});
 $("#vitrine").addEventListener("click", (e) => {
   const ver = e.target.closest("[data-ver]");
-  if (ver) { filtrar(ver.dataset.ver); rolar($("#vitrine-titulo")); return; }
+  if (ver) { filtrar(ver.dataset.ver); rolar($("#categorias")); return; }
   const seta = e.target.closest("[data-passo]"); if (!seta) return;
   const fileira = $(".fileira", seta.closest(".prateleira"));
   fileira.scrollBy({ left: seta.dataset.passo * fileira.clientWidth, behavior: reduzir.matches ? "auto" : "smooth" });
@@ -921,8 +917,89 @@ document.querySelectorAll(".fileira").forEach((f) => f.addEventListener("scroll"
 addEventListener("resize", setas);
 setas();
 
+/* ---------- pagina do produto ---------- */
+const ficha = $("#ficha");
+let fichaP = null, fichaK = 0, fichaFecha;
+function escolhaFicha(p) {
+  if (p.vars.length < 2) return "";
+  const cor = !!p.vars[0].cor;
+  const opcoes = p.vars.map((va, i) => {
+    const marcado = i === fichaK ? " checked" : "", fora = tem(va) ? "" : " esgotada";
+    return cor
+      ? `<label class="amostra${fora}" title="${esc(va.n)}${fora && " (sem estoque)"}" style="--c:${va.cor}"><input type="radio" name="ficha-var" value="${i}"${marcado} aria-label="${esc(va.n)}${fora && ", sem estoque"}"><span></span></label>`
+      : `<label class="opcao${fora}"><input type="radio" name="ficha-var" value="${i}"${marcado}><span>${esc(va.n)}${fora && " · sem estoque"}</span></label>`;
+  }).join("");
+  return `<fieldset class="variacao"><legend>${p.rotulo}: <strong id="ficha-var-nome">${esc(p.vars[fichaK].n)}</strong></legend><div class="${cor ? "amostras" : "opcoes"}">${opcoes}</div></fieldset>`;
+}
+function desenharFicha() {
+  const p = fichaP, va = p.vars[fichaK];
+  ficha.innerHTML = `
+    <button class="fechar" type="button" data-fechar-ficha aria-label="Fechar"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    <div class="ficha-foto"><img id="ficha-img" src="${fotoP(va.f)}" width="900" height="900" alt=""><span class="selo" id="ficha-selo"></span></div>
+    <div class="ficha-info">
+      <p class="produto-marca">${esc(p.marca)}${p.tipo ? `<span class="tipo">${p.tipo}</span>` : ""}</p>
+      <h2 id="ficha-nome">${esc(p.nome)}</h2>
+      <p class="ficha-preco" id="ficha-preco"></p>
+      <p class="ficha-desc">${esc(p.desc)}</p>
+      ${escolhaFicha(p)}
+      <button class="btn ficha-add" type="button" id="ficha-add" data-adicionar="${p.id}"></button>
+      <p class="ficha-status" id="ficha-status" role="status"></p>
+      <ul class="ficha-entrega">
+        <li>Entrega em Cravinhos para pedidos a partir de ${reais(ENTREGA_MINIMA)}</li>
+        <li>Retirada na loja de Nova Cravinhos ou na loja do Centro</li>
+        <li>Pix ou cartão pelo site, ou dinheiro na retirada</li>
+      </ul>
+    </div>`;
+  mostrarVar();
+}
+/* trocar a cor ou a fragrancia troca a foto, o preco e o selo */
+function mostrarVar() {
+  const p = fichaP, va = p.vars[fichaK], selo = va.selo ?? p.selo, img = $("#ficha-img"), b = $("#ficha-add");
+  img.src = fotoP(va.f); img.alt = `${p.marca} ${comVar(p, va)}`;
+  $("#ficha-selo").textContent = selo || ""; $("#ficha-selo").hidden = !selo;
+  $("#ficha-preco").textContent = reais(precoDe(p, va));
+  const nome = $("#ficha-var-nome"); if (nome) nome.textContent = va.n;
+  $("#ficha-status").textContent = "";
+  clearTimeout(b._t); b.classList.remove("adicionado");
+  b.disabled = !tem(va);
+  b.innerHTML = tem(va) ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar à sacola` : "Sem estoque";
+}
+ficha.addEventListener("change", (e) => {
+  if (e.target.name !== "ficha-var") return;
+  fichaK = +e.target.value;
+  mostrarVar();
+  piscar($("#ficha-img"));
+});
+function abrirFicha(id, k, empurrar = true) {
+  const p = porId(id); if (!p) return;
+  fichaP = p; fichaK = k ?? varInicial(p);
+  desenharFicha();
+  if (empurrar) history.pushState({ ficha: id }, "", `#produto-${id}`);
+  clearTimeout(fichaFecha);
+  if (!ficha.open) { ficha.showModal(); requestAnimationFrame(() => requestAnimationFrame(() => ficha.classList.add("aberta"))); }
+  else ficha.classList.add("aberta");
+  ficha.scrollTop = 0;
+}
+/* fechar volta no historico, assim o botao voltar do celular tambem fecha */
+function fecharFicha(voltar = true) {
+  if (!ficha.open) return;
+  if (voltar && history.state?.ficha) { history.back(); return; }
+  if (voltar && location.hash.startsWith("#produto-")) history.replaceState(null, "", location.pathname + location.search);
+  ficha.classList.remove("aberta");
+  fichaFecha = setTimeout(() => ficha.close(), reduzir.matches ? 200 : 280);
+}
+ficha.addEventListener("cancel", (e) => { e.preventDefault(); fecharFicha(); });
+ficha.addEventListener("click", (e) => {
+  if (e.target === ficha || e.target.closest("[data-fechar-ficha]")) { fecharFicha(); return; }
+  if (e.target.closest("[data-ver-sacola]")) { fecharFicha(); abrirSacola(); }
+});
+addEventListener("popstate", () => {
+  const m = location.hash.match(/^#produto-(.+)$/);
+  if (m && porId(m[1])) abrirFicha(m[1], undefined, false); else fecharFicha(false);
+});
+
 /* ---------- sacola ---------- */
-let itens = ler("adriana-sacola-2", []).filter((i) => porId(i.id)?.vars[i.v]?.l);
+let itens = ler("adriana-sacola-2", []).filter((i) => { const va = porId(i.id)?.vars[i.v]; return va && tem(va); });
 const ck = { receber: "entrega", pagamento: "Pix", nome: "", cep: "", rua: "", numero: "", bairro: "", cidade: "", compl: "" };
 const produtoDe = (i) => porId(i.id);
 const varDe = (i) => produtoDe(i).vars[i.v];
@@ -940,8 +1017,12 @@ function adicionar(id, k) {
   piscar($("#abrir-sacola"));
 }
 document.addEventListener("click", (e) => {
+  const abrir = e.target.closest("[data-abrir]");
+  if (abrir) { e.preventDefault(); abrirFicha(abrir.dataset.abrir); return; }
   const b = e.target.closest("[data-adicionar]"); if (!b || b.disabled) return;
-  adicionar(b.dataset.adicionar, varAtual[b.dataset.adicionar]);
+  const naFicha = !!b.closest("#ficha"), p = porId(b.dataset.adicionar);
+  adicionar(p.id, naFicha ? fichaK : varInicial(p));
+  if (naFicha) $("#ficha-status").innerHTML = `Adicionado à sacola. <button class="ver-sacola" type="button" data-ver-sacola>Ver a sacola</button>`;
   /* o botao confirma o que aconteceu e volta ao normal */
   const texto = b.innerHTML;
   b.classList.add("adicionado");
@@ -984,11 +1065,10 @@ sacola.addEventListener("click", (e) => {
   desenharSacola(b.dataset.acao === "remover" ? null : `button[data-acao="${b.dataset.acao}"][data-i="${k}"]`);
 });
 
-/* como receber: entrega so a partir do minimo; retirada so na loja que tem todos os itens */
-const faltamEm = (letra) => itens.filter((i) => !varDe(i).l.includes(letra));
+/* como receber: entrega so a partir do minimo; retirada em qualquer uma das lojas */
 function opcoesReceber() {
-  const ok = { entrega: totalSacola() >= ENTREGA_MINIMA, "loja-avenida": !faltamEm("N").length, "loja-centro": !faltamEm("C").length };
-  if (!ok[ck.receber]) ck.receber = Object.keys(ok).find((k) => ok[k]) || "";
+  const ok = { entrega: totalSacola() >= ENTREGA_MINIMA, "loja-avenida": true, "loja-centro": true };
+  if (!ok[ck.receber]) ck.receber = "loja-avenida";
   if (ck.receber === "entrega" && ck.pagamento === "Dinheiro") ck.pagamento = "Pix";
   return ok;
 }
@@ -1004,7 +1084,6 @@ const escolha = (nome, valor, titulo, detalhe, desligada = false) => `<label cla
 const pilula = (nome, valor, desligada = false) => `<label class="pilula"><input type="radio" name="${nome}" value="${valor}"${ck[nome] === valor ? " checked" : ""}${desligada ? " disabled" : ""}><span>${valor}</span></label>`;
 const campo = (k, rotulo, attrs = "", largo = false) => `<label class="campo${largo ? " campo-largo" : ""}"><span>${rotulo}</span><input data-k="${k}" value="${esc(ck[k])}" ${attrs}></label>`;
 const campoCartao = (k, rotulo, attrs = "", largo = false) => `<label class="campo${largo ? " campo-largo" : ""}"><span>${rotulo}</span><input data-c="${k}" value="${esc(pagCartao[k])}" autocomplete="off" ${attrs}></label>`;
-const naoTem = (letra) => { const f = faltamEm(letra); return f.length ? `<span class="falta">Não temos nesta loja: ${f.map((i) => esc(`${produtoDe(i).marca} ${comVar(produtoDe(i), varDe(i))}`)).join("; ")}</span>` : esc(LOJAS[letra].end); };
 
 function desenharSacola(focar) {
   const corpo = $("#sacola-corpo"), pe = $("#sacola-pe");
@@ -1027,16 +1106,14 @@ function desenharSacola(focar) {
           <strong class="item-preco">${reais(precoItem(i) * i.qtd)}</strong>
           <button class="remover" type="button" data-acao="remover" data-i="${k}">Remover</button>
         </div>
-        ${va.l !== "NC" ? `<p class="item-loja">Só na ${LOJAS[va.l].titulo}</p>` : ""}
       </li>`; }).join("")}</ul>
     <fieldset class="bloco">
       <legend>Como você quer receber</legend>
       <div class="escolhas">
         ${escolha("receber", "entrega", "Entrega em Cravinhos", ok.entrega ? "No endereço que você informar" : `<span class="falta">Entregamos pedidos a partir de ${reais(ENTREGA_MINIMA)}. Faltam ${reais(falta)}.</span>`, !ok.entrega)}
-        ${escolha("receber", "loja-avenida", "Retirar na loja de Nova Cravinhos", naoTem("N"), !ok["loja-avenida"])}
-        ${escolha("receber", "loja-centro", "Retirar na loja do Centro", naoTem("C"), !ok["loja-centro"])}
+        ${escolha("receber", "loja-avenida", "Retirar na loja de Nova Cravinhos", esc(LOJAS["loja-avenida"].end))}
+        ${escolha("receber", "loja-centro", "Retirar na loja do Centro", esc(LOJAS["loja-centro"].end))}
       </div>
-      ${ck.receber ? "" : `<p class="aviso">Os itens estão em lojas diferentes e o pedido não alcança o valor mínimo da entrega. Fale conosco pelo WhatsApp e combinamos a melhor forma.</p>`}
     </fieldset>
     <div class="campos" id="endereco"${ck.receber === "entrega" ? "" : " hidden"}>
       ${campo("cep", "CEP <small>(preenche a rua)</small>", 'inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="14140-000"')}
@@ -1067,9 +1144,7 @@ function desenharSacola(focar) {
 /* o rodape muda com a forma de pagamento: Pix e cartao pagam no site, dinheiro vai pelo WhatsApp */
 function rodape() {
   const total = totalSacola(), pe = $("#sacola-pe");
-  const acao = !ck.receber
-    ? `<a class="btn btn-zap" id="enviar" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Combinar pelo WhatsApp</a>`
-    : ck.pagamento === "Dinheiro"
+  const acao = ck.pagamento === "Dinheiro"
     ? `<a class="btn btn-zap" id="enviar" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Enviar pedido pelo WhatsApp</a>
        <p>Você paga em dinheiro na retirada.</p>`
     : `<button class="btn" type="button" id="pagar">${ck.pagamento === "Pix" ? `Pagar ${reais(total)} com Pix` : `Pagar ${reais(total)} no cartão`}</button>
@@ -1166,7 +1241,7 @@ function desenharAprovado() {
     <svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="42"/><path d="M27 43l10 10 20-21"/></svg>
     <h3>Pagamento aprovado</h3>
     <p><span class="numero">Pedido ${pedido.numero}</span><br>${reais(pedido.total)} ${forma}</p>
-    <p>Envie o pedido para a nossa equipe pelo WhatsApp para combinar ${pedido.receber === "entrega" ? "a entrega" : `a retirada na ${LOJAS[LETRA[pedido.receber]].titulo}`}.</p>
+    <p>Envie o pedido para a nossa equipe pelo WhatsApp para combinar ${pedido.receber === "entrega" ? "a entrega" : `a retirada na ${LOJAS[pedido.receber].titulo}`}.</p>
     <span class="demo">Demonstração: nenhum valor foi cobrado</span>
   </div>`;
   $("#sacola-pe").innerHTML = `<a class="btn btn-zap" href="${zap(pedido.texto)}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Enviar pedido pelo WhatsApp</a>
@@ -1183,14 +1258,12 @@ function textoPedido(pago) {
     const partes = [ruaNum, ck.compl.trim(), ck.bairro.trim()].filter(Boolean);
     const end = partes.length ? [...partes, ck.cidade || "Cravinhos"].join(", ") : "em Cravinhos (endereço a combinar)";
     linhas.push(`Entrega: ${end}${ck.cep.trim() ? ` (CEP ${ck.cep.trim()})` : ""}`);
-  } else if (ck.receber) {
-    const L = LOJAS[LETRA[ck.receber]];
-    linhas.push(`Vou retirar na ${L.titulo}: ${L.end}`);
   } else {
-    linhas.push("Os itens estão em lojas diferentes. Poderiam me orientar sobre a retirada ou a entrega?");
+    const L = LOJAS[ck.receber];
+    linhas.push(`Vou retirar na ${L.titulo}: ${L.end}`);
   }
   if (pago) linhas.push(`Pagamento: ${pedido.forma === "Pix" ? "Pix" : `cartão${pedido.parcelas > 1 ? ` em ${pedido.parcelas}x` : ""}`}, aprovado no site`);
-  else if (ck.receber) linhas.push(`Pagamento: ${ck.pagamento === "Dinheiro" ? "dinheiro, na retirada" : ck.pagamento}`);
+  else linhas.push(`Pagamento: ${ck.pagamento === "Dinheiro" ? "dinheiro, na retirada" : ck.pagamento}`);
   if (ck.nome.trim()) linhas.push(`Meu nome é ${ck.nome.trim()}.`);
   linhas.push(pago && ck.receber === "entrega" ? "Poderiam confirmar o pedido e a taxa de entrega?" : "Poderiam confirmar o pedido?");
   return linhas.join("\n");
@@ -1307,6 +1380,8 @@ document.addEventListener("keydown", (e) => {
 matchMedia("(min-width: 1121px)").addEventListener("change", (m) => { if (m.matches) menu(false); });
 
 mostrarFlutuante();
+const pedidoNoLink = location.hash.match(/^#produto-(.+)$/);
+if (pedidoNoLink && porId(pedidoNoLink[1])) abrirFicha(pedidoNoLink[1], undefined, false);
 </script>
 </body>
 </html>

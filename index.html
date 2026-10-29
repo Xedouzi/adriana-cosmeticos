@@ -314,7 +314,7 @@
 
   /* ---------- a nova adriana ---------- */
   .nova-grade { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
-  .nova { position: relative; background: var(--creme); padding-block: clamp(4.5rem, 9vw, 7.5rem); }
+  .nova { position: relative; overflow-x: clip; background: var(--creme); padding-block: clamp(4.5rem, 9vw, 7.5rem); }
   .nova > .onda { position: absolute; left: 0; right: 0; }
   .nova > .onda-topo { top: -1px; }
   .nova > .onda-pe { bottom: -1px; }
@@ -322,9 +322,11 @@
   /* moldura branca e a borboleta da marca: embaixo a esquerda na primeira, em cima a direita na segunda */
   .nova-fotos figure { position: relative; padding: clamp(8px, 1vw, 12px); border-radius: 24px; background: var(--branco); }
   .nova-fotos img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 15px; }
-  .nova-fotos figure::after { content: ""; position: absolute; width: clamp(46px, 5.5vw, 74px); aspect-ratio: 231 / 240; background: url("img/simbolo-branco.png") center / contain no-repeat; filter: drop-shadow(0 2px 8px rgba(43, 20, 10, .35)); pointer-events: none; }
-  .nova-fotos figure:first-child::after { left: clamp(18px, 2.2vw, 28px); bottom: clamp(18px, 2.2vw, 28px); transform: rotate(-12deg); }
-  .nova-fotos figure:last-child::after { right: clamp(18px, 2.2vw, 28px); top: clamp(18px, 2.2vw, 28px); transform: rotate(12deg); }
+  /* borboleta da marca, preenchida de branco, pousada no canto da moldura */
+  .nova-fotos figure::after { --b: clamp(60px, 8vw, 96px); content: ""; position: absolute; width: var(--b); aspect-ratio: 231 / 240; background: url("img/simbolo-branco-cheio.png") center / contain no-repeat; filter: drop-shadow(0 2px 6px rgba(43, 20, 10, .3)); pointer-events: none; }
+  .nova-fotos figure:first-child::after { left: calc(var(--b) * -.22); bottom: calc(var(--b) * -.22); transform: rotate(180deg); }
+  .nova-fotos figure:last-child::after { right: calc(var(--b) * -.22); top: calc(var(--b) * -.22); transform: rotate(12deg); }
+  @media (max-width: 600px) { .nova-fotos figure::after { --b: 52px; } .nova-fotos figure:first-child::after { left: -8px; bottom: -10px; } .nova-fotos figure:last-child::after { right: -8px; top: -10px; } }
   .nova-texto { display: grid; gap: 1.1rem; }
   .nova-texto > p { font-size: 1.1rem; max-width: 36rem; }
   .nota-google { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="only light">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FC6B32">
 <title>Adriana Cosméticos | Para sua melhor versão, em Cravinhos</title>
 <meta name="description" content="Cabelo, maquiagem, unhas, bolsas e mochilas. Duas lojas em Cravinhos e entrega na cidade. Monte sua sacola e finalize o pedido pelo WhatsApp (16) 99215-1165.">
@@ -34,7 +34,7 @@
      vitrine, tinta marrom-escura no lugar do preto.
      ============================================================ */
   :root {
-    color-scheme: only light;
+    color-scheme: light dark;
     --branco:   #FFFFFF;
     --creme:    #FEDEC7;   /* o creme da fachada */
     --creme-2:  #FFF1E7;   /* creme diluido para fundos grandes */
@@ -45,6 +45,9 @@
     --tinta-2:  #6A4A3C;   /* 7:1 no branco */
     --linha:    #F1DCCF;
     --linha-forte: #A98877;/* contorno de controle: 3:1 no branco */
+    --borda-produto: #E8CDBD; /* contorno da foto do produto, para o cartao nao sumir no branco */
+    --no-laranja: #2B140A;  /* texto sobre o laranja: o mesmo nos dois temas */
+    --btn-hover: #45251A;
     --raio:     18px;
 
     /* movimento padrao do site: um so jeito de entrar e sair */
@@ -57,6 +60,21 @@
     --fonte-titulo: "Fredoka", "Fredoka reserva", "Arial Rounded MT Bold", Arial, sans-serif;
     --largura: 1240px;
     --margem: clamp(16px, 4vw, 40px);
+  }
+  /* tema escuro: marrom da tinta como fundo, creme como texto, o laranja da marca igual */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --branco:   #1C120D;
+      --creme:    #2E1D14;
+      --creme-2:  #2A1B13;
+      --laranja-texto: #FF8E62;
+      --tinta:    #FBEDE3;
+      --tinta-2:  #CDB2A3;
+      --linha:    #3E2A1F;
+      --linha-forte: #8C6E5E;
+      --borda-produto: transparent;
+      --btn-hover: #FFFFFF;
+    }
   }
   @font-face { font-family: "Figtree reserva"; src: local("Arial"); size-adjust: 100%; }
   @font-face { font-family: "Fredoka reserva"; src: local("Arial Rounded MT Bold"), local("Arial Bold"); size-adjust: 96%; }
@@ -97,10 +115,10 @@
     background: var(--tinta); color: var(--creme-2); font: 600 1rem/1.2 var(--fonte); text-decoration: none; text-align: center; cursor: pointer;
     transition: background-color var(--dur-ui) ease, box-shadow var(--dur-ui) ease, color var(--dur-ui) ease, transform .12s var(--ease-out);
   }
-  .btn:hover { background: #45251A; }
+  .btn:hover { background: var(--btn-hover); }
   .btn:active { transform: scale(.97); }
   .btn svg { width: 1.25em; height: 1.25em; flex: none; }
-  .btn-laranja { background: var(--laranja); color: var(--tinta); }
+  .btn-laranja { background: var(--laranja); color: var(--no-laranja); }
   .btn-laranja:hover { background: var(--laranja-2); }
   .btn-branco { background: var(--branco); color: var(--tinta); }
   .btn-branco:hover { background: var(--creme-2); }
@@ -121,10 +139,10 @@
   .menu { display: flex; flex-wrap: wrap; gap: .25rem 1.4rem; align-items: center; margin-left: auto; }
   .menu a { color: var(--tinta); text-decoration: none; padding: .55rem 0; font-weight: 500; font-size: .98rem; }
   .menu a:hover { color: var(--laranja-texto); text-decoration: underline; }
-  .sacola-botao { position: relative; display: inline-flex; align-items: center; gap: .45rem; flex: none; min-height: 48px; padding: .45rem 1rem; border: 0; border-radius: 999px; background: var(--laranja); color: var(--tinta); font: 600 1rem/1 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease; }
+  .sacola-botao { position: relative; display: inline-flex; align-items: center; gap: .45rem; flex: none; min-height: 48px; padding: .45rem 1rem; border: 0; border-radius: 999px; background: var(--laranja); color: var(--no-laranja); font: 600 1rem/1 var(--fonte); cursor: pointer; transition: background-color var(--dur-ui) ease; }
   .sacola-botao:hover { background: var(--laranja-2); }
   .sacola-botao svg { width: 22px; height: 22px; }
-  .sacola-botao .conta { display: inline-grid; place-items: center; min-width: 1.55rem; height: 1.55rem; padding: 0 .35rem; border-radius: 999px; background: var(--tinta); color: var(--creme-2); font-size: .82rem; }
+  .sacola-botao .conta { display: inline-grid; place-items: center; min-width: 1.55rem; height: 1.55rem; padding: 0 .35rem; border-radius: 999px; background: var(--no-laranja); color: #FFF1E7; font-size: .82rem; }
   .menu-botao { display: none; }
   @media (max-width: 1120px) {
     .menu-botao {
@@ -267,10 +285,10 @@
     .prateleira-setas { display: none; }
   }
   .produto { display: grid; grid-template-rows: auto 1fr; gap: .8rem; min-width: 0; }
-  .produto-foto { position: relative; overflow: hidden; border-radius: var(--raio); background: var(--branco); box-shadow: inset 0 0 0 1px var(--linha); aspect-ratio: 1; }
+  .produto-foto { position: relative; overflow: hidden; border-radius: var(--raio); background: var(--branco); box-shadow: inset 0 0 0 1.5px var(--borda-produto); aspect-ratio: 1; }
   .produto-foto img { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .6s var(--ease-out); }
   @media (hover: hover) and (pointer: fine) { .produto:hover .produto-foto img { transform: scale(1.03); } }
-  .selo { position: absolute; left: .7rem; top: .7rem; padding: .3rem .7rem; border-radius: 999px; background: var(--laranja); color: var(--tinta); font-size: .82rem; font-weight: 700; }
+  .selo { position: absolute; left: .7rem; top: .7rem; padding: .3rem .7rem; border-radius: 999px; background: var(--laranja); color: var(--no-laranja); font-size: .82rem; font-weight: 700; }
   .produto-info { display: flex; flex-direction: column; gap: .4rem; min-width: 0; }
   .produto-marca { display: flex; flex-wrap: wrap; gap: .2rem .45rem; align-items: center; color: var(--laranja-texto); font-size: .9rem; font-weight: 700; }
   .tipo { padding: .1rem .5rem; border-radius: 999px; background: var(--creme-2); box-shadow: inset 0 0 0 1px var(--linha); color: var(--tinta); font-size: .78rem; font-weight: 600; }
@@ -304,7 +322,7 @@
   }
   .produto .btn { width: 100%; min-height: 48px; padding-inline: .8rem; margin-top: auto; }
   .produto .btn:disabled { background: var(--creme-2); color: var(--tinta-2); box-shadow: inset 0 0 0 1px var(--linha); cursor: not-allowed; }
-  .btn.adicionado { background: var(--laranja); color: var(--tinta); }
+  .btn.adicionado { background: var(--laranja); color: var(--no-laranja); }
   .procura { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .4rem 1.5rem; margin-top: clamp(3rem, 2rem + 3vw, 4.5rem); padding: 1.4rem 1.6rem; border-radius: var(--raio); background: var(--creme); }
   .procura h3 { font-size: 1.4rem; }
   .procura .btn { grid-column: 2; grid-row: 1 / span 2; }
@@ -359,7 +377,7 @@
 
   /* ---------- rodape ---------- */
   .rodape-onda { display: block; background: var(--branco); }
-  .rodape { background: var(--tinta); color: #E9CFC0; padding: .9rem 0 calc(.9rem + env(safe-area-inset-bottom)); font-size: .9rem; }
+  .rodape { background: #2B140A; color: #E9CFC0; padding: .9rem 0 calc(.9rem + env(safe-area-inset-bottom)); font-size: .9rem; }
   .rodape-grade { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2.5rem; }
   .rodape-grade > * { min-width: 0; max-width: 100%; }
   .rodape .marca { color: var(--laranja); }
@@ -371,7 +389,7 @@
   .redes { display: flex; gap: .4rem; }
   .redes a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, .08); transition: background-color var(--dur-ui) ease, color var(--dur-ui) ease; }
   .redes svg { width: 22px; height: 22px; }
-  @media (hover: hover) and (pointer: fine) { .redes a:hover { background: var(--laranja); color: var(--tinta); } }
+  @media (hover: hover) and (pointer: fine) { .redes a:hover { background: var(--laranja); color: var(--no-laranja); } }
   @media (max-width: 700px) { .rodape-grade { flex-direction: column; align-items: flex-start; gap: .4rem; } }
 
   /* ---------- pagina do produto: abre por cima da vitrine e tem endereco proprio (#produto-id) ---------- */
@@ -539,6 +557,16 @@
   .flutuante svg { width: 30px; height: 30px; }
   @media (max-width: 600px) { .flutuante { width: 56px; height: 56px; } .flutuante svg { width: 27px; height: 27px; } }
   @media (prefers-reduced-motion: reduce) { .flutuante { transition: none; transform: none; } }
+  /* tema escuro, parte 2: o que precisa vir depois das regras de cada bloco */
+  @media (prefers-color-scheme: dark) {
+    /* a abertura laranja e os banners coloridos ficam iguais ao tema claro */
+    .sobre, .destaque { --branco: #FFFFFF; --creme-2: #FFF1E7; --tinta: #2B140A; --tinta-2: #6A4A3C; --laranja-texto: #B8441A; --btn-hover: #45251A; color: var(--tinta); }
+    /* fotos de produto tem fundo branco: a moldura acompanha */
+    .produto-foto, .ficha-foto, .nova-fotos figure { background: #FFFFFF; }
+    .categoria span:first-child { background: #FFF1E7; }
+    .escolha:has(input:disabled) { background: #241710; }
+    .campo select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBEDE3' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); }
+  }
 </style>
 <script>document.documentElement.classList.add("com-js");</script>
 </head>
@@ -590,7 +618,7 @@
       <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="3"/><path d="M4 13h24M9 19h5"/></svg><span><strong>Pix ou cartão</strong>Dinheiro na retirada</span></li>
     </ul>
   </div>
-  <svg class="onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FFA27C" d="M0 30C180 4 360 4 540 22s360 44 540 28 270-38 360-32v62H0Z"/><path fill="#FFFFFF" d="M0 50c200-28 420-32 640-10s420 36 560 18c90-11 170-24 240-22v44H0Z"/></svg>
+  <svg class="onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FFA27C" d="M0 30C180 4 360 4 540 22s360 44 540 28 270-38 360-32v62H0Z"/><path style="fill: var(--branco)" d="M0 50c200-28 420-32 640-10s420 36 560 18c90-11 170-24 240-22v44H0Z"/></svg>
 </section>
 
 <section class="destaques-secao" id="novidades" aria-labelledby="titulo-novidades">
@@ -656,7 +684,7 @@
   </section>
 
   <section class="nova" id="nova" aria-labelledby="titulo-nova">
-    <svg class="onda onda-topo" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FC6B32" d="M0 0h1440v40c-200 32-420 38-640 14S380 14 220 28C130 36 60 46 0 52Z"/><path fill="#FFFFFF" d="M0 0h1440v26c-200 32-420 38-640 14S380 0 220 14C130 22 60 32 0 38Z"/></svg>
+    <svg class="onda onda-topo" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FC6B32" d="M0 0h1440v40c-200 32-420 38-640 14S380 14 220 28C130 36 60 46 0 52Z"/><path style="fill: var(--branco)" d="M0 0h1440v26c-200 32-420 38-640 14S380 0 220 14C130 22 60 32 0 38Z"/></svg>
     <div class="envoltorio nova-grade">
       <div class="nova-fotos" data-revela>
         <figure><img src="img/fachada.webp" width="360" height="640" alt="Fachada da Adriana Cosméticos com a nova identidade laranja" loading="lazy"></figure>
@@ -673,7 +701,7 @@
         </div>
       </div>
     </div>
-    <svg class="onda onda-pe" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FC6B32" d="M0 80h1440V40c-220-30-440-34-660-10S360 64 200 50C120 43 60 32 0 26Z"/><path fill="#FFFFFF" d="M0 80h1440V54c-220-30-440-34-660-10S360 78 200 64C120 57 60 46 0 40Z"/></svg>
+    <svg class="onda onda-pe" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FC6B32" d="M0 80h1440V40c-220-30-440-34-660-10S360 64 200 50C120 43 60 32 0 26Z"/><path style="fill: var(--branco)" d="M0 80h1440V54c-220-30-440-34-660-10S360 78 200 64C120 57 60 46 0 40Z"/></svg>
   </section>
 
   <section class="secao" id="lojas" aria-labelledby="titulo-lojas">

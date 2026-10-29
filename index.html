@@ -313,7 +313,7 @@
   @media (max-width: 560px) { .produto-desc { display: none; } .produto h4 { font-size: 1rem; } }
 
   /* ---------- a nova adriana ---------- */
-  .nova-grade { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+  .nova-grade { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(2rem, 3.5vw, 2.5rem); align-items: center; }
   .nova { position: relative; overflow-x: clip; background: var(--creme); padding-block: clamp(4.5rem, 9vw, 7.5rem); }
   .nova > .onda { position: absolute; left: 0; right: 0; }
   .nova > .onda-topo { top: -1px; }
@@ -327,16 +327,17 @@
   .nova-fotos figure:first-child::after { left: calc(var(--b) * -.4); bottom: calc(var(--b) * -.4); transform: rotate(180deg); }
   .nova-fotos figure:last-child::after { right: calc(var(--b) * -.4); top: calc(var(--b) * -.4); transform: rotate(12deg); }
   @media (max-width: 600px) { .nova-fotos figure::after { --b: 52px; } .nova-fotos figure:first-child::after { left: -10px; bottom: -16px; } .nova-fotos figure:last-child::after { right: -8px; top: -16px; } }
-  .nova-texto { display: grid; gap: 1.1rem; }
-  .nova-texto > p { font-size: 1.1rem; max-width: 36rem; }
+  .nova-texto { display: grid; gap: .85rem; }
+  .nova-texto h2 { font-size: clamp(2rem, 1.4rem + 1.6vw, 2.6rem); }
+  .nova-texto > p:not(.nota-google) { font-size: 1.1rem; text-align: justify; hyphens: auto; }
   .nota-google { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; }
-  .nota-google strong { font-family: var(--fonte-titulo); font-size: 2.6rem; font-weight: 600; line-height: 1; color: var(--laranja-texto); }
-  .avaliacoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
-  .avaliacao { padding: 1.15rem 1.3rem; background: var(--branco); border-radius: var(--raio); }
-  .avaliacao p { font-size: 1.03rem; line-height: 1.45; font-weight: 500; }
-  .avaliacao footer { margin-top: .4rem; color: var(--tinta-2); font-size: .9rem; }
-  @media (max-width: 860px) { .nova-grade { grid-template-columns: minmax(0, 1fr); } .nova-fotos { max-width: 600px; } }
-  @media (max-width: 520px) { .avaliacoes { grid-template-columns: minmax(0, 1fr); } }
+  .nota-google strong { font-family: var(--fonte-titulo); font-size: 2.2rem; font-weight: 600; line-height: 1; color: var(--laranja-texto); }
+  .avaliacoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+  .avaliacao { display: flex; flex-direction: column; padding: .9rem 1rem; background: var(--branco); border-radius: var(--raio); }
+  .avaliacao p { font-size: .93rem; line-height: 1.4; font-weight: 500; }
+  .avaliacao footer { margin-top: auto; padding-top: .5rem; color: var(--tinta-2); font-size: .82rem; }
+  @media (max-width: 1180px) { .nova-grade { grid-template-columns: minmax(0, 1fr); } .nova-fotos { max-width: 600px; } }
+  @media (max-width: 600px) { .avaliacoes { grid-template-columns: minmax(0, 1fr); } .nova-texto > p:not(.nota-google) { text-align: left; } }
 
   /* ---------- nossas lojas: um mapa para cada unidade ---------- */
   .lojas-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
@@ -668,7 +669,6 @@
         <div class="avaliacoes">
           <blockquote class="avaliacao"><p>“Lugar maravilhoso, tem tudo. Excelente atendimento, bons preços.”</p><footer>Avaliação no Google</footer></blockquote>
           <blockquote class="avaliacao"><p>“Amei, loja com muitas opções de produtos, as vendedoras atenciosas!”</p><footer>Avaliação no Google</footer></blockquote>
-          <blockquote class="avaliacao"><p>“Variedade de produtos, ótimo preço e excelente atendimento!”</p><footer>Avaliação no Google</footer></blockquote>
           <blockquote class="avaliacao"><p>“Produtos muito bons, atendimento ótimo e entrega super rápida!”</p><footer>Avaliação no Google</footer></blockquote>
         </div>
       </div>

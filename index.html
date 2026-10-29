@@ -320,13 +320,13 @@
   .nova > .onda-pe { bottom: -1px; }
   .nova-fotos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 2vw, 1.6rem); align-items: stretch; }
   /* moldura branca e a borboleta da marca: embaixo a esquerda na primeira, em cima a direita na segunda */
-  .nova-fotos figure { position: relative; padding: clamp(8px, 1vw, 12px); border-radius: 24px; background: var(--branco); }
-  .nova-fotos img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 15px; }
-  /* borboleta da marca, preenchida de branco, pousada no canto da moldura */
-  .nova-fotos figure::after { --b: clamp(60px, 8vw, 96px); content: ""; position: absolute; width: var(--b); aspect-ratio: 231 / 240; background: url("img/simbolo-branco-cheio.png") center / contain no-repeat; filter: drop-shadow(0 2px 6px rgba(43, 20, 10, .3)); pointer-events: none; }
-  .nova-fotos figure:first-child::after { left: calc(var(--b) * -.22); bottom: calc(var(--b) * -.22); transform: rotate(180deg); }
-  .nova-fotos figure:last-child::after { right: calc(var(--b) * -.22); top: calc(var(--b) * -.22); transform: rotate(12deg); }
-  @media (max-width: 600px) { .nova-fotos figure::after { --b: 52px; } .nova-fotos figure:first-child::after { left: -8px; bottom: -10px; } .nova-fotos figure:last-child::after { right: -8px; top: -10px; } }
+  .nova-fotos figure { position: relative; isolation: isolate; padding: clamp(8px, 1vw, 12px); border-radius: 24px; background: var(--branco); }
+  .nova-fotos img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 15px; }
+  /* borboleta da marca atras da foto: branca como a moldura, so as asas aparecem do lado de fora */
+  .nova-fotos figure::after { --b: clamp(64px, 8.5vw, 104px); content: ""; position: absolute; z-index: 0; width: var(--b); aspect-ratio: 231 / 240; background: url("img/simbolo-branco-cheio.png") center / contain no-repeat; pointer-events: none; }
+  .nova-fotos figure:first-child::after { left: calc(var(--b) * -.4); bottom: calc(var(--b) * -.4); transform: rotate(180deg); }
+  .nova-fotos figure:last-child::after { right: calc(var(--b) * -.4); top: calc(var(--b) * -.4); transform: rotate(12deg); }
+  @media (max-width: 600px) { .nova-fotos figure::after { --b: 52px; } .nova-fotos figure:first-child::after { left: -10px; bottom: -16px; } .nova-fotos figure:last-child::after { right: -8px; top: -16px; } }
   .nova-texto { display: grid; gap: 1.1rem; }
   .nova-texto > p { font-size: 1.1rem; max-width: 36rem; }
   .nota-google { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; }

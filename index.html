@@ -218,13 +218,13 @@
   .destaques .seta { position: absolute; top: 50%; translate: 0 -50%; z-index: 2; box-shadow: 0 6px 18px -8px rgba(43, 20, 10, .45); }
   .destaques .seta-ant { left: .9rem; }
   .destaques .seta-prox { right: .9rem; }
-  .destaques .pontos { position: absolute; left: 50%; bottom: .7rem; translate: -50% 0; }
+  .destaques .pontos { position: absolute; left: 50%; bottom: .35rem; translate: -50% 0; }
   .seta { width: 46px; height: 46px; border: 0; border-radius: 50%; background: var(--branco); color: var(--tinta); display: grid; place-items: center; cursor: pointer; transition: background-color var(--dur-ui) ease, transform .12s var(--ease-out); }
   @media (hover: hover) and (pointer: fine) { .seta:hover { background: var(--creme-2); } }
   .seta:active { transform: scale(.94); }
   .seta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-  .pontos { display: flex; gap: .2rem; }
-  .ponto { width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .pontos { display: flex; gap: 0; }
+  .ponto { width: 36px; height: 40px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
   .ponto::before { content: ""; width: 10px; height: 10px; border-radius: 999px; background: rgba(43, 20, 10, .25); transition: width var(--dur-ui) var(--ease-out), background-color var(--dur-ui) ease; }
   .ponto[aria-current="true"]::before { width: 26px; background: var(--laranja-texto); }
   @media (max-width: 760px) {
@@ -464,7 +464,9 @@
   .item { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: .35rem .9rem; }
   .item img { grid-row: span 4; width: 68px; aspect-ratio: 1; object-fit: contain; border-radius: 10px; background: #fff; box-shadow: inset 0 0 0 1px var(--linha); }
   .item h3 { font: 650 1rem/1.3 var(--fonte); }
-  .item-linha { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem; }
+  /* quantidade e preco na mesma linha, "Remover" sempre embaixo: igual em todos os itens */
+  .item-linha { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 0 .6rem; }
+  .item-linha .remover { grid-column: 1 / -1; justify-self: start; }
   .qtd { display: inline-flex; align-items: center; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--linha-forte); }
   .qtd button { width: 44px; height: 44px; border: 0; border-radius: 999px; background: none; color: var(--tinta); font-size: 1.2rem; cursor: pointer; }
   .qtd output { min-width: 1.6rem; text-align: center; font-weight: 600; }
@@ -505,7 +507,7 @@
   .sacola-pe .btn { width: 100%; }
   .subtotal { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.05rem; }
   .subtotal strong { font-size: 1.3rem; }
-  .item-preco { margin-left: auto; font-size: 1rem; }
+  .item-preco { justify-self: end; font-size: 1rem; white-space: nowrap; }
   .sacola-pe p { color: var(--tinta-2); font-size: .88rem; text-align: center; }
   .sacola-pe .erro { color: #B3261E; font-weight: 600; }
   .pilula:has(input:disabled) { opacity: .4; cursor: not-allowed; }
@@ -877,7 +879,8 @@ $("#categorias").innerHTML = [["todos", "Todos os produtos"], ...CATEGORIAS].map
 const cartao = (p) => {
   const va = p.vars[varInicial(p)], selo = va.selo ?? p.selo;
   const botao = !p.vars.some(tem) ? `<button class="btn" type="button" disabled>Esgotado</button>`
-    : p.vars.length > 1 ? `<button class="btn" type="button" data-abrir="${p.id}">Ver ${p.vars.length} ${PLURAL[p.rotulo]}</button>`
+    // com variacao, "Adicionar" abre a pagina do produto para escolher a cor ou a fragrancia
+    : p.vars.length > 1 ? `<button class="btn" type="button" data-abrir="${p.id}" aria-label="Adicionar: escolher entre ${p.vars.length} ${PLURAL[p.rotulo]}"><svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar</button>`
     : `<button class="btn" type="button" data-adicionar="${p.id}"><svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar</button>`;
   return `
   <li class="produto">
@@ -992,7 +995,7 @@ function mostrarVar() {
   $("#ficha-status").textContent = "";
   clearTimeout(b._t); b.classList.remove("adicionado");
   b.disabled = !tem(va);
-  b.innerHTML = tem(va) ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar à sacola` : "Sem estoque";
+  b.innerHTML = tem(va) ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar` : "Sem estoque";
 }
 ficha.addEventListener("change", (e) => {
   if (e.target.name !== "ficha-var") return;
@@ -1062,16 +1065,18 @@ document.addEventListener("click", (e) => {
 });
 
 const sacola = $("#sacola");
+let sacolaFecha;
 function abrirSacola() {
+  clearTimeout(sacolaFecha); /* reabrir logo depois de fechar nao pode ser desfeito pelo fechamento atrasado */
   desenharSacola();
-  sacola.showModal();
+  if (!sacola.open) sacola.showModal();
   requestAnimationFrame(() => requestAnimationFrame(() => sacola.classList.add("aberta")));
 }
 function fecharSacola() {
   sacola.classList.remove("aberta");
   parar();
   if (etapa !== "sacola") { etapa = "sacola"; pedido = null; }
-  setTimeout(() => sacola.close(), reduzir.matches ? 200 : 340);
+  sacolaFecha = setTimeout(() => sacola.close(), reduzir.matches ? 200 : 340);
 }
 $("#abrir-sacola").addEventListener("click", abrirSacola);
 sacola.addEventListener("cancel", (e) => { e.preventDefault(); fecharSacola(); });

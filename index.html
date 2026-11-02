@@ -42,7 +42,7 @@
     --creme-2:  #FFF1E7;   /* creme diluido para fundos grandes */
     --laranja:  #FC6B32;   /* a marca: 6.3:1 com a tinta */
     --laranja-2:#FF8250;
-    --laranja-texto: #B8441A; /* laranja para texto no branco: 5.3:1 */
+    --laranja-texto: #AD3F17; /* laranja para texto: 6:1 no branco, 4.5:1 ou mais nos cremes */
     --tinta:    #2B140A;   /* marrom quase preto */
     --tinta-2:  #6A4A3C;   /* 7:1 no branco */
     --linha:    #F1DCCF;
@@ -60,7 +60,9 @@
 
     --fonte: "Figtree", "Figtree reserva", Arial, sans-serif;
     --fonte-titulo: "Fredoka", "Fredoka reserva", "Arial Rounded MT Bold", Arial, sans-serif;
-    --largura: 1240px;
+    --largura: 1480px;
+    --zap: #12803B;
+    --zap-2: #0E6B31;
     --margem: clamp(16px, 4vw, 40px);
   }
   @font-face { font-family: "Figtree reserva"; src: local("Arial"); size-adjust: 100%; }
@@ -111,8 +113,10 @@
   .btn-branco:hover { background: var(--creme-2); }
   .btn-linha { background: var(--branco); color: var(--tinta); box-shadow: inset 0 0 0 1.5px var(--linha-forte); }
   .btn-linha:hover { box-shadow: inset 0 0 0 1.5px var(--tinta); }
-  .btn-zap { background: #179A48; color: #fff; }
-  .btn-zap:hover { background: #12803B; }
+  .btn-contorno { background: transparent; color: var(--tinta); box-shadow: inset 0 0 0 1.5px var(--tinta); }
+  .btn-contorno:hover { background: rgba(255, 255, 255, .35); }
+  .btn-zap { background: var(--zap); color: #fff; }
+  .btn-zap:hover { background: var(--zap-2); }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:active { transform: none; } }
 
   /* ---------- topo ---------- */
@@ -171,14 +175,28 @@
   .sobre h1 { font-size: clamp(2.5rem, 1.4rem + 4vw, 4.6rem); line-height: .96; letter-spacing: -.02em; max-width: 9em; }
   .sobre-texto > p:not(.sobre-chapeu) { max-width: 31rem; font-size: clamp(1.05rem, 1rem + .3vw, 1.2rem); line-height: 1.5; }
   .sobre-botoes { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .3rem; }
-  .fatos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 0; padding: 0; list-style: none; }
-  .fato { display: grid; gap: .5rem; align-content: start; padding: 1.1rem 1.15rem 1.2rem; border-radius: var(--raio); background: rgba(255, 241, 231, .9); font-size: .95rem; color: var(--tinta-2); }
-  .fato svg { width: 34px; height: 34px; fill: none; stroke: var(--laranja-texto); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .fato strong { display: block; color: var(--tinta); font-size: 1.05rem; font-weight: 700; line-height: 1.25; }
-  @media (max-width: 860px) { .sobre-grade { grid-template-columns: minmax(0, 1fr); } }
-  @media (max-width: 420px) { .fato { padding: .95rem; } }
+  /* foto real da loja na abertura: moldura branca e a borboleta da marca saindo por tras */
+  .sobre-foto { position: relative; isolation: isolate; justify-self: end; width: min(100%, 560px); padding: 12px; border-radius: 28px; background: var(--branco); }
+  .sobre-foto img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 5 / 4; object-fit: cover; object-position: 50% 30%; border-radius: 18px; }
+  .sobre-foto::after { content: ""; position: absolute; z-index: 0; left: -44px; bottom: -40px; width: 112px; aspect-ratio: 231 / 240; background: url("img/simbolo-branco-cheio.png") center / contain no-repeat; transform: rotate(180deg); pointer-events: none; }
+  /* faixa de vantagens logo abaixo da abertura, como nas lojas grandes */
+  .vantagens-lista { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-block: 0; padding-block: .6rem 0; list-style: none; }
+  .vantagem { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: center; gap: .8rem; min-width: 0; padding: .55rem clamp(.8rem, 2vw, 1.6rem); color: var(--tinta-2); font-size: .93rem; line-height: 1.35; }
+  .vantagem:first-child { padding-left: 0; }
+  .vantagem + .vantagem { border-left: 1px solid var(--linha); }
+  .vantagem svg { width: 34px; height: 34px; fill: none; stroke: var(--laranja-texto); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .vantagem strong { display: block; color: var(--tinta); font-size: 1rem; font-weight: 700; }
+  @media (max-width: 1000px) {
+    .vantagens-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: .4rem; }
+    .vantagem:nth-child(3) { padding-left: 0; border-left: 0; }
+  }
+  @media (max-width: 520px) {
+    .vantagens-lista { grid-template-columns: minmax(0, 1fr); }
+    .vantagem, .vantagem + .vantagem { padding: .45rem 0; border-left: 0; }
+  }
+  @media (max-width: 860px) { .sobre-grade { grid-template-columns: minmax(0, 1fr); } .sobre-foto { display: none; } }
   @media (prefers-reduced-motion: no-preference) {
-    .com-js .sobre-texto > * { opacity: 0; transform: translateY(14px); animation: sobe var(--dur-entra) var(--ease-out) forwards; animation-delay: calc(.1s + var(--i, 0) * 80ms); }
+    .com-js .sobre-texto > *, .com-js .sobre-foto { opacity: 0; transform: translateY(14px); animation: sobe var(--dur-entra) var(--ease-out) forwards; animation-delay: calc(.1s + var(--i, 0) * 80ms); }
   }
   @keyframes sobe { to { opacity: 1; transform: none; } }
 
@@ -211,7 +229,7 @@
   .seta:active { transform: scale(.94); }
   .seta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
   .pontos { display: flex; gap: 0; }
-  .ponto { width: 36px; height: 40px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+  .ponto { width: 36px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
   .ponto::before { content: ""; width: 10px; height: 10px; border-radius: 999px; background: rgba(43, 20, 10, .25); transition: width var(--dur-ui) var(--ease-out), background-color var(--dur-ui) ease; }
   .ponto[aria-current="true"]::before { width: 26px; background: var(--laranja-texto); }
   @media (max-width: 760px) {
@@ -221,7 +239,7 @@
     .destaque-texto { padding: .4rem var(--margem) 3.4rem; gap: .7rem; }
     .destaque h3 { font-size: clamp(1.7rem, 1.3rem + 2.4vw, 2.3rem); }
     /* setas no meio da foto, nao em cima do texto */
-    .destaques .seta { top: calc(50cqw * 5 / 6); width: 42px; height: 42px; }
+    .destaques .seta { top: calc(50cqw * 5 / 6); width: 44px; height: 44px; }
     .destaques .seta-ant { left: .5rem; }
     .destaques .seta-prox { right: .5rem; }
   }
@@ -246,9 +264,75 @@
     .categoria { flex: 0 0 104px; scroll-snap-align: start; font-size: .95rem; }
   }
 
+  /* filtros da lateral: marca e preco, presos ao lado da vitrine */
+  .vitrine-grade { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: clamp(1.75rem, 3vw, 2.75rem); align-items: start; }
+  .vitrine-col { min-width: 0; }
+  .filtros { position: sticky; top: 96px; min-width: 0; }
+  .filtros-botao { display: none; }
+  .filtros-corpo { display: grid; gap: 1.4rem; padding: 1.25rem 1.2rem 1.35rem; border-radius: var(--raio); background: var(--creme-2); }
+  .filtro { display: grid; gap: .1rem; min-width: 0; margin: 0; padding: 0; border: 0; }
+  .filtro legend { margin-bottom: .35rem; padding: 0; font: 600 1.1rem/1.2 var(--fonte-titulo); }
+  .filtro-op { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: .65rem; min-height: 40px; cursor: pointer; }
+  .filtro-op input { appearance: none; width: 22px; height: 22px; margin: 0; border-radius: 6px; background: var(--branco); box-shadow: inset 0 0 0 1.5px var(--linha-forte); cursor: pointer; transition: background-color var(--dur-ui) ease, box-shadow var(--dur-ui) ease; }
+  .filtro-op input[type="radio"] { border-radius: 50%; }
+  .filtro-op input:checked { background: var(--laranja) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B140A' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 15px no-repeat; box-shadow: none; }
+  .filtro-op input[type="radio"]:checked { background: var(--branco); box-shadow: inset 0 0 0 1.5px var(--laranja), inset 0 0 0 6px var(--laranja); }
+  .filtro-op input:disabled { background: var(--creme); box-shadow: inset 0 0 0 1.5px var(--linha); }
+  .filtro-op input:disabled, .filtro-op input:disabled ~ * { opacity: .5; cursor: not-allowed; }
+  .filtro-op span { min-width: 0; font-size: .97rem; line-height: 1.25; }
+  .filtro-op small { color: var(--tinta-2); font-size: .85rem; }
+  @media (hover: hover) and (pointer: fine) { .filtro-op:hover input:not(:checked):not(:disabled) { box-shadow: inset 0 0 0 1.5px var(--tinta); } }
+  #limpar-filtros { justify-self: start; }
+  .resultado-topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; margin-bottom: 1.25rem; }
+  .resultado-topo h3 { color: var(--tinta-2); font: 400 1rem/1.5 var(--fonte); }
+  .resultado-topo strong { color: var(--tinta); }
+  .resultado .fileira { grid-auto-flow: row; grid-template-columns: repeat(var(--col), minmax(0, 1fr)); grid-auto-rows: 1fr; row-gap: clamp(2.4rem, 4vw, 3.2rem); overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .resultado-vazio { padding: 2rem 0; color: var(--tinta-2); }
+  @media (max-width: 1100px) {
+    .vitrine-grade { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    .filtros { position: static; }
+    .filtros-botao {
+      display: inline-flex; align-items: center; gap: .6rem; min-height: 48px; padding: .5rem 1.1rem; border: 0; border-radius: 999px;
+      background: var(--branco); box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta); font: 600 1rem/1.2 var(--fonte); cursor: pointer;
+    }
+    .filtros-botao::after { content: ""; width: 8px; height: 8px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); transition: transform var(--dur-ui) var(--ease-out); }
+    .filtros.aberto .filtros-botao::after { transform: translateY(2px) rotate(225deg); }
+    .filtros-corpo { display: none; margin-top: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+    .filtros.aberto .filtros-corpo { display: grid; }
+  }
+
   /* filtros e vitrine */
   .vitrine { display: grid; gap: clamp(2.4rem, 4vw, 3.4rem); padding: 0; margin: 0; list-style: none; }
   .prateleira { min-width: 0; }
+  /* banners de campanha no meio da vitrine: texto a esquerda, produtos em pastilhas brancas a direita */
+  .campanhas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
+  .filtrada .campanhas { display: none; }
+  .campanha { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: .5rem; min-height: 260px; overflow: hidden; border-radius: var(--raio); }
+  .campanha-creme { background: var(--creme); }
+  .campanha-laranja { background: var(--laranja); }
+  .campanha-texto { display: grid; justify-items: start; gap: .55rem; min-width: 0; padding: 1.7rem 0 1.8rem clamp(1.3rem, 2.2vw, 1.9rem); }
+  .campanha-chapeu { color: var(--laranja-texto); font-size: .95rem; font-weight: 700; }
+  .campanha-laranja .campanha-chapeu { color: var(--tinta); }
+  .campanha h3 { font-size: clamp(1.4rem, 1.1rem + .9vw, 1.9rem); line-height: 1.05; letter-spacing: -.01em; }
+  .campanha-texto > p:not(.campanha-chapeu) { color: var(--tinta-2); font-size: .98rem; line-height: 1.45; }
+  .campanha-laranja .campanha-texto > p:not(.campanha-chapeu) { color: var(--tinta); }
+  .campanha .btn { margin-top: .35rem; }
+  .campanha-fotos { position: relative; align-self: stretch; min-height: 220px; }
+  .campanha-fotos span { position: absolute; display: grid; place-items: center; aspect-ratio: 1; border-radius: 50%; background: var(--branco); box-shadow: 0 14px 30px -20px rgba(43, 20, 10, .55); }
+  .campanha-fotos span:nth-child(1) { width: 62%; right: 22%; top: 50%; translate: 0 -50%; z-index: 2; }
+  .campanha-fotos span:nth-child(2) { width: 40%; right: -4%; top: 8%; }
+  .campanha-fotos span:nth-child(3) { width: 36%; right: 2%; bottom: 4%; }
+  .campanha-fotos img { width: 72%; height: 72%; object-fit: contain; }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+    .campanha-fotos span { transition: transform .5s var(--ease-out); }
+    .campanha:hover .campanha-fotos span:nth-child(1) { transform: scale(1.04); }
+  }
+  @media (max-width: 1360px) { .campanhas { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) {
+    .campanha { grid-template-columns: minmax(0, 1fr); }
+    .campanha-fotos { order: -1; min-height: 190px; }
+    .campanha-texto { padding: .4rem 1.3rem 1.5rem; }
+  }
   .prateleira.some { display: none; }
   .prateleira-topo { display: flex; align-items: center; gap: .5rem 1rem; margin-bottom: 1rem; }
   .prateleira-topo h3 { margin-right: auto; font-size: clamp(1.3rem, 1.15rem + .6vw, 1.65rem); }
@@ -257,13 +341,14 @@
   .prateleira-setas[hidden] { display: none; }
   .prateleira-setas .seta { background: var(--creme-2); box-shadow: inset 0 0 0 1px var(--linha); }
   @media (hover: hover) and (pointer: fine) { .prateleira-setas .seta:hover { background: var(--creme); } }
-  .prateleira-setas .seta:disabled { opacity: .35; cursor: default; }
+  .prateleira-setas .seta:disabled { opacity: .35; background: var(--creme); cursor: not-allowed; }
   .fileira { --col: 5; --vao: 1.1rem; display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - (var(--col) - 1) * var(--vao)) / var(--col)); gap: var(--vao); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0; margin: 0; list-style: none; }
   .fileira::-webkit-scrollbar { display: none; }
   .fileira { position: relative; } /* prende os rotulos so-leitor dentro da rolagem */
   .fileira > li { scroll-snap-align: start; }
   .filtrada .prateleira-topo { display: none; }
   .filtrada .fileira { grid-auto-flow: row; grid-template-columns: repeat(var(--col), minmax(0, 1fr)); grid-auto-rows: 1fr; row-gap: clamp(2.4rem, 4vw, 3.2rem); overflow: visible; }
+  @media (min-width: 1101px) and (max-width: 1360px) { .fileira { --col: 4; } }
   @media (max-width: 1100px) { .fileira { --col: 4; } }
   @media (max-width: 860px) { .fileira { --col: 3; } }
   @media (max-width: 560px) {
@@ -334,15 +419,31 @@
   @media (max-width: 600px) { .nova-fotos figure::after { --b: 52px; } .nova-fotos figure:first-child::after { left: -10px; bottom: -16px; } .nova-fotos figure:last-child::after { right: -8px; top: -16px; } }
   .nova-texto { display: grid; gap: .85rem; }
   .nova-texto h2 { font-size: clamp(2rem, 1.4rem + 1.6vw, 2.6rem); }
-  .nova-texto > p:not(.nota-google) { font-size: 1.1rem; text-align: justify; hyphens: auto; }
-  .nota-google { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; }
-  .nota-google strong { font-family: var(--fonte-titulo); font-size: 2.2rem; font-weight: 600; line-height: 1; color: var(--laranja-texto); }
-  .avaliacoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
-  .avaliacao { display: flex; flex-direction: column; padding: .9rem 1rem; background: var(--branco); border-radius: var(--raio); }
-  .avaliacao p { font-size: .93rem; line-height: 1.4; font-weight: 500; }
-  .avaliacao footer { margin-top: auto; padding-top: .5rem; color: var(--tinta-2); font-size: .82rem; }
+  .nova-texto > p { font-size: 1.1rem; text-align: justify; hyphens: auto; }
   @media (max-width: 1180px) { .nova-grade { grid-template-columns: minmax(0, 1fr); } .nova-fotos { max-width: 600px; } }
-  @media (max-width: 600px) { .avaliacoes { grid-template-columns: minmax(0, 1fr); } .nova-texto > p:not(.nota-google) { text-align: left; } }
+  @media (max-width: 600px) { .nova-texto > p { text-align: left; } }
+
+  /* ---------- avaliacoes no Google: no desenho que a cliente ja conhece do Maps ---------- */
+  .estrelas { display: inline-flex; gap: 1px; color: #E8A100; }
+  .estrelas svg { width: 1.05em; height: 1.05em; fill: currentColor; }
+  .google-cabeca { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .6rem 1.1rem; margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+  .g-logo { width: clamp(44px, 5vw, 56px); height: auto; }
+  .google-titulo h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem); }
+  .google-nota { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .6rem; color: var(--tinta-2); }
+  .google-nota strong { color: var(--tinta); font-size: 1.35rem; line-height: 1; }
+  .google-nota .estrelas { font-size: 1.15rem; }
+  .google-lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+  .google-card { display: grid; align-content: start; gap: .7rem; padding: 1.2rem 1.3rem 1.35rem; border-radius: var(--raio); background: var(--branco); box-shadow: inset 0 0 0 1px var(--linha), 0 10px 26px -22px rgba(43, 20, 10, .45); }
+  .google-autor { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+  .google-avatar { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 50%; background: var(--av); color: #fff; font-size: 1.15rem; font-weight: 600; }
+  .google-autor p { display: grid; min-width: 0; line-height: 1.3; }
+  .google-autor p span { color: var(--tinta-2); font-size: .88rem; }
+  .google-card blockquote p { font-size: 1rem; line-height: 1.5; }
+  @media (max-width: 900px) {
+    .google-cabeca { grid-template-columns: auto minmax(0, 1fr); }
+    .google-cabeca .btn { grid-column: 1 / -1; justify-self: start; }
+    .google-lista { grid-template-columns: minmax(0, 1fr); }
+  }
 
   /* ---------- nossas lojas: um mapa para cada unidade ---------- */
   .lojas-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
@@ -379,23 +480,78 @@
   @media (hover: hover) and (pointer: fine) { .redes a:hover { background: var(--laranja); color: var(--no-laranja); } }
   @media (max-width: 700px) { .rodape-grade { flex-direction: column; align-items: flex-start; gap: .4rem; } }
 
-  /* ---------- pagina do produto: abre por cima da vitrine e tem endereco proprio (#produto-id) ---------- */
-  .ficha {
-    position: fixed; width: min(100% - 2rem, 980px); max-width: none; max-height: min(92dvh, 720px); margin: auto; padding: 0; border: 0;
-    border-radius: 24px; background: var(--branco); color: var(--tinta); overflow: auto; overscroll-behavior: contain;
-    opacity: 0; transform: translateY(14px) scale(.98); transition: opacity .28s var(--ease-out), transform .28s var(--ease-out);
+  /* ---------- pagina do produto: endereco proprio (?produto=id); a vitrine sai e a pagina entra ---------- */
+  .pp { padding-block: clamp(.6rem, 2vw, 1.2rem) clamp(3.5rem, 7vw, 5.5rem); }
+  .trilha ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .55rem; margin: 0 0 clamp(.6rem, 2vw, 1.2rem); padding: 0; list-style: none; color: var(--tinta-2); font-size: .92rem; }
+  .trilha li { display: inline-flex; align-items: center; gap: .55rem; min-width: 0; }
+  .trilha li + li::before { content: ""; flex: none; width: 6px; height: 6px; border: solid var(--linha-forte); border-width: 1.5px 1.5px 0 0; transform: rotate(45deg); }
+  .trilha a { display: inline-flex; align-items: center; min-height: 44px; color: var(--tinta-2); text-decoration: none; }
+  @media (hover: hover) and (pointer: fine) { .trilha a:hover { color: var(--laranja-texto); text-decoration: underline; } }
+  .trilha [aria-current] { color: var(--tinta); font-weight: 600; }
+  .pp-grade { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.75rem); align-items: start; }
+  .pp-galeria { position: sticky; top: 92px; min-width: 0; }
+  .pp-foto { position: relative; margin: 0; overflow: hidden; aspect-ratio: 1; border-radius: 24px; background: var(--branco); box-shadow: inset 0 0 0 1.5px var(--borda-produto); }
+  .pp-foto img { display: block; width: 100%; height: 100%; object-fit: contain; transform-origin: var(--zx, 50%) var(--zy, 50%); transition: transform .35s var(--ease-out); }
+  /* lupa: passar o mouse amplia o ponto onde ele esta */
+  @media (hover: hover) and (pointer: fine) { .pp-foto { cursor: zoom-in; } .pp-foto.zoom img { transform: scale(2.1); } }
+  .pp-foto .selo { left: 1rem; top: 1rem; z-index: 1; }
+  .pp-info { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+  .pp-info h1 { font-size: clamp(1.7rem, 1.25rem + 1.3vw, 2.4rem); line-height: 1.1; letter-spacing: -.01em; overflow-wrap: break-word; }
+  .pp-info h1:focus { outline: 0; }
+  .pp-nota { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .1rem .5rem; align-self: start; min-height: 44px; margin-top: -.55rem; color: var(--tinta-2); font-size: .95rem; text-decoration: none; }
+  @media (hover: hover) and (pointer: fine) { .pp-nota:hover { color: var(--tinta); text-decoration: underline; text-underline-offset: 3px; } }
+  .pp-preco { display: grid; gap: .2rem; }
+  .pp-preco strong { font-size: clamp(2rem, 1.7rem + 1vw, 2.5rem); font-weight: 700; line-height: 1.05; }
+  .pp-preco span { color: var(--tinta-2); }
+  .pp-compra { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .6rem; }
+  .pp-compra .qtd { min-height: 52px; }
+  .pp-compra .btn { min-height: 52px; }
+  .pp-compra .btn-linha { grid-column: 1 / -1; }
+  .pp-compra .btn:disabled { background: var(--creme-2); color: var(--tinta-2); box-shadow: inset 0 0 0 1px var(--linha); cursor: not-allowed; }
+  .pp-status { font-variant-numeric: tabular-nums; min-height: 1.5em; margin-top: -.4rem; font-size: .95rem; }
+  .pp-status:empty { display: none; }
+  .ver-sacola { padding: 0; border: 0; background: none; color: var(--laranja-texto); font: 600 .95rem/1.5 var(--fonte); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .pp-receber { display: grid; gap: .8rem; margin-top: .3rem; padding: 1.15rem 1.25rem 1.25rem; border-radius: var(--raio); background: var(--creme-2); }
+  .pp-receber h2 { font: 700 1.05rem/1.3 var(--fonte); }
+  .pp-cep { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }
+  .pp-cep input { width: 100%; min-width: 0; min-height: 48px; padding: .5rem .9rem; border: 0; border-radius: 12px; background: var(--branco); box-shadow: inset 0 0 0 1.5px var(--linha-forte); color: var(--tinta); font: 400 1rem/1.2 var(--fonte); }
+  .pp-cep .btn { min-height: 48px; }
+  .pp-cep-res { margin-top: -.3rem; font-size: .95rem; }
+  .pp-cep-res:empty { display: none; }
+  .pp-modos { display: grid; gap: .65rem; margin: 0; padding: 0; list-style: none; color: var(--tinta-2); font-size: .95rem; line-height: 1.4; }
+  .pp-modos li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: .7rem; align-items: start; }
+  .pp-modos svg { width: 28px; height: 28px; fill: none; stroke: var(--laranja-texto); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .pp-modos strong { display: block; color: var(--tinta); font-weight: 600; }
+  /* descricao, modo de uso e detalhes: uma linha por assunto, abre e fecha */
+  .pp-sobre { max-width: 52rem; margin-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--linha); }
+  .pp-sobre details { border-bottom: 1px solid var(--linha); }
+  .pp-sobre summary { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 62px; cursor: pointer; list-style: none; font: 600 1.2rem/1.3 var(--fonte-titulo); }
+  .pp-sobre summary::-webkit-details-marker { display: none; }
+  .pp-sobre summary::after { content: ""; flex: none; width: 9px; height: 9px; margin-right: .3rem; border: solid var(--tinta); border-width: 0 2px 2px 0; transform: translateY(-3px) rotate(45deg); transition: transform var(--dur-ui) var(--ease-out); }
+  .pp-sobre details[open] summary::after { transform: translateY(2px) rotate(225deg); }
+  .pp-sobre details > div { display: grid; gap: .7rem; padding-bottom: 1.4rem; color: var(--tinta-2); }
+  .pp-detalhes { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .45rem 1.75rem; margin: 0; }
+  .pp-detalhes dt { color: var(--tinta); font-weight: 600; }
+  .pp-detalhes dd { margin: 0; }
+  .pp-mais { margin-top: clamp(3rem, 6vw, 4.5rem); }
+  /* celular: barra de compra presa embaixo quando o botao principal sai da tela */
+  .pp-barra { display: none; }
+  @media (max-width: 860px) {
+    .pp-grade { grid-template-columns: minmax(0, 1fr); }
+    .pp-galeria { position: static; }
+    .pp-foto { border-radius: var(--raio); }
+    .trilha li:last-child { display: none; } /* o nome ja vem logo abaixo da foto */
+    .pp-barra {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; display: flex; align-items: center; gap: .9rem;
+      padding: .7rem var(--margem) calc(.7rem + env(safe-area-inset-bottom)); background: var(--branco); border-top: 1px solid var(--linha);
+      box-shadow: 0 -12px 28px -20px rgba(43, 20, 10, .45); transform: translateY(105%); transition: transform .3s var(--ease-out);
+    }
+    .pp-barra.visivel { transform: none; }
+    .pp-barra strong { font-size: 1.25rem; white-space: nowrap; }
+    .pp-barra .btn { flex: 1; min-height: 50px; }
+    .pp-mais { padding-bottom: 4rem; }
   }
-  .ficha[open] { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
-  .ficha.aberta { opacity: 1; transform: none; }
-  .ficha::backdrop { background: rgba(43, 20, 10, .5); opacity: 0; transition: opacity .28s ease; }
-  .ficha.aberta::backdrop { opacity: 1; }
-  .ficha > .fechar { position: absolute; top: .8rem; right: .8rem; z-index: 2; }
-  .ficha-foto { position: relative; align-self: start; aspect-ratio: 1; border-right: 1px solid var(--linha); }
-  .ficha-foto img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .ficha-info { display: flex; flex-direction: column; gap: .85rem; min-width: 0; padding: clamp(1.4rem, 3vw, 2.4rem); }
-  .ficha-info h2 { padding-right: 2.6rem; font-size: clamp(1.45rem, 1.2rem + .9vw, 1.9rem); line-height: 1.15; }
-  .ficha-preco { font-size: 1.6rem; font-weight: 700; }
-  .ficha-desc { color: var(--tinta-2); }
+  @media (prefers-reduced-motion: reduce) { .pp-barra, .pp-foto img { transition: none; } }
   .variacao { min-width: 0; margin: .2rem 0 0; padding: 0; border: 0; }
   .variacao legend { padding: 0; margin-bottom: .45rem; color: var(--tinta-2); font-size: .95rem; }
   .variacao legend strong { color: var(--tinta); font-weight: 600; }
@@ -414,20 +570,6 @@
   @media (hover: hover) and (pointer: fine) { .opcao:hover span { box-shadow: inset 0 0 0 1.5px var(--linha-forte); } }
   .opcao input:checked + span { background: var(--tinta); color: var(--creme-2); box-shadow: none; }
   .opcao.esgotada span { color: var(--tinta-2); }
-  .ficha-add { width: 100%; min-height: 52px; margin-top: .3rem; }
-  .ficha-add:disabled { background: var(--creme-2); color: var(--tinta-2); box-shadow: inset 0 0 0 1px var(--linha); cursor: not-allowed; }
-  .ficha-status { min-height: 1.5em; margin-top: -.3rem; font-size: .95rem; }
-  .ficha-status:empty { display: none; }
-  .ver-sacola { padding: 0; border: 0; background: none; color: var(--laranja-texto); font: 600 .95rem/1.5 var(--fonte); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-  .ficha-entrega { display: grid; gap: .35rem; margin: .3rem 0 0; padding: 1rem 0 0; border-top: 1px solid var(--linha); color: var(--tinta-2); font-size: .92rem; list-style: none; }
-  .ficha-entrega li { display: flex; gap: .55rem; }
-  .ficha-entrega li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: .55em; border-radius: 50%; background: var(--laranja); }
-  @media (max-width: 760px) {
-    .ficha { width: 100%; max-height: 94dvh; margin: auto 0 0; border-radius: 22px 22px 0 0; transform: translateY(40px); }
-    .ficha[open] { grid-template-columns: minmax(0, 1fr); }
-    .ficha-foto { aspect-ratio: 4 / 3; border-right: 0; border-bottom: 1px solid var(--linha); }
-  }
-  @media (prefers-reduced-motion: reduce) { .ficha { transform: none; transition: opacity .2s ease; } }
   html:has(dialog[open]) { overflow: hidden; }
 
   /* ---------- sacola: gaveta que entra pela direita e sai por onde entrou ---------- */
@@ -537,12 +679,12 @@
   .flutuante {
     display: grid; place-items: center; position: fixed; z-index: 25;
     right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right)); bottom: calc(clamp(16px, 2vw, 28px) + env(safe-area-inset-bottom));
-    width: 62px; height: 62px; border-radius: 50%; background: #179A48; color: #fff;
+    width: 62px; height: 62px; border-radius: 50%; background: var(--zap); color: #fff;
     box-shadow: 0 10px 28px -10px rgba(23, 154, 72, .7), 0 2px 6px rgba(43, 20, 10, .2);
     opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .25s var(--ease-out), transform .25s var(--ease-out), background-color .2s;
   }
   .flutuante.visivel { opacity: 1; transform: none; pointer-events: auto; }
-  .flutuante:hover { background: #12803B; }
+  .flutuante:hover { background: var(--zap-2); }
   .flutuante svg { width: 30px; height: 30px; }
   @media (max-width: 600px) { .flutuante { width: 56px; height: 56px; } .flutuante svg { width: 27px; height: 27px; } }
   @media (prefers-reduced-motion: reduce) { .flutuante { transition: none; transform: none; } }
@@ -578,6 +720,7 @@
   <symbol id="i-sacola" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M5 8h14l-1 12.5H6L5 8Zm3.5 0V6.5a3.5 3.5 0 0 1 7 0V8"/></symbol>
   <symbol id="i-facebook" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3Z"/></symbol>
   <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="i-estrela" viewBox="0 0 24 24"><path d="M12 2.6l2.9 6 6.5.8-4.8 4.5 1.2 6.5L12 17.2l-5.8 3.2 1.2-6.5L2.6 9.4l6.5-.8Z"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-zap" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
 </svg>
@@ -587,7 +730,7 @@
   <div class="envoltorio topo-grade">
     <a class="marca" href="#" translate="no" aria-label="Adriana Cosméticos, início">
       <img src="img/simbolo-laranja.png" width="231" height="240" alt="">
-      <span class="marca-nome"><strong>adriana</strong><span>cosméticos</span></span>
+      <span class="marca-nome"><strong>adriana</strong> <span>cosméticos</span></span>
     </a>
     <nav class="menu" id="menu" aria-label="Principal">
       <a href="#produtos" data-ir="cabelo">Produtos para cabelo</a>
@@ -611,23 +754,19 @@
     <div class="sobre-texto">
       <p class="sobre-chapeu" style="--i:0">Há mais de 15 anos em Cravinhos</p>
       <h1 id="titulo" style="--i:1">Para sua melhor versão</h1>
-      <p style="--i:2">Cabelo, maquiagem, unhas, bolsas e mochilas em duas lojas na cidade. Monte a sacola pelo site e receba em casa ou retire na loja.</p>
-      <div class="sobre-botoes" style="--i:3"><a class="btn" href="#produtos">Ver os produtos</a><a class="btn btn-branco" href="#lojas">Nossas lojas</a></div>
+      <p style="--i:2">Monte a sacola pelo site e receba em casa ou retire em uma das nossas duas lojas.</p>
+      <div class="sobre-botoes" style="--i:3"><a class="btn" href="#produtos">Ver os produtos</a><a class="btn btn-contorno" href="#lojas">Nossas lojas</a></div>
     </div>
-    <ul class="fatos" data-revela>
-      <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 9h16v13H3zM19 13h5l4 5v4h-9"/><circle cx="8" cy="24" r="2.5"/><circle cx="23" cy="24" r="2.5"/></svg><span><strong>Entrega em Cravinhos</strong>Pedidos a partir de R$ 20,00</span></li>
-      <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13 6 6h20l2 7M4 13h24M4 13v13h24V13M12 26v-7h8v7"/></svg><span><strong>Duas lojas</strong>Nova Cravinhos e Centro</span></li>
-      <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 11h18l-1.5 16h-15ZM11 11V9a5 5 0 0 1 10 0v2"/></svg><span><strong>Retire na loja</strong>Escolha a unidade ao fechar o pedido</span></li>
-      <li class="fato"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="3"/><path d="M4 13h24M9 19h5"/></svg><span><strong>Pix ou cartão</strong>Dinheiro na retirada</span></li>
-    </ul>
+    <figure class="sobre-foto" style="--i:2"><picture><source media="(max-width: 860px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><img src="img/prateleira.webp" width="720" height="900" alt="Prateleiras de produtos para cabelo na loja da Adriana Cosméticos"></picture></figure>
   </div>
   <svg class="onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FFA27C" d="M0 30C180 4 360 4 540 22s360 44 540 28 270-38 360-32v62H0Z"/><path style="fill: var(--branco)" d="M0 50c200-28 420-32 640-10s420 36 560 18c90-11 170-24 240-22v44H0Z"/></svg>
 </section>
+<div class="vantagens"><ul class="envoltorio vantagens-lista" aria-label="Como comprar na Adriana"><li class="vantagem"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 9h16v13H3zM19 13h5l4 5v4h-9"/><circle cx="8" cy="24" r="2.5"/><circle cx="23" cy="24" r="2.5"/></svg><span><strong>Entrega em Cravinhos</strong>Pedidos a partir de R$ 20,00</span></li><li class="vantagem"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13 6 6h20l2 7M4 13h24M4 13v13h24V13M12 26v-7h8v7"/></svg><span><strong>Duas lojas</strong>Nova Cravinhos e Centro</span></li><li class="vantagem"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 11h18l-1.5 16h-15ZM11 11V9a5 5 0 0 1 10 0v2"/></svg><span><strong>Retire na loja</strong>Escolha a unidade ao fechar o pedido</span></li><li class="vantagem"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="3"/><path d="M4 13h24M9 19h5"/></svg><span><strong>Pix ou cartão</strong>Dinheiro na retirada</span></li></ul></div>
 
 <section class="destaques-secao" id="novidades" aria-labelledby="titulo-novidades">
   <div class="envoltorio">
     <div class="destaques-cabeca"><h2 id="titulo-novidades">Chegou na Adriana</h2></div>
-    <div class="destaques" aria-roledescription="carrossel" aria-label="Novidades da loja">
+    <div class="destaques" role="region" aria-roledescription="carrossel" aria-label="Novidades da loja">
       <ul class="destaques-trilho" id="destaques">
         <li class="destaque" style="--cor:#FFE3D3" aria-roledescription="destaque" aria-label="1 de 4">
           <div class="destaque-texto">
@@ -681,7 +820,20 @@
         <p>Escolha a categoria e abra o produto para ver as cores e as fragrâncias. Depois é só pagar no site e receber em casa ou retirar em uma das lojas.</p>
       </div>
       <div class="categorias" id="categorias" role="group" aria-label="Filtrar por categoria" data-revela></div>
-      <ul class="vitrine" id="vitrine" aria-label="Produtos"></ul>
+      <div class="vitrine-grade">
+        <aside class="filtros" aria-label="Filtros da vitrine">
+          <button class="filtros-botao" type="button" id="filtros-botao" aria-expanded="false" aria-controls="filtros-corpo">Filtrar por marca e preço</button>
+          <div class="filtros-corpo" id="filtros-corpo">
+            <fieldset class="filtro"><legend>Marca</legend><div id="filtro-marcas"></div></fieldset>
+            <fieldset class="filtro"><legend>Preço</legend><div id="filtro-precos"></div></fieldset>
+            <button class="ver-tudo" type="button" id="limpar-filtros" data-limpar hidden>Limpar filtros</button>
+          </div>
+        </aside>
+        <div class="vitrine-col">
+          <ul class="vitrine" id="vitrine" aria-label="Produtos"></ul>
+          <div class="resultado" id="resultado" hidden></div>
+        </div>
+      </div>
       <div class="procura" data-revela><h3>Não achou o que procura?</h3><p>Temos muito mais nas lojas. Pergunte pelo WhatsApp se temos o seu produto.</p><a class="btn" id="procura" href="https://wa.me/5516992151165" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Perguntar pelo WhatsApp</a></div>
     </div>
   </section>
@@ -696,15 +848,41 @@
       <div class="nova-texto" data-revela style="--i:1">
         <h2 id="titulo-nova">Uma nova Adriana, a mesma atenção</h2>
         <p>Há mais de 15 anos fazemos parte da rotina das mulheres de Cravinhos. Em 2026 a Adriana ganhou uma nova identidade, e o cuidado no atendimento continua o mesmo.</p>
-        <p class="nota-google"><strong>4,8</strong><span>no Google, com 249 avaliações</span></p>
-        <div class="avaliacoes">
-          <blockquote class="avaliacao"><p>“Lugar maravilhoso, tem tudo. Excelente atendimento, bons preços.”</p><footer>Avaliação no Google</footer></blockquote>
-          <blockquote class="avaliacao"><p>“Amei, loja com muitas opções de produtos, as vendedoras atenciosas!”</p><footer>Avaliação no Google</footer></blockquote>
-          <blockquote class="avaliacao"><p>“Produtos muito bons, atendimento ótimo e entrega super rápida!”</p><footer>Avaliação no Google</footer></blockquote>
-        </div>
+        <p>Trabalhamos com marcas como Salon Line, Skala, Widi Care, Risqué, Impala, Dafu, Macrilan, Sestini e Capricho, para o cabelo, as unhas, a maquiagem e o dia a dia.</p>
       </div>
     </div>
     <svg class="onda onda-pe" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FC6B32" d="M0 80h1440V40c-220-30-440-34-660-10S360 64 200 50C120 43 60 32 0 26Z"/><path style="fill: var(--branco)" d="M0 80h1440V54c-220-30-440-34-660-10S360 78 200 64C120 57 60 46 0 40Z"/></svg>
+  </section>
+
+  <!-- avaliacoes reais da ficha da loja de Nova Cravinhos no Google (copiadas em 02/11/2026; trocar quando quiser) -->
+  <section class="secao google" id="avaliacoes" aria-labelledby="titulo-avaliacoes">
+    <div class="envoltorio">
+      <div class="google-cabeca" data-revela>
+        <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+        <div class="google-titulo">
+          <h2 id="titulo-avaliacoes">Avaliações no Google</h2>
+          <p class="google-nota"><strong>4,8</strong><span class="estrelas" role="img" aria-label="4,8 de 5 estrelas"><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg></span><span>249 avaliações</span></p>
+        </div>
+        <a class="btn btn-linha" href="https://www.google.com/maps?cid=7709342266578886401" target="_blank" rel="noopener">Ver todas no Google</a>
+      </div>
+      <ul class="google-lista">
+        <li class="google-card" data-revela style="--av:#0B8043">
+          <div class="google-autor"><span class="google-avatar" aria-hidden="true">A</span><p><strong>Adelson J.</strong><span>outubro de 2026</span></p></div>
+          <span class="estrelas" role="img" aria-label="5 de 5 estrelas"><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg></span>
+          <blockquote><p>Eu ameiii fui muito bem atendida as meninas sao bem gentil!</p></blockquote>
+        </li>
+        <li class="google-card" data-revela style="--i:1; --av:#C2185B">
+          <div class="google-autor"><span class="google-avatar" aria-hidden="true">F</span><p><strong>Fran G.</strong><span>abril de 2026</span></p></div>
+          <span class="estrelas" role="img" aria-label="5 de 5 estrelas"><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg></span>
+          <blockquote><p>Eu amo esse lugar. As moças que trabalham lá super simpática. Se for pra escolher algum presentes elas sempre esta ali pra ajudar. Super Recomendo Adriana Shopping da Beleza 🥰</p></blockquote>
+        </li>
+        <li class="google-card" data-revela style="--i:2; --av:#5E35B1">
+          <div class="google-autor"><span class="google-avatar" aria-hidden="true">K</span><p><strong>Kemilly S.</strong><span>2023</span></p></div>
+          <span class="estrelas" role="img" aria-label="5 de 5 estrelas"><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg><svg><use href="#i-estrela"/></svg></span>
+          <blockquote><p>Atendimento excelente, sou d cidade de Santa rosa de Viterbo-sp e comprei na cidade de cravinhos fui super Bem atendida pela vendedor Débora obrigada pelo carinho e atenção, a melhor loja de cosméticos de cravinhos super recomendo</p></blockquote>
+        </li>
+      </ul>
+    </div>
   </section>
 
   <section class="secao" id="lojas" aria-labelledby="titulo-lojas">
@@ -733,12 +911,14 @@
   </section>
 </main>
 
+<main class="pp" id="pagina-produto" hidden></main>
+
 <svg class="onda rodape-onda" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="#FC6B32" d="M0 34C200 6 420 4 640 24s420 42 560 26c90-10 170-26 240-26v56H0Z"/><path fill="#2B140A" d="M0 54c220-30 440-34 660-12s400 36 560 20c90-9 160-22 220-20v38H0Z"/></svg>
 <footer class="rodape">
   <div class="envoltorio rodape-grade">
     <a class="marca" href="#" translate="no" aria-label="Adriana Cosméticos, voltar ao início">
       <img src="img/simbolo-laranja.png" width="231" height="240" alt="">
-      <span class="marca-nome"><strong>adriana</strong><span>cosméticos</span></span>
+      <span class="marca-nome"><strong>adriana</strong> <span>cosméticos</span></span>
     </a>
     <div class="rodape-dir">
       <p>Para sua melhor versão</p>
@@ -762,8 +942,6 @@
   <div class="sacola-corpo" id="sacola-corpo"></div>
   <div class="sacola-pe" id="sacola-pe"></div>
 </dialog>
-
-<dialog class="ficha" id="ficha" aria-labelledby="ficha-nome"></dialog>
 
 <script>
 /* ============================================================
@@ -885,10 +1063,10 @@ const cartao = (p) => {
     : `<button class="btn" type="button" data-adicionar="${p.id}"><svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar</button>`;
   return `
   <li class="produto">
-    <a class="produto-foto" href="#produto-${p.id}" data-abrir="${p.id}" tabindex="-1" aria-hidden="true"><img src="${fotoP(va.f)}" width="900" height="900" alt="" loading="lazy">${selo ? `<span class="selo">${selo}</span>` : ""}</a>
+    <a class="produto-foto" href="?produto=${p.id}" data-abrir="${p.id}" tabindex="-1" aria-hidden="true"><img src="${fotoP(va.f)}" width="900" height="900" alt="" loading="lazy">${selo ? `<span class="selo">${selo}</span>` : ""}</a>
     <div class="produto-info">
       <p class="produto-marca">${esc(p.marca)}${p.tipo ? `<span class="tipo">${p.tipo}</span>` : ""}</p>
-      <h4><a href="#produto-${p.id}" data-abrir="${p.id}">${esc(p.nome)}</a></h4>
+      <h4><a href="?produto=${p.id}" data-abrir="${p.id}">${esc(p.nome)}</a></h4>
       <p class="produto-desc">${esc(p.desc)}</p>
       <p class="produto-preco">${precoCartao(p)}</p>
       ${botao}
@@ -896,7 +1074,22 @@ const cartao = (p) => {
   </li>`;
 };
 
-$("#vitrine").innerHTML = CATEGORIAS.map(([id, nome]) => {
+/* banners de campanha entre as prateleiras: so com produto e marca que a loja tem */
+const CAMPANHAS = [
+  { tom: "creme", chapeu: "Unhas", titulo: "Brilho de gel sem cabine", texto: "Risqué Diamond Gel e Impala Boca Rosa Efeito Gel, com secagem ao ar.", fotos: ["dgel-cereja", "igel-jujuba", "dgel-ballet"], cat: "unhas", botao: "Ver os esmaltes" },
+  { tom: "laranja", chapeu: "Bolsas e mochilas", titulo: "Sestini e Capricho para o dia a dia", texto: "Mochilas, bolsas transversais e necessaires.", fotos: ["capricho-rosa", "magic-pavao", "bolsa-cross-degrade"], cat: "bolsas", botao: "Ver bolsas e mochilas" },
+];
+const campanhas = `<li class="campanhas">${CAMPANHAS.map((c) => `
+  <article class="campanha campanha-${c.tom}">
+    <div class="campanha-texto">
+      <p class="campanha-chapeu">${c.chapeu}</p>
+      <h3>${c.titulo}</h3>
+      <p>${c.texto}</p>
+      <button class="btn${c.tom === "laranja" ? "" : " btn-laranja"}" type="button" data-ir="${c.cat}">${c.botao}</button>
+    </div>
+    <div class="campanha-fotos" aria-hidden="true">${c.fotos.map((n) => `<span><img src="${fotoP(n)}" alt="" loading="lazy"></span>`).join("")}</div>
+  </article>`).join("")}</li>`;
+$("#vitrine").innerHTML = CATEGORIAS.map(([id, nome], i) => {
   const lista = PRODUTOS.filter((p) => p.cat === id);
   return `<li class="prateleira" data-cat="${id}">
     <div class="prateleira-topo">
@@ -908,27 +1101,79 @@ $("#vitrine").innerHTML = CATEGORIAS.map(([id, nome]) => {
       </div>
     </div>
     <ul class="fileira" aria-labelledby="fileira-${id}">${lista.map(cartao).join("")}</ul>
-  </li>`;
+  </li>${i === 1 ? campanhas : ""}`;
 }).join("");
 $("#procura").href = zap("Olá! Vim pelo site e gostaria de saber se vocês têm um produto.");
 
-function filtrar(cat) {
-  document.querySelectorAll("[data-cat][aria-pressed]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === cat)));
-  document.querySelectorAll(".prateleira").forEach((li) => li.classList.toggle("some", cat !== "todos" && li.dataset.cat !== cat));
-  $("#vitrine").classList.toggle("filtrada", cat !== "todos");
-  setas();
-  piscar($("#vitrine"));
+/* filtros da lateral: marca e faixa de preco. Com algum marcado, as prateleiras dao lugar a uma grade so com o resultado */
+const FAIXAS = [["ate15", "Até R$ 15", 0, 15], ["15a50", "De R$ 15 a R$ 50", 15, 50], ["50a100", "De R$ 50 a R$ 100", 50, 100], ["100mais", "Acima de R$ 100", 100, Infinity]];
+const filtro = { cat: "todos", marcas: new Set(), faixa: "" };
+const menorPreco = (p) => Math.min(...p.vars.map((va) => precoDe(p, va)));
+const naFaixa = (p, id) => { const [, , de, ate] = FAIXAS.find((x) => x[0] === id); const m = menorPreco(p); return m >= de && m < ate; };
+const passa = (p, { marca = true, faixa = true } = {}) => (filtro.cat === "todos" || p.cat === filtro.cat)
+  && (!marca || !filtro.marcas.size || filtro.marcas.has(p.marca)) && (!faixa || !filtro.faixa || naFaixa(p, filtro.faixa));
+function desenharFiltros() {
+  const daCat = PRODUTOS.filter((p) => passa(p, { marca: false, faixa: false }));
+  const marcas = [...new Set(daCat.map((p) => p.marca))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+  filtro.marcas.forEach((m) => { if (!marcas.includes(m)) filtro.marcas.delete(m); });
+  $("#filtro-marcas").innerHTML = marcas.map((m) => {
+    const n = PRODUTOS.filter((p) => p.marca === m && passa(p, { marca: false })).length;
+    return `<label class="filtro-op"><input type="checkbox" name="marca" value="${esc(m)}"${filtro.marcas.has(m) ? " checked" : ""}><span>${esc(m)}</span><small>${n}</small></label>`;
+  }).join("");
+  $("#filtro-precos").innerHTML = [["", "Todos os preços"], ...FAIXAS].map(([id, nome]) => {
+    const n = PRODUTOS.filter((p) => passa(p, { faixa: false }) && (!id || naFaixa(p, id))).length;
+    return `<label class="filtro-op"><input type="radio" name="faixa" value="${id}"${filtro.faixa === id ? " checked" : ""}${n ? "" : " disabled"}><span>${nome}</span><small>${n}</small></label>`;
+  }).join("");
 }
+function aplicarFiltros() {
+  const ativo = !!(filtro.marcas.size || filtro.faixa), res = $("#resultado");
+  const lista = PRODUTOS.filter((p) => passa(p));
+  $("#vitrine").hidden = ativo; res.hidden = !ativo; $("#limpar-filtros").hidden = !ativo;
+  if (ativo) res.innerHTML = `<div class="resultado-topo"><h3><strong>${lista.length}</strong> ${lista.length === 1 ? "produto encontrado" : "produtos encontrados"}</h3><button class="ver-tudo" type="button" data-limpar>Limpar filtros</button></div>`
+    + (lista.length ? `<ul class="fileira">${lista.map(cartao).join("")}</ul>` : `<p class="resultado-vazio">Nenhum produto com esses filtros. Experimente outra marca ou faixa de preço.</p>`);
+  desenharFiltros();
+  setas();
+  piscar(ativo ? res : $("#vitrine"));
+}
+function filtrar(cat) {
+  filtro.cat = cat;
+  /* faixa de preco que nao existe na categoria nova sai sozinha, para nao cair numa vitrine vazia */
+  if (filtro.faixa && !PRODUTOS.some((p) => passa(p, { marca: false }))) filtro.faixa = "";
+  document.querySelectorAll("[data-cat][aria-pressed]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === cat)));
+  document.querySelectorAll("#vitrine .prateleira").forEach((li) => li.classList.toggle("some", cat !== "todos" && li.dataset.cat !== cat));
+  $("#vitrine").classList.toggle("filtrada", cat !== "todos");
+  aplicarFiltros();
+}
+$(".filtros").addEventListener("change", (e) => {
+  const t = e.target;
+  if (t.name === "marca") filtro.marcas[t.checked ? "add" : "delete"](t.value);
+  if (t.name === "faixa") filtro.faixa = t.value;
+  aplicarFiltros();
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("[data-limpar]")) return;
+  filtro.marcas.clear(); filtro.faixa = "";
+  aplicarFiltros();
+});
+/* no celular os filtros ficam recolhidos atras de um botao */
+$("#filtros-botao").addEventListener("click", (e) => {
+  const abrir = e.currentTarget.getAttribute("aria-expanded") !== "true";
+  e.currentTarget.setAttribute("aria-expanded", String(abrir));
+  $(".filtros").classList.toggle("aberto", abrir);
+});
+desenharFiltros();
 const rolar = (el, block = "start") => el.scrollIntoView({ behavior: reduzir.matches ? "auto" : "smooth", block });
 $("#categorias").addEventListener("click", (e) => { const b = e.target.closest("[data-cat]"); if (b) filtrar(b.dataset.cat); });
-document.querySelectorAll("[data-ir]").forEach((a) => a.addEventListener("click", () => {
+/* menu, banner e trilha da pagina do produto: filtram a vitrine (a trilha nasce depois, por isso o clique e no documento) */
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-ir]"); if (!a) return;
   filtrar(a.dataset.ir);
   if (a.tagName === "BUTTON") rolar($("#categorias"));
-}));
+});
 /* botao do banner: abre o produto ja na variacao certa */
 document.querySelectorAll("[data-produto]").forEach((b) => b.addEventListener("click", () => {
   const p = porId(b.dataset.produto), i = p.vars.findIndex((va) => va.n === b.dataset.var);
-  abrirFicha(p.id, i >= 0 ? i : undefined);
+  abrirProduto(p.id, i >= 0 ? i : undefined);
 }));
 $("#vitrine").addEventListener("click", (e) => {
   const ver = e.target.closest("[data-ver]");
@@ -951,85 +1196,222 @@ document.querySelectorAll(".fileira").forEach((f) => f.addEventListener("scroll"
 addEventListener("resize", setas);
 setas();
 
-/* ---------- pagina do produto ---------- */
-const ficha = $("#ficha");
-let fichaP = null, fichaK = 0, fichaFecha;
-function escolhaFicha(p) {
+/* ---------- pagina do produto: endereco proprio (?produto=id&opcao=...), como nas lojas grandes ---------- */
+/* textos de uso por tipo de produto: orientacao geral, sem promessa de resultado */
+const USO = {
+  esmalte: ["Modo de uso", "Aplique sobre a unha limpa e com base, em duas camadas finas, esperando secar entre uma e outra. Para durar mais, finalize com extra brilho."],
+  "esmalte-gel": ["Modo de uso", "Aplique duas camadas finas sobre a unha limpa e finalize com o top coat da mesma linha. A secagem é ao ar, sem cabine."],
+  "esmalte-uv": ["Modo de uso", "Aplique sobre a base em gel e leve à cabine UV/LED a cada camada, pelo tempo indicado na embalagem. A remoção é feita com removedor próprio para gel."],
+  finalizador: ["Modo de uso", "Aplique no cabelo úmido, mecha por mecha, e amasse de baixo para cima. Deixe secar naturalmente ou use o difusor."],
+  tratamento: ["Modo de uso", "Depois do shampoo, aplique no comprimento e nas pontas, deixe agir por alguns minutos e enxágue."],
+  shampoo: ["Modo de uso", "Aplique no cabelo molhado, massageie o couro cabeludo e enxágue."],
+  condicionador: ["Modo de uso", "Depois do shampoo, aplique no comprimento e nas pontas e enxágue."],
+  kit: ["Modo de uso", "Aplique o shampoo no cabelo molhado e enxágue. Em seguida, aplique o condicionador no comprimento e nas pontas e enxágue."],
+  gloss: ["Modo de uso", "Aplique direto nos lábios com o aplicador, sozinho ou sobre o batom."],
+  spray: ["Modo de uso", "Borrife no cabelo úmido ou seco, mecha por mecha, e penteie em seguida."],
+  colonia: ["Modo de uso", "Aplique sobre a pele limpa, evitando o rosto e os olhos."],
+  pincel: ["Cuidados", "Lave com sabonete neutro e água morna, retire o excesso e deixe secar deitado, para a água não descer até o cabo."],
+  bolsa: ["Cuidados", "Limpe com pano úmido e sabão neutro. Não lave na máquina nem deixe de molho."],
+};
+const USO_DE = {
+  ativador: "finalizador", "creme-sonhos": "finalizador", gelatina: "finalizador", "juba-mousse": "finalizador", "kids-gelatina": "finalizador",
+  skala: "tratamento", "juba-mascara": "tratamento", "juba-shampoo": "shampoo", "hk-shampoo": "shampoo", "hk-cond": "condicionador", "kit-uva": "kit",
+  "gloss-maxlove": "gloss", "esm-risque": "esmalte", "esm-impala": "esmalte", "esm-risque-gel": "esmalte-gel", "esm-impala-gel": "esmalte-gel", "esm-dafu": "esmalte-uv",
+  "hk-spray": "spray", "hk-colonia": "colonia",
+};
+const usoDe = (p) => USO[USO_DE[p.id] || (p.id.startsWith("pincel") ? "pincel" : "bolsa")];
+const TITULO = document.title;
+const pp = $("#pagina-produto");
+let ppP = null, ppK = 0, ppQtd = 1;
+const urlProduto = (p, k) => `?produto=${p.id}${p.vars.length > 1 ? `&opcao=${encodeURIComponent(p.vars[k].n)}` : ""}`;
+const opcaoDaUrl = (p, q) => { const k = p.vars.findIndex((va) => va.n === q.get("opcao")); return k >= 0 ? k : undefined; };
+const maiusc = (s) => s[0].toUpperCase() + s.slice(1);
+
+function escolhaPagina(p) {
   if (p.vars.length < 2) return "";
   const cor = !!p.vars[0].cor;
   const opcoes = p.vars.map((va, i) => {
-    const marcado = i === fichaK ? " checked" : "", fora = tem(va) ? "" : " esgotada";
+    const marcado = i === ppK ? " checked" : "", fora = tem(va) ? "" : " esgotada";
     return cor
-      ? `<label class="amostra${fora}" title="${esc(va.n)}${fora && " (sem estoque)"}" style="--c:${va.cor}"><input type="radio" name="ficha-var" value="${i}"${marcado} aria-label="${esc(va.n)}${fora && ", sem estoque"}"><span></span></label>`
-      : `<label class="opcao${fora}"><input type="radio" name="ficha-var" value="${i}"${marcado}><span>${esc(va.n)}${fora && " · sem estoque"}</span></label>`;
+      ? `<label class="amostra${fora}" title="${esc(va.n)}${fora && " (sem estoque)"}" style="--c:${va.cor}"><input type="radio" name="pp-var" value="${i}"${marcado} aria-label="${esc(va.n)}${fora && ", sem estoque"}"><span></span></label>`
+      : `<label class="opcao${fora}"><input type="radio" name="pp-var" value="${i}"${marcado}><span>${esc(va.n)}${fora && ", sem estoque"}</span></label>`;
   }).join("");
-  return `<fieldset class="variacao"><legend>${p.rotulo}: <strong id="ficha-var-nome">${esc(p.vars[fichaK].n)}</strong></legend><div class="${cor ? "amostras" : "opcoes"}">${opcoes}</div></fieldset>`;
+  return `<fieldset class="variacao"><legend>${p.rotulo}: <strong id="pp-var-nome">${esc(p.vars[ppK].n)}</strong></legend><div class="${cor ? "amostras" : "opcoes"}">${opcoes}</div></fieldset>`;
 }
-function desenharFicha() {
-  const p = fichaP, va = p.vars[fichaK];
-  ficha.innerHTML = `
-    <button class="fechar" type="button" data-fechar-ficha aria-label="Fechar"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
-    <div class="ficha-foto"><img id="ficha-img" src="${fotoP(va.f)}" width="900" height="900" alt=""><span class="selo" id="ficha-selo"></span></div>
-    <div class="ficha-info">
-      <p class="produto-marca">${esc(p.marca)}${p.tipo ? `<span class="tipo">${p.tipo}</span>` : ""}</p>
-      <h2 id="ficha-nome">${esc(p.nome)}</h2>
-      <p class="ficha-preco" id="ficha-preco"></p>
-      <p class="ficha-desc">${esc(p.desc)}</p>
-      ${escolhaFicha(p)}
-      <button class="btn ficha-add" type="button" id="ficha-add" data-adicionar="${p.id}"></button>
-      <p class="ficha-status" id="ficha-status" role="status"></p>
-      <ul class="ficha-entrega">
-        <li>Entrega em Cravinhos para pedidos a partir de ${reais(ENTREGA_MINIMA)}</li>
-        <li>Retirada na loja de Nova Cravinhos ou na loja do Centro</li>
-        <li>Pix ou cartão pelo site, ou dinheiro na retirada</li>
-      </ul>
-    </div>`;
-  mostrarVar();
+
+function desenharProduto() {
+  const p = ppP, cat = CATEGORIAS.find((c) => c[0] === p.cat), uso = usoDe(p);
+  const conteudo = p.nome.match(/\d+(?:,\d+)?\s?(?:ml|kg|g)\b/i)?.[0];
+  const sem = p.vars.filter((va) => !tem(va)).length;
+  const mais = PRODUTOS.filter((o) => o.cat === p.cat && o.id !== p.id);
+  const detalhes = [["Marca", p.marca], p.tipo && ["Tipo", p.tipo], conteudo && ["Conteúdo", conteudo], ["Categoria", cat[1]],
+    p.vars.length > 1 && [`${maiusc(PLURAL[p.rotulo])} disponíveis`, `${p.vars.length - sem}${sem ? ` (${sem} sem estoque no momento)` : ""}`]].filter(Boolean);
+  pp.innerHTML = `
+  <div class="envoltorio">
+    <nav class="trilha" aria-label="Você está em"><ol>
+      <li><a href="#">Início</a></li>
+      <li><a href="#produtos" data-ir="${p.cat}">${cat[1]}</a></li>
+      <li><span aria-current="page">${esc(p.marca)} ${esc(p.nome)}</span></li>
+    </ol></nav>
+    <div class="pp-grade">
+      <div class="pp-galeria">
+        <figure class="pp-foto" id="pp-foto"><img id="pp-img" src="${fotoP(p.vars[ppK].f)}" width="900" height="900" alt=""><span class="selo" id="pp-selo" hidden></span></figure>
+      </div>
+      <div class="pp-info">
+        <p class="produto-marca">${esc(p.marca)}${p.tipo ? `<span class="tipo">${p.tipo}</span>` : ""}</p>
+        <h1 id="pp-titulo" tabindex="-1">${esc(p.nome)}</h1>
+        <a class="pp-nota" href="#avaliacoes"><span class="estrelas" aria-hidden="true">${'<svg><use href="#i-estrela"/></svg>'.repeat(5)}</span><span>Loja com nota 4,8 no Google, em 249 avaliações</span></a>
+        <div class="pp-preco"><strong id="pp-preco"></strong><span id="pp-parcela"></span></div>
+        ${escolhaPagina(p)}
+        <div class="pp-compra">
+          <div class="qtd" role="group" aria-label="Quantidade"><button type="button" data-pp-qtd="-1" aria-label="Diminuir quantidade">−</button><output id="pp-qtd" aria-live="polite">1</output><button type="button" data-pp-qtd="1" aria-label="Aumentar quantidade">+</button></div>
+          <button class="btn" type="button" id="pp-add" data-adicionar="${p.id}" data-pp></button>
+          <button class="btn btn-linha" type="button" id="pp-comprar">Comprar agora</button>
+        </div>
+        <p class="pp-status" id="pp-status" role="status"></p>
+        <section class="pp-receber" aria-labelledby="pp-receber-titulo">
+          <h2 id="pp-receber-titulo">Receba em casa ou retire na loja</h2>
+          <form class="pp-cep" id="pp-cep"><label class="so-leitor" for="pp-cep-campo">CEP</label><input id="pp-cep-campo" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="Informe o seu CEP"><button class="btn btn-linha" type="submit">Consultar</button></form>
+          <p class="pp-cep-res" id="pp-cep-res" role="status"></p>
+          <ul class="pp-modos">
+            <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 9h16v13H3zM19 13h5l4 5v4h-9"/><circle cx="8" cy="24" r="2.5"/><circle cx="23" cy="24" r="2.5"/></svg><span><strong>Entrega em Cravinhos</strong>Para pedidos a partir de ${reais(ENTREGA_MINIMA)}</span></li>
+            <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13 6 6h20l2 7M4 13h24M4 13v13h24V13M12 26v-7h8v7"/></svg><span><strong>Retirada nas duas lojas</strong>Nova Cravinhos e Centro, sem custo</span></li>
+            <li><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="3"/><path d="M4 13h24M9 19h5"/></svg><span><strong>Pix ou cartão em até 3x sem juros</strong>Dinheiro somente na retirada</span></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <div class="pp-sobre">
+      <details open><summary>Descrição</summary><div><p>${esc(p.desc)}</p><p>Produto vendido e entregue pela Adriana Cosméticos, em Cravinhos.</p></div></details>
+      <details><summary>${uso[0]}</summary><div><p>${uso[1]}</p></div></details>
+      <details><summary>Detalhes do produto</summary><div><dl class="pp-detalhes">${detalhes.map(([t, d]) => `<dt>${t}</dt><dd>${esc(d)}</dd>`).join("")}</dl></div></details>
+    </div>
+    ${mais.length ? `<section class="pp-mais prateleira" aria-labelledby="pp-mais-titulo">
+      <div class="prateleira-topo">
+        <h2 id="pp-mais-titulo">Você também pode gostar</h2>
+        <div class="prateleira-setas">
+          <button class="seta" type="button" data-passo="-1" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="seta" type="button" data-passo="1" aria-label="Mais produtos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+      <ul class="fileira">${mais.map(cartao).join("")}</ul>
+    </section>` : ""}
+  </div>
+  <div class="pp-barra" id="pp-barra" inert><strong id="pp-barra-preco"></strong><button class="btn" type="button" id="pp-barra-add" data-adicionar="${p.id}" data-pp></button></div>`;
+  $(".pp-mais .fileira", pp)?.addEventListener("scroll", setas, { passive: true });
+  mostrarOpcao();
+  barraCompra();
 }
-/* trocar a cor ou a fragrancia troca a foto, o preco e o selo */
-function mostrarVar() {
-  const p = fichaP, va = p.vars[fichaK], selo = va.selo ?? p.selo, img = $("#ficha-img"), b = $("#ficha-add");
+/* a barra de baixo so aparece no celular, depois que o botao principal saiu da tela por cima */
+function barraCompra() {
+  const barra = $("#pp-barra"); if (!barra || pp.hidden) return;
+  const ver = $("#pp-add").getBoundingClientRect().bottom < 0;
+  if (barra.classList.contains("visivel") === ver) return;
+  barra.classList.toggle("visivel", ver); barra.inert = !ver;
+}
+addEventListener("scroll", barraCompra, { passive: true });
+
+/* trocar a cor ou a fragrancia troca a foto, o preco, o selo e o endereco */
+function mostrarOpcao() {
+  const p = ppP, va = p.vars[ppK], selo = va.selo ?? p.selo, img = $("#pp-img"), preco = precoDe(p, va);
   img.src = fotoP(va.f); img.alt = `${p.marca} ${comVar(p, va)}`;
-  $("#ficha-selo").textContent = selo || ""; $("#ficha-selo").hidden = !selo;
-  $("#ficha-preco").textContent = reais(precoDe(p, va));
-  const nome = $("#ficha-var-nome"); if (nome) nome.textContent = va.n;
-  $("#ficha-status").textContent = "";
-  clearTimeout(b._t); b.classList.remove("adicionado");
-  b.disabled = !tem(va);
-  b.innerHTML = tem(va) ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar` : "Sem estoque";
+  $("#pp-selo").textContent = selo || ""; $("#pp-selo").hidden = !selo;
+  $("#pp-preco").textContent = reais(preco);
+  $("#pp-barra-preco").textContent = reais(preco);
+  $("#pp-parcela").textContent = preco >= 30 ? `ou 3x de ${reais(preco / 3)} sem juros no cartão` : "à vista no Pix ou no cartão";
+  const nome = $("#pp-var-nome"); if (nome) nome.textContent = va.n;
+  $("#pp-status").textContent = "";
+  ["#pp-add", "#pp-barra-add"].forEach((s) => {
+    const b = $(s); clearTimeout(b._t); b.classList.remove("adicionado");
+    b.disabled = !tem(va);
+    b.innerHTML = tem(va) ? `<svg aria-hidden="true"><use href="#i-sacola"/></svg>Adicionar à sacola` : "Sem estoque";
+  });
+  $("#pp-comprar").disabled = !tem(va);
 }
-ficha.addEventListener("change", (e) => {
-  if (e.target.name !== "ficha-var") return;
-  fichaK = +e.target.value;
-  mostrarVar();
-  piscar($("#ficha-img"));
-});
-function abrirFicha(id, k, empurrar = true) {
+
+function modoProduto(ligar) {
+  [".sobre", "#novidades", "#conteudo"].forEach((s) => { $(s).hidden = ligar; });
+  pp.hidden = !ligar;
+}
+function abrirProduto(id, k, empurrar = true) {
   const p = porId(id); if (!p) return;
-  fichaP = p; fichaK = k ?? varInicial(p);
-  desenharFicha();
-  if (empurrar) history.pushState({ ficha: id }, "", `#produto-${id}`);
-  clearTimeout(fichaFecha);
-  if (!ficha.open) { ficha.showModal(); requestAnimationFrame(() => requestAnimationFrame(() => ficha.classList.add("aberta"))); }
-  else ficha.classList.add("aberta");
-  ficha.scrollTop = 0;
+  if (empurrar) {
+    /* guarda onde a pessoa estava na vitrine, para o voltar devolver ao mesmo ponto */
+    if (pp.hidden) history.replaceState({ ...history.state, rolagem: scrollY }, "");
+    history.pushState({ produto: id }, "", urlProduto(p, k ?? varInicial(p)));
+  }
+  ppP = p; ppK = k ?? varInicial(p); ppQtd = 1;
+  desenharProduto();
+  modoProduto(true);
+  document.title = `${p.marca} ${p.nome} | Adriana Cosméticos`;
+  scrollTo({ top: 0, behavior: "instant" });
+  $("#pp-titulo").focus({ preventScroll: true });
 }
-/* fechar volta no historico, assim o botao voltar do celular tambem fecha */
-function fecharFicha(voltar = true) {
-  if (!ficha.open) return;
-  if (voltar && history.state?.ficha) { history.back(); return; }
-  if (voltar && location.hash.startsWith("#produto-")) history.replaceState(null, "", location.pathname + location.search);
-  ficha.classList.remove("aberta");
-  fichaFecha = setTimeout(() => ficha.close(), reduzir.matches ? 200 : 280);
+function voltarLoja(rolagem) {
+  if (pp.hidden) return;
+  modoProduto(false); ppP = null; pp.innerHTML = "";
+  document.title = TITULO;
+  setas(); mostrarFlutuante();
+  if (rolagem != null) scrollTo({ top: rolagem, behavior: "instant" });
 }
-ficha.addEventListener("cancel", (e) => { e.preventDefault(); fecharFicha(); });
-ficha.addEventListener("click", (e) => {
-  if (e.target === ficha || e.target.closest("[data-fechar-ficha]")) { fecharFicha(); return; }
-  if (e.target.closest("[data-ver-sacola]")) { fecharFicha(); abrirSacola(); }
+addEventListener("popstate", (e) => {
+  const q = new URLSearchParams(location.search), p = porId(q.get("produto"));
+  if (p) { abrirProduto(p.id, opcaoDaUrl(p, q), false); return; }
+  voltarLoja(e.state?.rolagem ?? 0);
 });
-addEventListener("popstate", () => {
-  const m = location.hash.match(/^#produto-(.+)$/);
-  if (m && porId(m[1])) abrirFicha(m[1], undefined, false); else fecharFicha(false);
+/* links internos (#produtos, #lojas, logo) dentro da pagina do produto voltam para a vitrine */
+document.addEventListener("click", (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a || pp.hidden || a.closest("#sacola")) return;
+  e.preventDefault();
+  const alvo = a.getAttribute("href");
+  history.pushState(null, "", location.pathname + (alvo.length > 1 ? alvo : ""));
+  voltarLoja();
+  const el = alvo.length > 1 && document.querySelector(alvo);
+  if (el) el.scrollIntoView({ behavior: "instant" }); else scrollTo({ top: 0, behavior: "instant" });
+}, true);
+
+pp.addEventListener("change", (e) => {
+  if (e.target.name !== "pp-var") return;
+  ppK = +e.target.value;
+  history.replaceState(history.state, "", urlProduto(ppP, ppK));
+  mostrarOpcao();
+  piscar($("#pp-img"));
+});
+pp.addEventListener("click", (e) => {
+  const q = e.target.closest("[data-pp-qtd]");
+  if (q) { ppQtd = Math.min(20, Math.max(1, ppQtd + +q.dataset.ppQtd)); $("#pp-qtd").textContent = ppQtd; return; }
+  if (e.target.closest("#pp-comprar")) { adicionar(ppP.id, ppK, ppQtd); abrirSacola(); return; }
+  const seta = e.target.closest("[data-passo]");
+  if (seta) { const f = $(".fileira", seta.closest(".prateleira")); f.scrollBy({ left: seta.dataset.passo * f.clientWidth, behavior: reduzir.matches ? "auto" : "smooth" }); }
+});
+/* lupa da foto */
+pp.addEventListener("pointermove", (e) => {
+  const f = e.target.closest("#pp-foto"); if (!f || e.pointerType !== "mouse") return;
+  const r = f.getBoundingClientRect();
+  f.style.setProperty("--zx", `${((e.clientX - r.left) / r.width) * 100}%`);
+  f.style.setProperty("--zy", `${((e.clientY - r.top) / r.height) * 100}%`);
+  f.classList.add("zoom");
+});
+pp.addEventListener("pointerout", (e) => { const f = e.target.closest("#pp-foto"); if (f && !f.contains(e.relatedTarget)) f.classList.remove("zoom"); });
+/* consulta de entrega pelo CEP: so Cravinhos recebe em casa */
+pp.addEventListener("input", (e) => { if (e.target.id === "pp-cep-campo") e.target.value = e.target.value.replace(/\D/g, "").replace(/^(\d{5})(\d)/, "$1-$2").slice(0, 9); });
+pp.addEventListener("submit", async (e) => {
+  if (e.target.id !== "pp-cep") return;
+  e.preventDefault();
+  const n = $("#pp-cep-campo").value.replace(/\D/g, ""), res = $("#pp-cep-res");
+  if (n.length !== 8) { res.textContent = "Informe os 8 números do CEP."; return; }
+  res.textContent = "Consultando…";
+  try {
+    const d = await (await fetch(`https://viacep.com.br/ws/${n}/json/`)).json();
+    if (d.erro) { res.textContent = "CEP não encontrado. Confira os números."; return; }
+    /* a sacola ja abre com o endereco preenchido */
+    Object.assign(ck, { cep: `${n.slice(0, 5)}-${n.slice(5)}`, rua: d.logradouro || ck.rua, bairro: d.bairro || ck.bairro, cidade: d.localidade }); ultimoCep = n;
+    res.innerHTML = d.localidade.toLowerCase() === "cravinhos"
+      ? `<strong>Entregamos no seu endereço${d.logradouro ? `, ${esc(d.logradouro)}` : ""}.</strong> Pedido mínimo de ${reais(ENTREGA_MINIMA)}; a taxa é confirmada pela nossa equipe.`
+      : `<strong>${esc(d.localidade)} (${esc(d.uf)}):</strong> a entrega é feita só em Cravinhos. Você pode retirar o pedido em uma das nossas lojas.`;
+    piscar(res);
+  } catch { res.textContent = "Não foi possível consultar agora. Tente de novo em instantes."; }
 });
 
 /* ---------- sacola ---------- */
@@ -1044,19 +1426,21 @@ function contar() {
   $("#sacola-conta").textContent = n;
   $("#sacola-sr").textContent = n === 1 ? "1 item na sacola" : `${n} itens na sacola`;
 }
-function adicionar(id, k) {
+function adicionar(id, k, n = 1) {
   const achado = itens.find((i) => i.id === id && i.v === k);
-  if (achado) achado.qtd++; else itens.push({ id, v: k, qtd: 1 });
+  if (achado) achado.qtd += n; else itens.push({ id, v: k, qtd: n });
   salvar();
   piscar($("#abrir-sacola"));
 }
 document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-ver-sacola]")) { abrirSacola(); return; }
   const abrir = e.target.closest("[data-abrir]");
-  if (abrir) { e.preventDefault(); abrirFicha(abrir.dataset.abrir); return; }
+  /* Ctrl/Cmd + clique ou botao do meio abrem o produto em outra aba, como em qualquer loja */
+  if (abrir) { if (e.ctrlKey || e.metaKey || e.shiftKey || e.button) return; e.preventDefault(); abrirProduto(abrir.dataset.abrir); return; }
   const b = e.target.closest("[data-adicionar]"); if (!b || b.disabled) return;
-  const naFicha = !!b.closest("#ficha"), p = porId(b.dataset.adicionar);
-  adicionar(p.id, naFicha ? fichaK : varInicial(p));
-  if (naFicha) $("#ficha-status").innerHTML = `Adicionado à sacola. <button class="ver-sacola" type="button" data-ver-sacola>Ver a sacola</button>`;
+  const daPagina = b.hasAttribute("data-pp"), p = porId(b.dataset.adicionar);
+  adicionar(p.id, daPagina ? ppK : varInicial(p), daPagina ? ppQtd : 1);
+  if (daPagina) $("#pp-status").innerHTML = `${ppQtd > 1 ? `${ppQtd} unidades adicionadas` : "Adicionado"} à sacola. <button class="ver-sacola" type="button" data-ver-sacola>Ver a sacola</button>`;
   /* o botao confirma o que aconteceu e volta ao normal */
   const texto = b.innerHTML;
   b.classList.add("adicionado");
@@ -1416,8 +1800,15 @@ document.addEventListener("keydown", (e) => {
 matchMedia("(min-width: 1121px)").addEventListener("change", (m) => { if (m.matches) menu(false); });
 
 mostrarFlutuante();
-const pedidoNoLink = location.hash.match(/^#produto-(.+)$/);
-if (pedidoNoLink && porId(pedidoNoLink[1])) abrirFicha(pedidoNoLink[1], undefined, false);
+/* endereco do produto: ?produto=id (os links antigos #produto-id continuam funcionando) */
+{
+  const q = new URLSearchParams(location.search), antigo = location.hash.match(/^#produto-(.+)$/);
+  const p = porId(q.get("produto") || antigo?.[1]);
+  if (p) {
+    if (antigo) history.replaceState(null, "", urlProduto(p, varInicial(p)));
+    abrirProduto(p.id, opcaoDaUrl(p, q), false);
+  }
+}
 </script>
 </body>
 </html>

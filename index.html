@@ -304,7 +304,7 @@
   /* filtros e vitrine */
   .vitrine { display: grid; gap: clamp(2.4rem, 4vw, 3.4rem); padding: 0; margin: 0; list-style: none; }
   .prateleira { min-width: 0; }
-  /* banners de campanha no meio da vitrine: texto a esquerda, produtos em pastilhas brancas a direita */
+  /* banners de campanha no meio da vitrine: texto a esquerda, foto dos produtos (fundo recortado) a direita */
   .campanhas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
   .filtrada .campanhas { display: none; }
   .campanha { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: .5rem; min-height: 260px; overflow: hidden; border-radius: var(--raio); }
@@ -317,20 +317,17 @@
   .campanha-texto > p:not(.campanha-chapeu) { color: var(--tinta-2); font-size: .98rem; line-height: 1.45; }
   .campanha-laranja .campanha-texto > p:not(.campanha-chapeu) { color: var(--tinta); }
   .campanha .btn { margin-top: .35rem; }
-  .campanha-fotos { position: relative; align-self: stretch; min-height: 220px; }
-  .campanha-fotos span { position: absolute; display: grid; place-items: center; aspect-ratio: 1; border-radius: 50%; background: var(--branco); box-shadow: 0 14px 30px -20px rgba(43, 20, 10, .55); }
-  .campanha-fotos span:nth-child(1) { width: 62%; right: 22%; top: 50%; translate: 0 -50%; z-index: 2; }
-  .campanha-fotos span:nth-child(2) { width: 40%; right: -4%; top: 8%; }
-  .campanha-fotos span:nth-child(3) { width: 36%; right: 2%; bottom: 4%; }
-  .campanha-fotos img { width: 72%; height: 72%; object-fit: contain; }
+  .campanha-foto { display: grid; place-items: center; min-width: 0; padding: 1.4rem clamp(1.3rem, 2.2vw, 1.9rem) 1.4rem 0; }
+  .campanha-foto img { display: block; width: 100%; height: auto; max-height: 210px; object-fit: contain; }
   @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
-    .campanha-fotos span { transition: transform .5s var(--ease-out); }
-    .campanha:hover .campanha-fotos span:nth-child(1) { transform: scale(1.04); }
+    .campanha-foto img { transition: transform .5s var(--ease-out); }
+    .campanha:hover .campanha-foto img { transform: scale(1.03); }
   }
   @media (max-width: 1360px) { .campanhas { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 560px) {
     .campanha { grid-template-columns: minmax(0, 1fr); }
-    .campanha-fotos { order: -1; min-height: 190px; }
+    .campanha-foto { order: -1; padding: 1.4rem 1.3rem .4rem; }
+    .campanha-foto img { max-height: 170px; }
     .campanha-texto { padding: .4rem 1.3rem 1.5rem; }
   }
   .prateleira.some { display: none; }
@@ -1076,8 +1073,8 @@ const cartao = (p) => {
 
 /* banners de campanha entre as prateleiras: so com produto e marca que a loja tem */
 const CAMPANHAS = [
-  { tom: "creme", chapeu: "Unhas", titulo: "Brilho de gel sem cabine", texto: "Risqué Diamond Gel e Impala Boca Rosa Efeito Gel, com secagem ao ar.", fotos: ["dgel-cereja", "igel-jujuba", "dgel-ballet"], cat: "unhas", botao: "Ver os esmaltes" },
-  { tom: "laranja", chapeu: "Bolsas e mochilas", titulo: "Sestini e Capricho para o dia a dia", texto: "Mochilas, bolsas transversais e necessaires.", fotos: ["capricho-rosa", "magic-pavao", "bolsa-cross-degrade"], cat: "bolsas", botao: "Ver bolsas e mochilas" },
+  { tom: "creme", chapeu: "Unhas", titulo: "Brilho de gel sem cabine", texto: "Risqué Diamond Gel e Impala Boca Rosa Efeito Gel, com secagem ao ar.", foto: "campanha-unhas", cat: "unhas", botao: "Ver os esmaltes" },
+  { tom: "laranja", chapeu: "Bolsas e mochilas", titulo: "Sestini e Capricho para o dia a dia", texto: "Mochilas, bolsas transversais e necessaires.", foto: "campanha-bolsas", cat: "bolsas", botao: "Ver bolsas e mochilas" },
 ];
 const campanhas = `<li class="campanhas">${CAMPANHAS.map((c) => `
   <article class="campanha campanha-${c.tom}">
@@ -1087,7 +1084,7 @@ const campanhas = `<li class="campanhas">${CAMPANHAS.map((c) => `
       <p>${c.texto}</p>
       <button class="btn${c.tom === "laranja" ? "" : " btn-laranja"}" type="button" data-ir="${c.cat}">${c.botao}</button>
     </div>
-    <div class="campanha-fotos" aria-hidden="true">${c.fotos.map((n) => `<span><img src="${fotoP(n)}" alt="" loading="lazy"></span>`).join("")}</div>
+    <div class="campanha-foto" aria-hidden="true"><img src="img/${c.foto}.webp" alt="" loading="lazy"></div>
   </article>`).join("")}</li>`;
 $("#vitrine").innerHTML = CATEGORIAS.map(([id, nome], i) => {
   const lista = PRODUTOS.filter((p) => p.cat === id);

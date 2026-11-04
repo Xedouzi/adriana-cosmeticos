@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#FC6B32">
+<!-- o site e sempre claro: a extensao Dark Reader nao mexe -->
+<meta name="darkreader-lock">
 <title>Adriana Cosméticos | Para sua melhor versão, em Cravinhos</title>
 <meta name="description" content="Cabelo, maquiagem, unhas, bolsas e mochilas. Duas lojas em Cravinhos e entrega na cidade. Monte sua sacola e finalize o pedido pelo WhatsApp (16) 99215-1165.">
 <!-- DEMO: remover a linha abaixo quando publicar no dominio definitivo do cliente -->
@@ -36,7 +38,7 @@
   :root {
     /* "light dark" so para o Chrome nao escurecer o site sozinho (modo escuro forcado
        ignora o "only light"); o body volta para o claro e o site so tem tema claro */
-    color-scheme: light dark;
+    color-scheme: only light;
     --branco:   #FFFFFF;
     --creme:    #FEDEC7;   /* o creme da fachada */
     --creme-2:  #FFF1E7;   /* creme diluido para fundos grandes */
@@ -72,7 +74,7 @@
   *, *::before, *::after { box-sizing: border-box; }
   html { background: #FFFFFF; scrollbar-color: #C9B2A5 #FFFFFF; scroll-behavior: smooth; scroll-padding-top: 90px; -webkit-text-size-adjust: 100%; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body { color-scheme: light; overflow-x: clip; margin: 0; background: var(--branco); color: var(--tinta); font: 400 1.0625rem/1.6 var(--fonte); -webkit-tap-highlight-color: transparent; }
+  body { overflow-x: clip; margin: 0; background: var(--branco); color: var(--tinta); font: 400 1.0625rem/1.6 var(--fonte); -webkit-tap-highlight-color: transparent; }
   img, svg { max-width: 100%; }
   img { height: auto; }
   [hidden] { display: none !important; }
